@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.beans.Henkilot;
 import com.beans.Tunnit;
+import com.dao.HenkiloDAO;
 
 /**
  * Servlet implementation class TuntiServlet
@@ -42,11 +44,16 @@ public class TuntiServlet extends HttpServlet {
 		String henkilo_id = request.getParameter("henkilo_id");
 		
 		Tunnit tunnin_tiedot = new Tunnit();
+		
+		Henkilot henkilo = new Henkilot();
+		henkilo.setId(Integer.parseInt(henkilo_id));
+		
 		tunnin_tiedot.setId(Integer.parseInt(henkilo_id));
 		tunnin_tiedot.setKuvaus(kuvaus);
 		tunnin_tiedot.setTunnit(Integer.parseInt(tunnit));
 		
-		lisaaTunnitKantaan(tunnin_tiedot);
+		HenkiloDAO hdao = new HenkiloDAO;
+		hdao.lisaaTunnitKantaan(tunnin_tiedot);
 		
 		response.sendRedirect("index.jsp");
 		
