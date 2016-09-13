@@ -1,6 +1,5 @@
 target/*
 .classpath
 .settings/
-.project
 .metadata
 local.properties
