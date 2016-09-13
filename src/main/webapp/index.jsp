@@ -38,7 +38,7 @@
 			</tr>
 			<tr>
 				<td>Kuvaus:</td>
-				<td><input type="text" name="kuvaus" required</td>
+				<td><input type="text" name="kuvaus" required>kuvaus</input></td>
 			</tr>
 			
 				<td><br>
