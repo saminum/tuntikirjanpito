@@ -79,7 +79,9 @@ public class Henkilot {
 	}
 
 	public void addTunti(Tunnit tunnin_tiedot) {
-		// TODO Auto-generated method stub
+		if(tunnin_tiedot != null){
+			this.tunnit.add(tunnin_tiedot);
+		}
 		
 	}
 

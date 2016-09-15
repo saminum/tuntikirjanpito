@@ -9,14 +9,14 @@
 	http://www.springframework.org/schema/tx 
 	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
-	<bean id="daoLuokka" class="com.dao.tunnitDAO">
+	<bean id="daoLuokka" class="com.dao.tuntiDAO">
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost/a1501110" />
+		<property name="driverClassName" value="org.mariadb.jdbc.Driver" />
+		<property name="url" value="jdbc:mariadb://localhost/a1501110" />
 		<property name="username" value="a1501110" />
 		<property name="password" value="voKYX872o" />
 	</bean>
