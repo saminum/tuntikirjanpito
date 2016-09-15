@@ -16,10 +16,23 @@
 
 </header>
 	<h1>Tuntien kirjaus</h1>
-		
-	<form action="" method="post">
+	
+	<table class="tunnit" align=center>
+			<tr><td>Samin id: 3 </td></tr>
+			<tr><td>Joonaksen id: 4</td></tr>
+			<tr><td>Aaron id: 1</td></tr>
+			<tr><td>Jukan id: 5</td></tr>
+			<tr><td>Heikin id: 2</td></tr>
+	<form action="TuntiServlet" method="post">
 		<table class="tunnit" align=center>
-
+			
+			
+			<tr>
+				<td>Henkilö id:</td>
+				<td><input type="number" step=1 value="" name="henkilo_id" size="2" min="1" max="5" required />
+			</td>
+			</tr>
+			
 			<tr>
 				<td>Lisää tunnit:</td>
 				<td><input type="number" step=0.01 value="" name="tunnit" size="2" min="1" max="24" required />
@@ -28,11 +41,7 @@
 			<tr>
 			<td><p></p> </td>
 			</tr>
-			<tr>
-				<td>Henkilö:</td>
-				<td><input type="text" value="" name="nimi" size="30" required title="" /></td>
-	
-			</tr>
+
 			<tr>
 			<td><p></p> </td>
 			</tr>

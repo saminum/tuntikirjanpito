@@ -74,4 +74,9 @@ public class Henkilot {
 				+ ", tunnit=" + tunnit + "]";
 	}
 
+	public void addTunti(Tunnit tunnin_tiedot) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
