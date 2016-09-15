@@ -1,15 +1,15 @@
 package com.beans;
 
-import java.util.List;
+import java.util.ArrayList;
 /**@author Heikki Petrell
  * @since 13.9.2016
  */
 public class Henkilot {
 	private int id;
 	private String tunnus, etunimi, sukunimi, salasana;
-	List<Tunnit> tunnit;
+	ArrayList<Tunnit> tunnit;
 	public Henkilot(int id, String tunnus, String etunimi, String sukunimi,
-			String salasana, List<Tunnit> tunnit) {
+			String salasana, ArrayList<Tunnit> tunnit) {
 		super();
 		this.id = id;
 		this.tunnus = tunnus;
@@ -19,8 +19,12 @@ public class Henkilot {
 		this.tunnit = tunnit;
 	}
 	
+	public Henkilot(int id, ArrayList<Tunnit> tunnit){
+		this.id = id;
+		this.tunnit = tunnit;
+	}
 	//mvp constructori
-	public Henkilot(int id, String etunimi, String sukunimi, List<Tunnit> tunnit) {
+	public Henkilot(int id, String etunimi, String sukunimi, ArrayList<Tunnit> tunnit) {
 		super();
 		this.id = id;
 		this.etunimi = etunimi;
@@ -61,10 +65,10 @@ public class Henkilot {
 	public void setSalasana(String salasana) {
 		this.salasana = salasana;
 	}
-	public List<Tunnit> getTunnit() {
+	public ArrayList<Tunnit> getTunnit() {
 		return tunnit;
 	}
-	public void setTunnit(List<Tunnit> tunnit) {
+	public void setTunnit(ArrayList<Tunnit> tunnit) {
 		this.tunnit = tunnit;
 	}
 	@Override
