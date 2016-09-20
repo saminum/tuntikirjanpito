@@ -37,7 +37,7 @@ public class tuntiDAO {
 	
 
 	public void poista(int id){
-		String sql = "INSERT INTO Tunnit (tuntien_maara, kuvaus, kayttaja_id) VALUES(?,?,?)";
+		String sql = "DELETE FROM Tunnit WHERE id=" +id;
 		Object[] parametrit = new Object[] {id};
 		jdbcTemplate.update(sql, parametrit);
 	}
