@@ -20,6 +20,7 @@ public class TunnitRowMapper implements RowMapper<Henkilot> {
 		t.setTunnit(rs.getDouble("tuntien_maara"));
 		t.setKuvaus(rs.getString("kuvaus"));
 		t.setPvm(rs.getDate("paivamaara"));
+		t.setId(rs.getInt("tunti_id"));
 		h.addTunti(t);
 		return h;
 	}
