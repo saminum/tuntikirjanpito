@@ -66,24 +66,21 @@
                               
   <table class="table table-hover">
     <thead>
-      <tr>
+    <tr>
         <th>Etunimi</th>
         <th>Sukunimi</th>
         <th>Tunnit yhteensä</th>
-        
       </tr>
-    </thead>
-    <tbody>
-      <c:forEach items="${henkilot}" var="h">
+    	<c:forEach items="${henkiloidenTunnit}" var="ht">
       <tr>
-        <td>${h.etunimi}</td>
-        <td>${h.sukunimi}</td>
-        <td>${h.tunnit[0].tunnit}</td>
+        <td>${ht.etunimi}</td>
+        <td>${ht.sukunimi}</td>
+        <td>${ht.tunnitYhteensa}</td>
       </tr>
      </c:forEach> 
-    </tbody>
-  </table>
-</div>
+    </thead>
+    </table>
+    </div>
 
 <div class="container">
   <h4>Tuntilista</h4>
@@ -116,5 +113,8 @@
   </form>
 </div>
 
+<div class="container">
+<a href="TuntiServlet">Hae tunnit</a>
+</div>
 </body>
 </html>
