@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Henkilot {
 	private int id;
 	private String tunnus, etunimi, sukunimi, salasana;
-	ArrayList<Tunnit> tunnit;
+	ArrayList<Tunnit> tunnit = new ArrayList<Tunnit>();
 	public Henkilot(int id, String tunnus, String etunimi, String sukunimi,
 			String salasana, ArrayList<Tunnit> tunnit) {
 		super();
