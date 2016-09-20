@@ -23,7 +23,7 @@
 			<tr><td>Aaron id: 1</td></tr>
 			<tr><td>Jukan id: 5</td></tr>
 			<tr><td>Heikin id: 2</td></tr>
-	<form action="TuntiServlet" method="post">
+	<form action="TuntiServlet" method="POST">
 		<table class="tunnit" align=center>
 			
 			
@@ -50,10 +50,6 @@
 				<td><input type="text" name="kuvaus" required>kuvaus</input></td>
 			</tr>
 			
-				<td><br>
-				<a href="<%=response.encodeURL("lisaaTunnit") %>" class="btn btn-info btn-sm" role="button">Takaisin</a>&nbsp;&nbsp;
-  				
-			</td>
 				<td><br> <input type="submit" class="btn btn-success btn-md" value="Tallenna" /></td>
 			</tr>
 		</table>
