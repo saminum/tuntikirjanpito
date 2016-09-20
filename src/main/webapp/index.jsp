@@ -62,6 +62,30 @@
 	</form>
 
 <div class="container">
+  <h4>Henkilön Tunnit yhteensä</h4>
+                              
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Etunimi</th>
+        <th>Sukunimi</th>
+        <th>Tunnit yhteensä</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      <c:forEach items="${henkilot}" var="h">
+      <tr>
+        <td>${h.etunimi}</td>
+        <td>${h.sukunimi}</td>
+        <td>${h.tunnit[0].tunnit}</td>
+      </tr>
+     </c:forEach> 
+    </tbody>
+  </table>
+</div>
+
+<div class="container">
   <h4>Tuntilista</h4>
                               
   <table class="table table-hover">
@@ -72,6 +96,8 @@
         <th>Tunnit</th>
         <th>Kuvaus</th>
         <th>Päivämäärä</th>
+        <th></th>
+       
       </tr>
     </thead>
     <tbody>
@@ -82,6 +108,7 @@
         <td>${h.tunnit[0].tunnit}</td>
         <td>${h.tunnit[0].kuvaus}</td>
         <td>${h.tunnit[0].pvm}</td>
+        <td><input type="submit" class="btn btn-success btn-sm" value="Poista" /></td>
       </tr>
      </c:forEach> 
     </tbody>
