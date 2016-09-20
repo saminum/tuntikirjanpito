@@ -30,7 +30,6 @@ public class tuntiDAO {
 		String sql = "SELECT * FROM Tunnit JOIN Kayttajat ON Tunnit.kayttaja_id = Kayttajat.id";
 		RowMapper<Henkilot> mapper = new TunnitRowMapper();
 		List<Henkilot> henkilot = jdbcTemplate.query(sql, mapper);
-		System.out.println(henkilot);
 		return henkilot;
 	}
 	

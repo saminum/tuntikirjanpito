@@ -31,8 +31,8 @@
 				<td>Henkilö:</td>
 				
 			<td>
-			<select>
-  					<option value="1">Aaro</option>
+			<select name="henkilo_id">
+  				  <option value="1">Aaro</option>
 				  <option value="4">Joonas</option>
 				  <option value="3">Sami</option>
 				  <option value="5">Jukka</option>
@@ -75,18 +75,15 @@
       </tr>
     </thead>
     <tbody>
+      <c:forEach items="${henkilot}" var="h">
       <tr>
-        <td>1</td>
-        <td>Anna</td>
+        <td>${h.etunimi}</td>
+        <td>${h.sukunimi}</td>
+        <td>${h.tunnit[0].tunnit}</td>
+        <td>${h.tunnit[0].kuvaus}</td>
+        <td>${h.tunnit[0].pvm}</td>
       </tr>
-      <tr>
-        <td>2</td>
-        <td>Debbie</td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>John</td>
-      </tr>
+     </c:forEach> 
     </tbody>
   </table>
 </div>
