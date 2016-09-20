@@ -37,9 +37,12 @@ public class tuntiDAO {
 	
 
 	public void poista(int id){
-		String sql = "DELETE FROM Tunnit WHERE id=" +id;
+		String sql = "DELETE FROM Tunnit WHERE id=77";
 		Object[] parametrit = new Object[] {id};
-		jdbcTemplate.update(sql, parametrit);
+		System.out.println("id daosta " + id);
+		//jdbcTemplate.update(sql, parametrit);
+		System.out.println("sql string " + sql);
+		jdbcTemplate.execute(sql);
 	}
 
 	public List<Henkilot> summaaTunnit(){
