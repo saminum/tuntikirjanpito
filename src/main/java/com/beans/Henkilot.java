@@ -83,9 +83,8 @@ public class Henkilot {
 	}
 	@Override
 	public String toString() {
-		return "Henkilot [id=" + id + ", tunnus=" + tunnus + ", etunimi="
-				+ etunimi + ", sukunimi=" + sukunimi + ", salasana=" + salasana
-				+ ", tunnit=" + tunnit + "]";
+		return "Henkilot [id=" + id + ", tunnus=" + tunnus + ", etunimi=" + etunimi + ", sukunimi=" + sukunimi
+				+ ", salasana=" + salasana + ", tunnitYhteensa=" + tunnitYhteensa + ", tunnit=" + tunnit + "]";
 	}
 
 	public void addTunti(Tunnit tunnin_tiedot) {

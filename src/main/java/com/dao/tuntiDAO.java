@@ -33,4 +33,11 @@ public class tuntiDAO {
 		return henkilot;
 	}
 	
+	public List<Henkilot> summaaTunnit(){
+		String sql = "select t.kayttaja_id, sum(t.tuntien_maara) as tunnit, k.etunimi, k.sukunimi from Tunnit t JOIN Kayttajat k ON t.kayttaja_id=k.id group by t.kayttaja_id;";
+		RowMapper<Henkilot> mapper = new SummatutTunnitRowMapper();
+		List<Henkilot> summatutTunnit = jdbcTemplate.query(sql, mapper);
+		return summatutTunnit;
+	}
+	
 }

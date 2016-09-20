@@ -1,6 +1,7 @@
 package com.tunnit;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -48,18 +49,9 @@ public class TuntiServlet extends HttpServlet {
 		List<Henkilot> henkilot = tDAO.haeTunnit();
 		request.setAttribute("henkilot", henkilot);
 		
-		Henkilot henkilonTunnit = new Henkilot();
-		
-		for (int i=0; i < henkilot.size(); i++){
-			henkilonTunnit.setEtunimi(henkilot.get(i).getEtunimi());
-			henkilonTunnit.setSukunimi(henkilot.get(i).getSukunimi());
-			for (int j=0; j<henkilot.get(i).getTunnit().size(); j++){
-				double lisays = henkilot.get(i).getTunnit().get(j).getTunnit();
-				henkilonTunnit.setTunnitYhteensa((henkilonTunnit.getTunnitYhteensa() + lisays));
-			}
-		}
-		
-		request.setAttribute("henkilonTunnit", henkilonTunnit );
+		List<Henkilot> henkiloidenTunnit = tDAO.summaaTunnit();
+		System.out.println(henkiloidenTunnit);
+		request.setAttribute("henkiloidenTunnit", henkiloidenTunnit);
 		
 		request.getRequestDispatcher("index.jsp").forward(request, response);
 		
