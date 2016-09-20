@@ -52,11 +52,9 @@ public class tuntiDAO {
 	
 
 	public void poista(int id){
-		String sql = "DELETE FROM Tunnit WHERE id=77";
-		Object[] parametrit = new Object[] {id};
-		System.out.println("id daosta " + id);
+		String sql = "DELETE FROM Tunnit WHERE id=" + id;
+		//Object[] parametrit = new Object[] {id};
 		//jdbcTemplate.update(sql, parametrit);
-		System.out.println("sql string " + sql);
 		jdbcTemplate.execute(sql);
 	}
 
