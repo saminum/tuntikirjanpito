@@ -33,4 +33,10 @@ public class tuntiDAO {
 		return henkilot;
 	}
 	
+	public void poista(int id){
+		String sql = "INSERT INTO Tunnit (tuntien_maara, kuvaus, kayttaja_id) VALUES(?,?,?)";
+		Object[] parametrit = new Object[] {id};
+		jdbcTemplate.update(sql, parametrit);
+	}
+	
 }
