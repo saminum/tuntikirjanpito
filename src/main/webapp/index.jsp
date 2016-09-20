@@ -87,7 +87,7 @@
 
 <div class="container">
   <h4>Tuntilista</h4>
-  <form action="poistaTuntiServlet" method="POST">                           
+  <form action="PoistaTuntiServlet" method="POST">                           
   <table class="table table-hover">
     <thead>
       <tr>
