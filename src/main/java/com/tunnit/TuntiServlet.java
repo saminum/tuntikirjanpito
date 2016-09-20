@@ -1,7 +1,6 @@
 package com.tunnit;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -10,7 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.beans.Henkilot;
@@ -20,6 +22,8 @@ import com.dao.tuntiDAO;
 @WebServlet("/TuntiServlet")
 public class TuntiServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	final static Logger logger = LoggerFactory.getLogger(TuntiServlet.class);
     
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -27,6 +31,8 @@ public class TuntiServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		logger.info("Ohjelma käynnistyy");
+		logger.debug("ladataan application context");
 		ApplicationContext context = new ClassPathXmlApplicationContext(
 				"spring-config.xml");
 		
@@ -47,13 +53,17 @@ public class TuntiServlet extends HttpServlet {
 		
 		tuntiDAO tDAO = (tuntiDAO) context.getBean("daoLuokka");
 		List<Henkilot> henkilot = tDAO.haeTunnit();
+		logger.info("Listataan kaikki käyttäjien tunnit");
 		request.setAttribute("henkilot", henkilot);
 		
 		List<Henkilot> henkiloidenTunnit = tDAO.summaaTunnit();
-		System.out.println(henkiloidenTunnit);
+		logger.info("Summataan käyttäjien tunnit");
 		request.setAttribute("henkiloidenTunnit", henkiloidenTunnit);
 		
+		((AbstractApplicationContext) context).close();
+		
 		request.getRequestDispatcher("index.jsp").forward(request, response);
+		
 		
 	}
 
