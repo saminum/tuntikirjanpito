@@ -27,7 +27,7 @@ public class tuntiDAO {
 	}
 	
 	public List<Henkilot> haeTunnit(){
-		String sql = "SELECT * FROM Tunnit JOIN Kayttajat ON Tunnit.kayttaja_id = Kayttajat.id";
+		String sql = "SELECT * FROM Tunnit JOIN Kayttajat ON Tunnit.kayttaja_id = Kayttajat.id ORDER BY Tunnit.paivamaara DESC;";
 		RowMapper<Henkilot> mapper = new TunnitRowMapper();
 		List<Henkilot> henkilot = jdbcTemplate.query(sql, mapper);
 		return henkilot;
