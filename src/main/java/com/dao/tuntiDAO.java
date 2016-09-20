@@ -50,6 +50,13 @@ public class tuntiDAO {
 		return henkilot;
 	}
 	
+
+	public void poista(int id){
+		String sql = "DELETE FROM Tunnit WHERE id=" +id;
+		Object[] parametrit = new Object[] {id};
+		jdbcTemplate.update(sql, parametrit);
+	}
+
 	public List<Henkilot> summaaTunnit(){
 		String sql = "select t.kayttaja_id, sum(t.tuntien_maara) as tunnit, k.etunimi, k.sukunimi from Tunnit t JOIN Kayttajat k ON t.kayttaja_id=k.id group by t.kayttaja_id;";
 		RowMapper<Henkilot> mapper = new SummatutTunnitRowMapper();
@@ -60,6 +67,7 @@ public class tuntiDAO {
 			logger.debug("Tietokantayhteydessä ongelmia");
 		}
 		return summatutTunnit;
+
 	}
 	
 }
