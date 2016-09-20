@@ -41,7 +41,7 @@ public class TuntiServlet extends HttpServlet {
 		tuntiDAO tDAO = (tuntiDAO) context.getBean("daoLuokka");
 		tDAO.talleta(henkilo);
 		
-		response.sendRedirect("WebContent/WEB-INF/index.jsp");
+		response.sendRedirect("index.jsp");
 		
 	}
 
