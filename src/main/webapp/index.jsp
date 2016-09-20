@@ -87,7 +87,7 @@
 
 <div class="container">
   <h4>Tuntilista</h4>
-                              
+  <form action="poistaTuntiServlet" method="POST">                           
   <table class="table table-hover">
     <thead>
       <tr>
@@ -108,11 +108,12 @@
         <td>${h.tunnit[0].tunnit}</td>
         <td>${h.tunnit[0].kuvaus}</td>
         <td>${h.tunnit[0].pvm}</td>
-        <td><input type="submit" class="btn btn-success btn-sm" value="Poista" /></td>
+        <td><button type="submit" name="tunti_id" class="btn btn-success btn-sm" value="${h.tunnit[0].id }" >Poista</button></td>
       </tr>
      </c:forEach> 
     </tbody>
   </table>
+  </form>
 </div>
 
 </body>
