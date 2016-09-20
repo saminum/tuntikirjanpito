@@ -6,10 +6,11 @@ import java.sql.Date;
  * @since 13.9.2016
  */
 public class Tunnit {
-	private int tunnit, id;
+	private int id;
+	private double tunnit;
 	private String kuvaus;
 	private Date pvm;
-	public Tunnit(int tunnit, String kuvaus, Date pvm) {
+	public Tunnit(double tunnit, String kuvaus, Date pvm) {
 		super();
 		this.tunnit = tunnit;
 		this.kuvaus = kuvaus;
@@ -19,10 +20,10 @@ public class Tunnit {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public int getTunnit() {
+	public double getTunnit() {
 		return tunnit;
 	}
-	public void setTunnit(int tunnit) {
+	public void setTunnit(double tunnit) {
 		this.tunnit = tunnit;
 	}
 	public int getId() {

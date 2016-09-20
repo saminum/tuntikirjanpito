@@ -1,6 +1,7 @@
 package com.tunnit;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +22,7 @@ public class TuntiServlet extends HttpServlet {
     
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		doPost(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,6 +30,7 @@ public class TuntiServlet extends HttpServlet {
 				"spring-config.xml");
 		
 		String tunnit = request.getParameter("tunnit");
+		if(tunnit != null){
 		String kuvaus = request.getParameter("kuvaus");
 		String henkilo_id = request.getParameter("henkilo_id");
 		
@@ -40,8 +42,13 @@ public class TuntiServlet extends HttpServlet {
 		henkilo.addTunti(tunnin_tiedot);
 		tuntiDAO tDAO = (tuntiDAO) context.getBean("daoLuokka");
 		tDAO.talleta(henkilo);
+		}
 		
-		response.sendRedirect("index.jsp");
+		tuntiDAO tDAO = (tuntiDAO) context.getBean("daoLuokka");
+		List<Henkilot> henkilot = tDAO.haeTunnit();
+		request.setAttribute("henkilot", henkilot);
+		
+		request.getRequestDispatcher("index.jsp").forward(request, response);
 		
 	}
 
