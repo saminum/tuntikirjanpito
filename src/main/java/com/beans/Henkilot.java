@@ -7,6 +7,16 @@ import java.util.ArrayList;
 public class Henkilot {
 	private int id;
 	private String tunnus, etunimi, sukunimi, salasana;
+	private double tunnitYhteensa = 0;
+	
+	public double getTunnitYhteensa() {
+		return tunnitYhteensa;
+	}
+
+	public void setTunnitYhteensa(double tunnitYhteensa) {
+		this.tunnitYhteensa = tunnitYhteensa;
+	}
+
 	ArrayList<Tunnit> tunnit = new ArrayList<Tunnit>();
 	public Henkilot(int id, String tunnus, String etunimi, String sukunimi,
 			String salasana, ArrayList<Tunnit> tunnit) {
@@ -73,9 +83,8 @@ public class Henkilot {
 	}
 	@Override
 	public String toString() {
-		return "Henkilot [id=" + id + ", tunnus=" + tunnus + ", etunimi="
-				+ etunimi + ", sukunimi=" + sukunimi + ", salasana=" + salasana
-				+ ", tunnit=" + tunnit + "]";
+		return "Henkilot [id=" + id + ", tunnus=" + tunnus + ", etunimi=" + etunimi + ", sukunimi=" + sukunimi
+				+ ", salasana=" + salasana + ", tunnitYhteensa=" + tunnitYhteensa + ", tunnit=" + tunnit + "]";
 	}
 
 	public void addTunti(Tunnit tunnin_tiedot) {
