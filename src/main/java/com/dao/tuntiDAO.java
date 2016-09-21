@@ -30,8 +30,9 @@ public class tuntiDAO {
 		Object[] parametrit = new Object[] {henkilo.getTunnit().get(0).getTunnit(), henkilo.getTunnit().get(0).getKuvaus(), henkilo.getId()};
 		try {
 			jdbcTemplate.update(sql, parametrit);
+			logger.info("Tallennettiin henkilön tunnit tietokantaan");
 		} catch (DataAccessException ex) {
-			logger.debug("Tietokantayhteydessä ongelmia");
+			daoVirheenHallinta(ex);
 		}		
 	}
 	
@@ -43,19 +44,22 @@ public class tuntiDAO {
 		List<Henkilot> henkilot = null;
 		try {
 			henkilot = jdbcTemplate.query(sql, mapper);
+			logger.info("Haettiin kaikki tallennetut tunnit tietokannasta");
 		} catch (DataAccessException ex) {
-			logger.debug("Tietokantayhteydessä ongelmia");
-		}
-		
+			daoVirheenHallinta(ex);
+		}	
 		return henkilot;
 	}
 	
 
 	public void poista(int id){
 		String sql = "DELETE FROM Tunnit WHERE id=" + id;
-		//Object[] parametrit = new Object[] {id};
-		//jdbcTemplate.update(sql, parametrit);
-		jdbcTemplate.execute(sql);
+		try {
+			jdbcTemplate.execute(sql);
+			logger.info("id: " + id + " poistettu tietokannasta");
+		} catch (DataAccessException ex) {
+			daoVirheenHallinta(ex);
+		}
 	}
 
 	public List<Henkilot> summaaTunnit(){
@@ -64,11 +68,16 @@ public class tuntiDAO {
 		List<Henkilot> summatutTunnit = null;
 		try {
 			summatutTunnit = jdbcTemplate.query(sql, mapper);
+			logger.info("Summattiin tietokannasta löytyvät tunnit yhteen");
 		} catch (DataAccessException ex) {
-			logger.debug("Tietokantayhteydessä ongelmia");
+			daoVirheenHallinta(ex);
 		}
 		return summatutTunnit;
 
+	}
+	
+	public void daoVirheenHallinta(DataAccessException ex){
+		logger.debug("Tietokantayhteydessä ongelmia " + ex);
 	}
 	
 }

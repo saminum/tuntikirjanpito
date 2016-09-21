@@ -105,7 +105,7 @@
         <td>${h.tunnit[0].tunnit}</td>
         <td>${h.tunnit[0].kuvaus}</td>
         <td>${h.tunnit[0].pvm}</td>
-        <td><button type="submit" name="tunti_id" class="btn btn-success btn-sm" value="${h.tunnit[0].id }" >Poista</button></td>
+        <td><button type="submit" name="tunti_id" class="btn btn-danger btn-sm" value="${h.tunnit[0].id }" >Poista</button></td>
       </tr>
      </c:forEach> 
     </tbody>

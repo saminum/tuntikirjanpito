@@ -53,11 +53,9 @@ public class TuntiServlet extends HttpServlet {
 		
 		tuntiDAO tDAO = (tuntiDAO) context.getBean("daoLuokka");
 		List<Henkilot> henkilot = tDAO.haeTunnit();
-		logger.info("Listataan kaikki käyttäjien tunnit");
 		request.setAttribute("henkilot", henkilot);
 		
 		List<Henkilot> henkiloidenTunnit = tDAO.summaaTunnit();
-		logger.info("Summataan käyttäjien tunnit");
 		request.setAttribute("henkiloidenTunnit", henkiloidenTunnit);
 		
 		((AbstractApplicationContext) context).close();
