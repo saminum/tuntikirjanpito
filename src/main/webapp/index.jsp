@@ -20,67 +20,68 @@
 <header>
 
 </header>
-	<h3 class="hykkonen" align=center>Tuntien kirjaus</h3>
-	
-	<table class="tunnit" align=center>
-			
-	<form action="TuntiServlet" method="POST">
-		<table class="tunnit" align=center>
-			
-			<tr>
-				<td>Henkilö:</td>
-				
-			<td>
-			<select name="henkilo_id">
-  				  <option value="1">Aaro</option>
-				  <option value="4">Joonas</option>
-				  <option value="3">Sami</option>
-				  <option value="5">Jukka</option>
-				  <option value="2">Heikki</option>
-			</select>
-			</td>
-			</tr>
-			<tr>
-			<td><p></p> </td>
-			</tr>
-			<tr>
-				<td>Tunnit:</td>
-				<td><input type="number" step=0.5 name="tunnit" size="2" min="0.5" max="24" required />
-			</td>
-			</tr>
-			<tr>
-			<td><p></p> </td>
-			</tr>
-			<tr>
-				<td>Kuvaus:</td>
-				<td><input type="text" name="kuvaus" max="50" required></input></td>
-			</tr>
-			<tr>
-				<td><br> <input type="submit" class="btn btn-success btn-md" value="Tallenna" /></td>
-			</tr>
-		</table>
-	</form>
 
-<div class="container">
-  <h4>Henkilön Tunnit yhteensä</h4>
+<!-- 	<h3 class="hykkonen" align=center>Tuntien kirjaus</h3> -->
+	
+<!-- 	<table class="tunnit" align=center> -->
+			
+<!-- 	<form action="TuntiServlet" method="POST"> -->
+<!-- 		<table class="tunnit" align=center> -->
+			
+<!-- 			<tr> -->
+<!-- 				<td>Henkilö:</td> -->
+				
+<!-- 			<td> -->
+<!-- 			<select name="henkilo_id"> -->
+<!--   				  <option value="1">Aaro</option> -->
+<!-- 				  <option value="4">Joonas</option> -->
+<!-- 				  <option value="3">Sami</option> -->
+<!-- 				  <option value="5">Jukka</option> -->
+<!-- 				  <option value="2">Heikki</option> -->
+<!-- 			</select> -->
+<!-- 			</td> -->
+<!-- 			</tr> -->
+<!-- 			<tr> -->
+<!-- 			<td><p></p> </td> -->
+<!-- 			</tr> -->
+<!-- 			<tr> -->
+<!-- 				<td>Tunnit:</td> -->
+<!-- 				<td><input type="number" step=0.5 name="tunnit" size="2" min="0.5" max="24" required /> -->
+<!-- 			</td> -->
+<!-- 			</tr> -->
+<!-- 			<tr> -->
+<!-- 			<td><p></p> </td> -->
+<!-- 			</tr> -->
+<!-- 			<tr> -->
+<!-- 				<td>Kuvaus:</td> -->
+<!-- 				<td><input type="text" name="kuvaus" max="50" required></input></td> -->
+<!-- 			</tr> -->
+<!-- 			<tr> -->
+<!-- 				<td><br> <input type="submit" class="btn btn-success btn-md" value="Tallenna" /></td> -->
+<!-- 			</tr> -->
+<!-- 		</table> -->
+<!-- 	</form> -->
+
+<!-- <div class="container"> -->
+<!--   <h4>Henkilön Tunnit yhteensä</h4> -->
                               
-  <table class="table table-hover">
-    <thead>
-    <tr>
-        <th>Etunimi</th>
-        <th>Sukunimi</th>
-        <th>Tunnit yhteensä</th>
-      </tr>
-    	<c:forEach items="${henkiloidenTunnit}" var="ht">
-      <tr>
-        <td>${ht.etunimi}</td>
-        <td>${ht.sukunimi}</td>
-        <td>${ht.tunnitYhteensa}</td>
-      </tr>
-     </c:forEach> 
-    </thead>
-    </table>
-    </div>
+<!--   <table class="table table-hover"> -->
+<!--     <thead> -->
+<!--     <tr> -->
+<!--         <th>Etunimi</th> -->
+<!--         <th>Sukunimi</th> -->
+<!--         <th>Tunnit yhteensä</th> -->
+<!--       </tr> -->
+<%--     	<c:forEach items="${henkiloidenTunnit}" var="ht"> --%>
+<!--       <tr> -->
+<%--         <td>${ht.etunimi}</td> --%>
+<%--         <td>${ht.sukunimi}</td> --%>
+<%--         <td>${ht.tunnitYhteensa}</td> --%>
+<!--       </tr> -->
+<%--      </c:forEach>  --%>
+<!--     </thead> -->
+<!--     </table> -->
+<!--     </div> -->
 
 <div class="container">
   <h4>Tuntilista</h4>

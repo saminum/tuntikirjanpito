@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.beans.Henkilot;
 import com.tunnit.TuntiServlet;
 
-public class tuntiDAO {
+public class TuntiDAOImplementation {
 	
 	final static Logger logger = LoggerFactory.getLogger(TuntiServlet.class);
 	
@@ -81,3 +81,4 @@ public class tuntiDAO {
 	}
 	
 }
+
