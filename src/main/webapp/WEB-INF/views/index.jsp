@@ -117,7 +117,7 @@
 </div>
 
 <div class="container">
-<a href="TuntiServlet">Hae tunnit</a>
+<a href="lista">Hae tunnit</a>
 </div>
 </body>
 </html>
