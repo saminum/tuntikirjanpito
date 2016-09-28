@@ -6,10 +6,6 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
-import org.springframework.web.bind.annotation.ModelAttribute;
-
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -20,7 +16,7 @@ import com.dao.TuntiDAO;
 
 
 @Controller
-@RequestMapping (value="/tuntikirjaus")
+@RequestMapping (value="")
 public class TuntikirjausController {
 	
 	@Inject
@@ -40,6 +36,7 @@ public class TuntikirjausController {
 	public String getView(Model model){
 		List<Henkilot> henkilot = dao.haeTunnit();
 		model.addAttribute("henkilot", henkilot);
+		System.out.println("HALOO=?");
 		return "index";
 	}
 	
