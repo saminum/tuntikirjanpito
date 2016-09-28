@@ -32,7 +32,7 @@ public class TuntikirjausController {
 	
 	//Tuntien listaus
 	
-	@RequestMapping(value="lista", method=RequestMethod.GET)
+	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String getView(Model model){
 		List<Henkilot> henkilot = dao.haeTunnit();
 		model.addAttribute("henkilot", henkilot);
