@@ -35,11 +35,11 @@
 				
 			<td>
 			<form:select path="id">
-  				  <form:option value="1">Aaro</form:option>
-				  <form:option value="4">Joonas</form:option>
-				  <form:option value="3">Sami</form:option>
-				  <form:option value="5">Jukka</form:option>
-				  <form:option value="2">Heikki</form:option>
+  				  <form:option value="0">Valitse henkilö</form:option>
+				  <form:option value="0">------------------------</form:option>
+				  <c:forEach items="${henkiloidenTunnit}" var="ht">
+				  <form:option value="${ht.id}">${ht.etunimi} ${ht.sukunimi}</form:option>
+				  </c:forEach>
 			</form:select>
 			</td>
 			</tr>
