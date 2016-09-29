@@ -87,7 +87,7 @@
 
 <div class="container">
   <h4>Tuntilista</h4>
-  <form action="PoistaTuntiServlet" method="POST">                           
+  <form action="/tuntikirjanpito/poista" method="POST">                           
   <table class="table table-hover">
     <thead>
       <tr>
@@ -116,8 +116,5 @@
   </form>
 </div>
 
-<div class="container">
-<a href="lista">Hae tunnit</a>
-</div>
 </body>
 </html>

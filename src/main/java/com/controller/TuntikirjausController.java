@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.beans.Henkilot;
 import com.beans.HenkilotImpl;
@@ -42,6 +43,13 @@ public class TuntikirjausController {
 		return "index";
 	}
 	
+	// Poista metodin vastaanotto	
+	
+	@RequestMapping(value="poista", method=RequestMethod.POST)
+	public String poista(@RequestParam("tunti_id") int henk_id)  {
+		dao.poista(henk_id);
+		return "redirect:/";
+	}
 	
 //	@RequestMapping(value="/", method=RequestMethod.GET)
 //	public String getCreateForm(Model model) {	
