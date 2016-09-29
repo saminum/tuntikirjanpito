@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.beans.Henkilot;
+import com.beans.HenkilotImpl;
 
 @Repository
 public class TuntiDAOImplementation implements TuntiDAO {
@@ -46,12 +47,12 @@ public class TuntiDAOImplementation implements TuntiDAO {
 	 * @see com.dao.TuntiDAO#haeTunnit()
 	 */
 	
-	public List<Henkilot> haeTunnit(){
+	public List<HenkilotImpl> haeTunnit(){
 		String sql = "SELECT Tunnit.id as 'tunti_id', Tunnit.tuntien_maara, Tunnit.paivamaara, Tunnit.kuvaus, Kayttajat.etunimi,"
 				+ " Kayttajat.sukunimi, Kayttajat.id as kayttaja_id FROM Tunnit JOIN Kayttajat ON Tunnit.kayttaja_id = Kayttajat.id"
 				+ " ORDER BY Tunnit.paivamaara;";
-		RowMapper<Henkilot> mapper = new TunnitRowMapper();
-		List<Henkilot> henkilot = null;
+		RowMapper<HenkilotImpl> mapper = new TunnitRowMapper();
+		List<HenkilotImpl> henkilot = null;
 		try {
 			henkilot = jdbcTemplate.query(sql, mapper);
 //			logger.info("Haettiin kaikki tallennetut tunnit tietokannasta");
@@ -80,10 +81,10 @@ public class TuntiDAOImplementation implements TuntiDAO {
 	 * @see com.dao.TuntiDAO#summaaTunnit()
 	 */
 	
-	public List<Henkilot> summaaTunnit(){
+	public List<HenkilotImpl> summaaTunnit(){
 		String sql = "select t.kayttaja_id, sum(t.tuntien_maara) as tunnit, k.etunimi, k.sukunimi from Tunnit t JOIN Kayttajat k ON t.kayttaja_id=k.id group by t.kayttaja_id;";
-		RowMapper<Henkilot> mapper = new SummatutTunnitRowMapper();
-		List<Henkilot> summatutTunnit = null;
+		RowMapper<HenkilotImpl> mapper = new SummatutTunnitRowMapper();
+		List<HenkilotImpl> summatutTunnit = null;
 		try {
 			summatutTunnit = jdbcTemplate.query(sql, mapper);
 //			logger.info("Summattiin tietokannasta löytyvät tunnit yhteen");
