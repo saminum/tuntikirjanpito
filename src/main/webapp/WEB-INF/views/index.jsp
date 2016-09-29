@@ -64,26 +64,26 @@
 		</table>
 	</form:form>
 
-<!-- <div class="container"> -->
-<!--   <h4>Henkilön Tunnit yhteensä</h4> -->
+<div class="container">
+  <h4>Henkilön Tunnit yhteensä</h4>
                               
-<!--   <table class="table table-hover"> -->
-<!--     <thead> -->
-<!--     <tr> -->
-<!--         <th>Etunimi</th> -->
-<!--         <th>Sukunimi</th> -->
-<!--         <th>Tunnit yhteensä</th> -->
-<!--       </tr> -->
-<%--     	<c:forEach items="${henkiloidenTunnit}" var="ht"> --%>
-<!--       <tr> -->
-<%--         <td>${ht.etunimi}</td> --%>
-<%--         <td>${ht.sukunimi}</td> --%>
-<%--         <td>${ht.tunnitYhteensa}</td> --%>
-<!--       </tr> -->
-<%--      </c:forEach>  --%>
-<!--     </thead> -->
-<!--     </table> -->
-<!--     </div> -->
+  <table class="table table-hover">
+    <thead>
+    <tr>
+        <th>Etunimi</th>
+        <th>Sukunimi</th>
+        <th>Tunnit yhteensä</th>
+      </tr>
+    	<c:forEach items="${henkiloidenTunnit}" var="ht">
+      <tr>
+        <td>${ht.etunimi}</td>
+        <td>${ht.sukunimi}</td>
+        <td>${ht.tunnitYhteensa}</td>
+      </tr>
+     </c:forEach> 
+    </thead>
+    </table>
+    </div>
 
 <div class="container">
   <h4>Tuntilista</h4>

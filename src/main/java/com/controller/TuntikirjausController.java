@@ -37,8 +37,11 @@ public class TuntikirjausController {
 	public String getView(Model model){
 		List<HenkilotImpl> henkilot = dao.haeTunnit();
 		model.addAttribute("henkilot", henkilot);
+		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
+		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
 		return "index";
 	}
+	
 	
 //	@RequestMapping(value="/", method=RequestMethod.GET)
 //	public String getCreateForm(Model model) {	
