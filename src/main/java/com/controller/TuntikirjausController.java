@@ -36,7 +36,6 @@ public class TuntikirjausController {
 	public String getView(Model model){
 		List<Henkilot> henkilot = dao.haeTunnit();
 		model.addAttribute("henkilot", henkilot);
-		System.out.println("HALOO=?");
 		return "index";
 	}
 	
