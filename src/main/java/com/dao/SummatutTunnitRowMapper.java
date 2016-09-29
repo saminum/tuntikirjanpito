@@ -14,6 +14,7 @@ public class SummatutTunnitRowMapper implements RowMapper<HenkilotImpl> {
 		h.setEtunimi(rs.getString("etunimi"));
 		h.setSukunimi(rs.getString("sukunimi"));
 		h.setTunnitYhteensa(rs.getDouble("tunnit"));
+		h.setId(rs.getInt("kayttaja_id"));
 		return h;
 	}
 	

@@ -41,9 +41,7 @@ public class TuntikirjausController {
 		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
 		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
 		HenkilotImpl tyhjaHenkilo = new HenkilotImpl();
-		Tunnit  tyhjatTunnit = new Tunnit();
 		model.addAttribute("henkilo", tyhjaHenkilo);
-		model.addAttribute("tunnit", tyhjatTunnit);
 		return "index";
 	}
 	// Käyttäjän tuntien lisäys
@@ -62,26 +60,4 @@ public class TuntikirjausController {
 		return "redirect:/";
 	}
 	
-//	@RequestMapping(value="/", method=RequestMethod.GET)
-//	public String getCreateForm(Model model) {	
-//		Henkilot tyhjaHenkilo = new HenkilotImpl();
-//		tyhjaHenkilo.setEtunimi("oletusetunimi");
-//		
-//		model.addAttribute("henkilo", tyhjaHenkilo);
-//		return "index	";
-//	}
-	
-
-//	//FORMIN TEKEMINEN
-//	@RequestMapping(value="uusi", method=RequestMethod.GET)
-//	public String getCreateForm(Model model) {
-//		Henkilot tyhjaHenkilo = new Henkilot();
-//		tyhjaHenkilo.setEtunimi("oletusetunimi");
-//		
-//		model.addAttribute("henkilo", tyhjaHenkilo);
-//		return "henk/createForm";
-//	}
-	
-	
-
 }
