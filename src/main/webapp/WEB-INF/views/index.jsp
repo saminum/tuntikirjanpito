@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -110,7 +111,8 @@
         <td>${h.sukunimi}</td>
         <td>${h.tunnit[0].tunnit}</td>
         <td>${h.tunnit[0].kuvaus}</td>
-        <td>${h.tunnit[0].pvm}</td>
+        <td><fmt:formatDate pattern="dd.MM.yyyy" 
+            value="${h.tunnit[0].pvm}"/></td>
         <td><button type="submit" name="tunti_id" class="btn btn-danger btn-sm" value="${h.tunnit[0].id }" >Poista</button></td>
       </tr>
      </c:forEach> 
