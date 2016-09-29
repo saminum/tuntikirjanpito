@@ -5,13 +5,13 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import com.beans.Henkilot;
+import com.beans.HenkilotImpl;
 import com.beans.Tunnit;
 
-public class TunnitRowMapper implements RowMapper<Henkilot> {
+public class TunnitRowMapper implements RowMapper<HenkilotImpl> {
 
-	public Henkilot mapRow(ResultSet rs, int rowNum) throws SQLException {
-		Henkilot h = new Henkilot();
+	public HenkilotImpl mapRow(ResultSet rs, int rowNum) throws SQLException {
+		HenkilotImpl h = new HenkilotImpl();
 		h.setEtunimi(rs.getString("etunimi"));
 		h.setSukunimi(rs.getString("sukunimi"));
 		h.setId(rs.getInt("kayttaja_id"));
