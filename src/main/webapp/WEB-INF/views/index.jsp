@@ -34,13 +34,13 @@
 				<td>Henkilö:</td>
 				
 			<td>
-			<select name="henkilo_id">
-  				  <option value="1">Aaro</option>
-				  <option value="4">Joonas</option>
-				  <option value="3">Sami</option>
-				  <option value="5">Jukka</option>
-				  <option value="2">Heikki</option>
-			</select>
+			<form:select path="id">
+  				  <form:option value="1">Aaro</form:option>
+				  <form:option value="4">Joonas</form:option>
+				  <form:option value="3">Sami</form:option>
+				  <form:option value="5">Jukka</form:option>
+				  <form:option value="2">Heikki</form:option>
+			</form:select>
 			</td>
 			</tr>
 			<tr>
@@ -48,7 +48,8 @@
 			</tr>
 			<tr>
 				<td>Tunnit:</td>
-				<td><input type="number" step=0.5 name="tunnit" size="2" min="0.5" max="24" required />
+				<td><form:label path="tunnit[0].tunnit"/>
+					<form:input path="tunnit[0].tunnit"/>
 			</td>
 			</tr>
 			<tr>
@@ -56,10 +57,12 @@
 			</tr>
 			<tr>
 				<td>Kuvaus:</td>
-				<td><input type="text" name="kuvaus" max="50" required></input></td>
+				<td><form:label path="tunnit[0].kuvaus"/>
+					<form:input path="tunnit[0].kuvaus" />	
+			</td>		
 			</tr>
 			<tr>
-				<td><br> <input type="submit" class="btn btn-success btn-md" value="Tallenna" /></td>
+				<td><br> <input type="submit" class="btn btn-success btn-md" value="lisää" /></td>
 			</tr>
 		</table>
 	</form:form>
