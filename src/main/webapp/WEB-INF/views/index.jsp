@@ -36,8 +36,7 @@
 				
 			<td>
 			<form:select path="id">
-  				  <form:option value="0">Valitse henkilö</form:option>
-				  <form:option value="0">------------------------</form:option>
+				  <form:option value="0" label="Valitse käyttäjä..." />
 				  <c:forEach items="${henkiloidenTunnit}" var="ht">
 				  <form:option value="${ht.id}">${ht.etunimi} ${ht.sukunimi}</form:option>
 				  </c:forEach>
@@ -59,7 +58,7 @@
 			<tr>
 				<td>Kuvaus:</td>
 				<td><form:label path="tunnit[0].kuvaus"/>
-					<form:input path="tunnit[0].kuvaus" />	
+					<form:input path="tunnit[0].kuvaus" rows="5" cols="30" />	
 			</td>		
 			</tr>
 			<tr>
