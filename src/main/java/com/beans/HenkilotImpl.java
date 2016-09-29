@@ -8,7 +8,7 @@ public class HenkilotImpl implements Henkilot {
 	private int id;
 	private String tunnus, etunimi, sukunimi, salasana;
 	private double tunnitYhteensa = 0;
-	
+	ArrayList<Tunnit> tunnit = new ArrayList<Tunnit>();
 	/* (non-Javadoc)
 	 * @see com.beans.Henkilot#getTunnitYhteensa()
 	 */
@@ -22,8 +22,7 @@ public class HenkilotImpl implements Henkilot {
 	public void setTunnitYhteensa(double tunnitYhteensa) {
 		this.tunnitYhteensa = tunnitYhteensa;
 	}
-
-	ArrayList<Tunnit> tunnit = new ArrayList<Tunnit>();
+	
 	public HenkilotImpl(int id, String tunnus, String etunimi, String sukunimi,
 			String salasana, ArrayList<Tunnit> tunnit) {
 		super();
@@ -138,5 +137,7 @@ public class HenkilotImpl implements Henkilot {
 		}
 		
 	}
+
+	
 
 }

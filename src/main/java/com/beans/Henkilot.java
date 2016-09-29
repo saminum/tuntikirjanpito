@@ -3,6 +3,8 @@ package com.beans;
 import java.util.ArrayList;
 
 public interface Henkilot {
+	
+	
 
 	double getTunnitYhteensa();
 

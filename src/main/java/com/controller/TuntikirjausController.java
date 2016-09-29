@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,7 +22,7 @@ import com.dao.TuntiDAO;
 @RequestMapping (value="")
 public class TuntikirjausController {
 	
-	@Inject
+	@Autowired
 	private TuntiDAO dao;
 	
 	public TuntiDAO getDao() {
@@ -40,7 +41,7 @@ public class TuntikirjausController {
 		model.addAttribute("henkilot", henkilot);
 		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
 		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
-		HenkilotImpl tyhjaHenkilo = new HenkilotImpl();
+		Henkilot tyhjaHenkilo = new HenkilotImpl();
 		model.addAttribute("henkilo", tyhjaHenkilo);
 		return "index";
 	}

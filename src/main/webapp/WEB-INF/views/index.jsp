@@ -9,17 +9,28 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="styles.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.fi.min.js" charset="UTF-8"></script>
 <title>Tunnit</title>
 </head>
 <body>
+<script>
+$(function(){
+	$('.datepicker').datepicker({
+		format: "dd.mm.yyyy",
+		weekStart: 1,
+		todayBtn: "linked",
+		autoclose: true,
+		language: "fi"
+	});
+});
+</script>
 <header>
 
 </header>
@@ -61,6 +72,14 @@
 					<form:input path="tunnit[0].kuvaus" rows="5" cols="30" />	
 			</td>		
 			</tr>
+
+						<tr>
+				<td>Päivä:</td>
+				<td><form:label path="tunnit[0].stringdate"/>
+					<form:input path="tunnit[0].stringdate" cssClass="datepicker" />	
+			</td>		
+			</tr>
+
 			<tr>
 				<td><br> <input type="submit" class="btn btn-success btn-md" value="lisää" /></td>
 			</tr>
