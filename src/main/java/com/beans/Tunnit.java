@@ -8,14 +8,16 @@ import java.sql.Date;
 public class Tunnit {
 	private int id;
 	private double tunnit;
-	private String kuvaus;
+	private String kuvaus, stringdate;
 	private Date pvm;
-	public Tunnit(double tunnit, String kuvaus, Date pvm) {
+	public Tunnit(double tunnit, String kuvaus, Date pvm, String stringdate) {
 		super();
 		this.tunnit = tunnit;
 		this.kuvaus = kuvaus;
 		this.pvm = pvm;
+		this.stringdate = stringdate;
 	}
+
 	public Tunnit() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -45,10 +47,17 @@ public class Tunnit {
 		this.pvm = pvm;
 	}
 
+	public String getStringdate() {
+		return stringdate;
+	}
+	public void setStringdate(String stringdate) {
+		this.stringdate = stringdate;
+	}
+	
 	@Override
 	public String toString() {
-		return "Tunnit [tunnit=" + tunnit + ", id=" + id + ", kuvaus=" + kuvaus
-				+ ", pvm=" + pvm + "]";
+		return "Tunnit [id=" + id + ", tunnit=" + tunnit + ", kuvaus=" + kuvaus
+				+ ", stringdate=" + stringdate + ", pvm=" + pvm + "]";
 	}
 	
 	

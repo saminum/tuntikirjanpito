@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+
+
+import org.springframework.util.StringUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -33,8 +36,16 @@ public class TuntiDAOImplementation implements TuntiDAO {
 	 */
 	
 	public void talleta(Henkilot henkilo){
-		String sql = "INSERT INTO Tunnit (tuntien_maara, kuvaus, kayttaja_id) VALUES(?,?,?)";
-		Object[] parametrit = new Object[] {henkilo.getTunnit().get(0).getTunnit(), henkilo.getTunnit().get(0).getKuvaus(), henkilo.getId()};
+		String paivamaara= henkilo.getTunnit().get(0).getStringdate();
+		String[] osat = new String[3];
+		osat = paivamaara.split("[.]", 3);
+		String pv = osat[0];
+		String kk = osat[1];
+		String vv = osat[2];
+		String kantapaiva = ""+ vv + "-" + kk + "-" + pv + " 00:00:01";
+	
+		String sql = "INSERT INTO Tunnit (tuntien_maara, kuvaus, kayttaja_id, paivamaara) VALUES(?,?,?,?)";
+		Object[] parametrit = new Object[] {henkilo.getTunnit().get(0).getTunnit(), henkilo.getTunnit().get(0).getKuvaus(), henkilo.getId(), kantapaiva};
 		try {
 			jdbcTemplate.update(sql, parametrit);
 //			logger.info("Tallennettiin henkilön tunnit tietokantaan");
