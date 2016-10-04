@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -35,13 +36,40 @@ $(function(){
 });
 </script>
 <header>
-	<div class="container">
+	<div class="container" id="sisalto_lohko">
 	<h2>Tuntikirjausjärjestelmä</h2>
 	</div>
 </header>
 	
 	<div class="container">
-	<div class="col-lg-6 col-sm-12">
+	
+	
+<div class="col-lg-6 table-responsive" id="sisalto_lohko">
+  <h4>Henkilöiden tunnit yhteensä</h4>
+                              
+  <table class="table table-hover">
+    <thead>
+    <tr>
+        <th>Etunimi</th>
+        <th>Sukunimi</th>
+        <th>Tunnit yhteensä</th>
+      </tr>
+    </thead>
+    <tbody>
+    	<c:forEach items="${henkiloidenTunnit}" var="ht">
+      <tr>
+        <td>${ht.etunimi}</td>
+        <td>${ht.sukunimi}</td>
+        <td>${ht.tunnitYhteensa}</td>
+      </tr>
+     </c:forEach> 
+    </tbody>
+    </table>
+    </div>
+
+
+
+<div class="col-lg-6 col-sm-12" id="sisalto_lohko">
 	
 	<h4 class="hykkonen">Tuntien kirjaus</h4>
 	<form:form modelAttribute="henkilo" method="POST">
@@ -76,29 +104,10 @@ $(function(){
 			
 	</form:form>
 	</div>
-	
-<div class="col-lg-6">
-  <h4>Henkilön Tunnit yhteensä</h4>
-                              
-  <table class="table table-hover">
-    <thead>
-    <tr>
-        <th>Etunimi</th>
-        <th>Sukunimi</th>
-        <th>Tunnit yhteensä</th>
-      </tr>
-    	<c:forEach items="${henkiloidenTunnit}" var="ht">
-      <tr>
-        <td>${ht.etunimi}</td>
-        <td>${ht.sukunimi}</td>
-        <td>${ht.tunnitYhteensa}</td>
-      </tr>
-     </c:forEach> 
-    </thead>
-    </table>
-    </div>
 </div>
-<div class="container">
+
+
+<div class="container table-responsive visible-md visible-lg visible-xl" id="sisalto_lohko">
   <h4>Tuntilista</h4>
   <form action="/tuntikirjanpito/poista" method="POST">                           
   <table class="table table-hover">
@@ -129,6 +138,40 @@ $(function(){
   </table>
   </form>
 </div>
+
+
+<div class="container table-responsive visible-sm visible-xs" id="sisalto_lohko">
+  <h4>Tuntilista</h4>
+  <form action="/tuntikirjanpito/poista" method="POST">                           
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Nimi</th>
+        <th>Tunnit</th>
+        <th>Kuvaus</th>
+        <th>Päivämäärä</th>
+        <th></th>
+       
+      </tr>
+    </thead>
+    <tbody>
+      <c:forEach items="${henkilot}" var="h">
+      <tr>
+        <td>${h.etunimi}</td>
+        <td>${h.tunnit[0].tunnit}</td>
+        <c:set var="kuvaus" value="${h.tunnit[0].kuvaus}"/>
+        <c:set var="kuvauksen_substring" value="${fn:substring(kuvaus, 0, 10)}"/>
+        <td>${kuvauksen_substring}...</td>
+        <td><fmt:formatDate pattern="dd.MM.yyyy" 
+            value="${h.tunnit[0].pvm}"/></td>
+        <td><button type="submit" name="tunti_id" class="btn btn-danger btn-sm" value="${h.tunnit[0].id }" >Poista</button></td>
+      </tr>
+     </c:forEach> 
+    </tbody>
+  </table>
+  </form>
+</div>
+
 
 </body>
 </html>
