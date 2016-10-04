@@ -35,13 +35,15 @@ $(function(){
 });
 </script>
 <header>
-
+	<div class="container">
+	<h2>Tuntikirjausjärjestelmä</h2>
+	</div>
 </header>
-
-	<h3 class="hykkonen" align=center>Tuntien kirjaus</h3>
 	
+	<div class="container">
+	<div class="col-lg-6 col-sm-12">
 	
-	<div class="container" id="syotto_kentat">
+	<h4 class="hykkonen">Tuntien kirjaus</h4>
 	<form:form modelAttribute="henkilo" method="POST">
 
 			<div class="input-group input-group-lg" id="syotto_kentat">
@@ -59,12 +61,12 @@ $(function(){
 			<form:input path="tunnit[0].tunnit" class="form-control"/>
 			</div>
 			
-			<div class="input-group input-group-lg">
+			<div class="input-group input-group-lg" id="syotto_kentat">
 			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></span>
 			<form:input path="tunnit[0].kuvaus" rows="5" cols="30" class="form-control" placeholder="Kuvaus..." />	
 			</div>
 			
-			<div class="input-group input-group-lg">
+			<div class="input-group input-group-lg" id="syotto_kentat">
 			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
 			<form:input path="tunnit[0].stringdate" class="datepicker form-control"/>
 			</div>
@@ -75,7 +77,7 @@ $(function(){
 	</form:form>
 	</div>
 	
-<div class="container">
+<div class="col-lg-6">
   <h4>Henkilön Tunnit yhteensä</h4>
                               
   <table class="table table-hover">
@@ -95,7 +97,7 @@ $(function(){
     </thead>
     </table>
     </div>
-
+</div>
 <div class="container">
   <h4>Tuntilista</h4>
   <form action="/tuntikirjanpito/poista" method="POST">                           
