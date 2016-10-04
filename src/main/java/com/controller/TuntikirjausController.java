@@ -53,9 +53,15 @@ public class TuntikirjausController {
 		return "redirect:/";
 	}
 	@RequestMapping(value="henkilo", method=RequestMethod.POST)
-	public String hae(@RequestParam("tunti_id") int henk_id){
-		System.out.println("testi" + henk_id);
-		return "redirect:/";
+	public String hae(@RequestParam("tunti_id") int henk_id, Model model){
+		List<HenkilotImpl> henkilot = dao.haeHenkilonTunnit(henk_id);
+		model.addAttribute("henkilot", henkilot);
+		System.out.println(henkilot.toString());
+		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
+		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
+		Henkilot tyhjaHenkilo = new HenkilotImpl();
+		model.addAttribute("henkilo", tyhjaHenkilo);
+		return "index";
 	}
 	
 	
