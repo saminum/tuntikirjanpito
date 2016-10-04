@@ -77,7 +77,7 @@ $(function(){
 						<tr>
 				<td>Päivä:</td>
 				<td><form:label path="tunnit[0].stringdate"/>
-					<form:input path="tunnit[0].stringdate" cssClass="datepicker" cssErrorClass="VirheellinenKentta"/><form:errors path="tunnit[0].stringdate" cssClass="Virheteksti"/>
+					<form:input path="tunnit[0].stringdate" cssClass="datepicker" cssErrorClass="datepicker"/><form:errors path="tunnit[0].stringdate" cssClass="Virheteksti"/>
 			</td>		
 			</tr>
 
