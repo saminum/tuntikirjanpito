@@ -96,13 +96,15 @@ $(function(){
         <th>Sukunimi</th>
         <th>Tunnit yhteensä</th>
       </tr>
+            <form action="henkilo" method="POST">
     	<c:forEach items="${henkiloidenTunnit}" var="ht">
       <tr>
-        <td>${ht.etunimi}</td>
+     	<td><button type=submit name="tunti_id" value="${ht.id}" class="btn-link">${ht.etunimi}</button></td>
         <td>${ht.sukunimi}</td>
         <td>${ht.tunnitYhteensa}</td>
       </tr>
      </c:forEach> 
+         </form>
     </thead>
     </table>
     </div>
