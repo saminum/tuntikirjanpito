@@ -1,16 +1,21 @@
 package com.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.beans.Henkilot;
 import com.beans.HenkilotImpl;
@@ -43,13 +48,19 @@ public class TuntikirjausController {
 		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
 		Henkilot tyhjaHenkilo = new HenkilotImpl();
 		model.addAttribute("henkilo", tyhjaHenkilo);
+		
 		return "index";
 	}
 	// Käyttäjän tuntien lisäys
 	@RequestMapping(value="/", method=RequestMethod.POST)
-	public String create( @ModelAttribute(value="henkilo") HenkilotImpl henkilot){
-		dao.talleta(henkilot);
-		return "redirect:/";
+	public String create( @ModelAttribute(value="henkilo") @Valid HenkilotImpl henkilot, BindingResult result){
+		System.out.println("result " + result);
+		if(result.hasErrors()){
+			return "index";
+		}else{
+			dao.talleta(henkilot);
+			return "redirect:/";
+		}
 	}
 	
 	

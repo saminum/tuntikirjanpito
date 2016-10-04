@@ -1,24 +1,29 @@
 package com.beans;
 
 import java.util.ArrayList;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 /**@author Heikki Petrell
  * @since 13.9.2016
  */
 public class HenkilotImpl implements Henkilot {
+	
+	@NotNull
 	private int id;
+	
 	private String tunnus, etunimi, sukunimi, salasana;
 	private double tunnitYhteensa = 0;
+	
+	@NotNull
+	@Valid
 	ArrayList<Tunnit> tunnit = new ArrayList<Tunnit>();
-	/* (non-Javadoc)
-	 * @see com.beans.Henkilot#getTunnitYhteensa()
-	 */
+	
+	
 	public double getTunnitYhteensa() {
 		return tunnitYhteensa;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.beans.Henkilot#setTunnitYhteensa(double)
-	 */
 	public void setTunnitYhteensa(double tunnitYhteensa) {
 		this.tunnitYhteensa = tunnitYhteensa;
 	}

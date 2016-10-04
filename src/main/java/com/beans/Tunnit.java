@@ -2,14 +2,36 @@ package com.beans;
 
 import java.sql.Date;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**@author Heikki Petrell
  * @since 13.9.2016
  */
 public class Tunnit {
 	private int id;
+	
+	@NotNull
+	@DecimalMax("20.0") @DecimalMin("0.5")
 	private double tunnit;
-	private String kuvaus, stringdate;
+	
+	@NotNull
+	@Size(min = 1, max = 100)
+	private String kuvaus;
+	
+	@NotNull
+	@DateTimeFormat(pattern="dd.MMM.yyyy")
+	private String stringdate;
+	
+	@NotNull
 	private Date pvm;
+	
 	public Tunnit(double tunnit, String kuvaus, Date pvm, String stringdate) {
 		super();
 		this.tunnit = tunnit;
