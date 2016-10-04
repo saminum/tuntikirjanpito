@@ -11,13 +11,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css">
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">	
+<link rel="stylesheet" type="text/css" href="resources/styles/common.css">
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.fi.min.js" charset="UTF-8"></script>
+
 <title>Tunnit</title>
+
 </head>
 <body>
 <script>
@@ -37,55 +40,41 @@ $(function(){
 
 	<h3 class="hykkonen" align=center>Tuntien kirjaus</h3>
 	
-	<table class="tunnit" align=center>
-			
+	
+	<div class="container" id="syotto_kentat">
 	<form:form modelAttribute="henkilo" method="POST">
-		<table class="tunnit" align=center>
-			
-			<tr>
-				<td>Henkilö:</td>
-				
-			<td>
-			<form:select path="id">
+
+			<div class="input-group input-group-lg" id="syotto_kentat">
+			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+			<form:select path="id" class="form-control">
 				  <form:option value="0" label="Valitse käyttäjä..." />
 				  <c:forEach items="${henkiloidenTunnit}" var="ht">
 				  <form:option value="${ht.id}">${ht.etunimi} ${ht.sukunimi}</form:option>
 				  </c:forEach>
 			</form:select>
-			</td>
-			</tr>
-			<tr>
-			<td><p></p> </td>
-			</tr>
-			<tr>
-				<td>Tunnit:</td>
-				<td><form:label path="tunnit[0].tunnit"/>
-					<form:input path="tunnit[0].tunnit"/>
-			</td>
-			</tr>
-			<tr>
-			<td><p></p> </td>
-			</tr>
-			<tr>
-				<td>Kuvaus:</td>
-				<td><form:label path="tunnit[0].kuvaus"/>
-					<form:input path="tunnit[0].kuvaus" rows="5" cols="30" />	
-			</td>		
-			</tr>
-
-						<tr>
-				<td>Päivä:</td>
-				<td><form:label path="tunnit[0].stringdate"/>
-					<form:input path="tunnit[0].stringdate" cssClass="datepicker" />	
-			</td>		
-			</tr>
-
-			<tr>
-				<td><br> <input type="submit" class="btn btn-success btn-md" value="lisää" /></td>
-			</tr>
-		</table>
+			</div>
+			
+			<div class="input-group input-group-lg" id="syotto_kentat">
+			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></span>
+			<form:input path="tunnit[0].tunnit" class="form-control"/>
+			</div>
+			
+			<div class="input-group input-group-lg">
+			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></span>
+			<form:input path="tunnit[0].kuvaus" rows="5" cols="30" class="form-control" placeholder="Kuvaus..." />	
+			</div>
+			
+			<div class="input-group input-group-lg">
+			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+			<form:input path="tunnit[0].stringdate" class="datepicker form-control"/>
+			</div>
+			
+				
+			<input type="submit" class="btn btn-success btn-md" value="lisää" />
+			
 	</form:form>
-
+	</div>
+	
 <div class="container">
   <h4>Henkilön Tunnit yhteensä</h4>
                               
