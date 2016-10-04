@@ -139,11 +139,11 @@ $(function(){
   </form>
 </div>
 
-
-<div class="container table-responsive visible-sm visible-xs" id="sisalto_lohko">
+	
+<div class="container table-sm table-responsive visible-sm visible-xs" id="sisalto_lohko">
   <h4>Tuntilista</h4>
   <form action="/tuntikirjanpito/poista" method="POST">                           
-  <table class="table table-hover">
+  <table class="table">
     <thead>
       <tr>
         <th>Nimi</th>
@@ -157,15 +157,19 @@ $(function(){
     <tbody>
       <c:forEach items="${henkilot}" var="h">
       <tr>
-        <td>${h.etunimi}</td>
-        <td>${h.tunnit[0].tunnit}</td>
-        <c:set var="kuvaus" value="${h.tunnit[0].kuvaus}"/>
-        <c:set var="kuvauksen_substring" value="${fn:substring(kuvaus, 0, 10)}"/>
-        <td>${kuvauksen_substring}...</td>
+        <td rowspan="2">${h.etunimi} ${h.sukunimi}	</td>
+        <td rowspan="2">${h.tunnit[0].tunnit}</td>
+<%--         <c:set var="kuvaus" value="${h.tunnit[0].kuvaus}"/> --%>
+<%--         <c:set var="kuvauksen_substring" value="${fn:substring(kuvaus, 0, 10)}"/> --%>
+<%--         <td rowspan="2">${kuvauksen_substring}...</td> --%>
+			<td rowspan="2">${h.tunnit[0].kuvaus}</td>
         <td><fmt:formatDate pattern="dd.MM.yyyy" 
             value="${h.tunnit[0].pvm}"/></td>
-        <td><button type="submit" name="tunti_id" class="btn btn-danger btn-sm" value="${h.tunnit[0].id }" >Poista</button></td>
       </tr>
+      <tr>
+      <td><button type="submit" name="tunti_id" class="btn btn-danger btn-sm" value="${h.tunnit[0].id }" >Poista</button></td>
+      </tr>
+      
      </c:forEach> 
     </tbody>
   </table>
