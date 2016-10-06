@@ -41,7 +41,7 @@ $(function(){
 	
 	<table class="tunnit" align=center position=absolute>
 			
-<form:form modelAttribute="henkilo" method="POST">	
+<form:form action="/tuntikirjanpito/" modelAttribute="henkilo" method="POST">	
 		<table class="tunnit" align=center>
 			<tr>
 				<td>Henkilö:</td>
