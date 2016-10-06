@@ -1,5 +1,7 @@
 package com.beans.validation;
 
+import java.util.InputMismatchException;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -11,6 +13,6 @@ public class FormivalidointiValidator implements
 	}
 
 	public boolean isValid(String value, ConstraintValidatorContext context) {
-			return value.equals(Formivalidointi.class);
-		}
+		return false;
+	}
 }

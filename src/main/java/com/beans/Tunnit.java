@@ -11,6 +11,8 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.beans.validation.Formivalidointi;
+
 /**@author Heikki Petrell
  * @since 13.9.2016
  */
@@ -19,7 +21,7 @@ public class Tunnit {
 	private int id;
 	
 	@NotNull(message = "Tunnit puuttuu!")
-	@DecimalMax(message="Tuntim‰‰r‰ ei saa ylitt‰‰ 20!", value = "20") @DecimalMin(message="Tuntim‰‰r‰n pit‰‰ olla yli 0.5!", value = "0.5")
+	@DecimalMax(message="Tuntim‰‰r‰ ei saa ylitt‰‰ 20!", value = "20") @DecimalMin(message="Tuntim‰‰r‰n pit‰‰ olla v‰lill‰ 0.5 - 20.0!", value = "0.5")
 	private double tunnit;
 	
 	@NotNull(message = "Kuvaus puuttuu!")

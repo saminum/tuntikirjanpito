@@ -16,9 +16,8 @@ import javax.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Formivalidointi {
 	
- String message() default "{src.main.java.com.beans.validation.Formivalidointi.message}";
- 
+ String message() default "Syötä tunnit muodossa 0.5";
+
  Class<?>[] groups() default {};
- 
  Class<? extends Payload>[] payload() default {};
 }
