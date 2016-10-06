@@ -6,6 +6,10 @@
 	margin-bottom:2em;
 }
 
+.listaus_mobile tbody tr td{
+	padding:4px;
+}
+
 @media (min-width: 1200px){
 	.tuntikirjaus_lohko form{
 		margin-top:3.2em;
