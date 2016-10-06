@@ -1,10 +1,10 @@
 package com.controller;
 
 import java.util.List;
-
-import javax.inject.Inject;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,13 +15,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.beans.Henkilot;
 import com.beans.HenkilotImpl;
-import com.beans.Tunnit;
 import com.dao.TuntiDAO;
 
 
 @Controller
 @RequestMapping (value="")
 public class TuntikirjausController {
+	
+	final static Logger logger = LoggerFactory.getLogger(TuntikirjausController.class);
 	
 	@Autowired
 	private TuntiDAO dao;
@@ -38,6 +39,7 @@ public class TuntikirjausController {
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String getView(Model model){
+		logger.info("Listataan tunnit ja luodaan formi.");
 		List<HenkilotImpl> henkilot = dao.haeTunnit();
 		model.addAttribute("henkilot", henkilot);
 		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
@@ -46,9 +48,12 @@ public class TuntikirjausController {
 		model.addAttribute("henkilo", tyhjaHenkilo);
 		return "index";
 	}
+	
 	// Käyttäjän tuntien lisäys
+	
 	@RequestMapping(value="/", method=RequestMethod.POST)
 	public String create( @ModelAttribute(value="henkilo") HenkilotImpl henkilot){
+
 		dao.talleta(henkilot);
 		return "redirect:/";
 	}
@@ -64,12 +69,22 @@ public class TuntikirjausController {
 		return "index";
 	}
 	
+
 	
 	// Poista metodin vastaanotto	
 	
 	@RequestMapping(value="poista", method=RequestMethod.POST)
 	public String poista(@RequestParam("tunti_id") int henk_id)  {
-		dao.poista(henk_id);
+		logger.info("Poistetaan henkilön tuntirivi tietokannasta.");
+		
+		try{
+			dao.poista(henk_id);
+			
+		}catch (DataAccessException ex) {
+			
+			logger.debug("Käyttäjän tuntirivin poisto epäonnistui.");
+		}
+		
 		return "redirect:/";
 	}
 	
