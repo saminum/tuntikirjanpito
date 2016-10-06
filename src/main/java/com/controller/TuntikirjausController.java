@@ -93,6 +93,8 @@ public class TuntikirjausController {
 		System.out.println(henkilot.toString());
 		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
 		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
+		List<HenkilotImpl> henkiloidenTiedot = dao.haeHenkilot();
+		model.addAttribute("henkiloTiedot", henkiloidenTiedot);
 		Henkilot tyhjaHenkilo = new HenkilotImpl();
 		model.addAttribute("henkilo", tyhjaHenkilo);
 		return "index";
