@@ -1,24 +1,21 @@
 package com.dao;
 
 import java.util.List;
-
 import javax.inject.Inject;
-
-
-
-import org.springframework.util.StringUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.beans.Henkilot;
 import com.beans.HenkilotImpl;
 
+
 @Repository
 public class TuntiDAOImplementation implements TuntiDAO {
+	
+	final static Logger logger = LoggerFactory.getLogger(TuntiDAOImplementation.class);
 	
 	@Inject
 	private JdbcTemplate jdbcTemplate;
@@ -48,7 +45,7 @@ public class TuntiDAOImplementation implements TuntiDAO {
 		Object[] parametrit = new Object[] {henkilo.getTunnit().get(0).getTunnit(), henkilo.getTunnit().get(0).getKuvaus(), henkilo.getId(), kantapaiva};
 		try {
 			jdbcTemplate.update(sql, parametrit);
-//			logger.info("Tallennettiin henkilÃ¶n tunnit tietokantaan");
+			logger.info("Tallennettiin henkilön tunnit tietokantaan käyttäjä ID:llä: " + henkilo.getId() + " ");
 		} catch (DataAccessException ex) {
 			daoVirheenHallinta(ex);
 		}		
@@ -66,7 +63,7 @@ public class TuntiDAOImplementation implements TuntiDAO {
 		List<HenkilotImpl> henkilot = null;
 		try {
 			henkilot = jdbcTemplate.query(sql, mapper);
-//			logger.info("Haettiin kaikki tallennetut tunnit tietokannasta");
+			logger.info("Haettiin kaikki tallennetut tunnit tietokannasta");
 		} catch (DataAccessException ex) {
 			daoVirheenHallinta(ex);
 		}	
@@ -82,7 +79,7 @@ public class TuntiDAOImplementation implements TuntiDAO {
 		String sql = "DELETE FROM Tunnit WHERE id=" + id;
 		try {
 			jdbcTemplate.execute(sql);
-//			logger.info("id: " + id + " poistettu tietokannasta");
+			logger.info("Tunnit ID:llä: " + id + ", poistettu tietokannasta");
 		} catch (DataAccessException ex) {
 			daoVirheenHallinta(ex);
 		}
@@ -98,7 +95,7 @@ public class TuntiDAOImplementation implements TuntiDAO {
 		List<HenkilotImpl> summatutTunnit = null;
 		try {
 			summatutTunnit = jdbcTemplate.query(sql, mapper);
-//			logger.info("Summattiin tietokannasta lÃ¶ytyvÃ¤t tunnit yhteen");
+			logger.info("Summattiin tietokannasta löytyvät tunnit yhteen");
 		} catch (DataAccessException ex) {
 			daoVirheenHallinta(ex);
 		}
@@ -111,7 +108,7 @@ public class TuntiDAOImplementation implements TuntiDAO {
 	 */
 	
 	public void daoVirheenHallinta(DataAccessException ex){
-//		logger.debug("TietokantayhteydessÃ¤ ongelmia " + ex);
+		logger.debug("Tietokantayhteydessä ongelmia " + ex);
 	}
 	
 }
