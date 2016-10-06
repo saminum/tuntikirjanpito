@@ -150,31 +150,16 @@
 	  <h4>Tuntilista</h4>
 	  <form action="/tuntikirjanpito/poista" method="POST">                           
 	  <table class="table">
-	    <thead>
-	      <tr>
-	        <th>Nimi</th>
-	        <th>Tunnit</th>
-	        <th>Kuvaus</th>
-	        <th>Päivämäärä</th>
-	        <th></th>
-	       
-	      </tr>
-	    </thead>
+	    
 	    <tbody>
 	      <c:forEach items="${henkilot}" var="h">
 	      <tr>
-	        <td rowspan="2">${h.etunimi} ${h.sukunimi}	</td>
-	        <td rowspan="2">${h.tunnit[0].tunnit}</td>
-	<%--         <c:set var="kuvaus" value="${h.tunnit[0].kuvaus}"/> --%>
-	<%--         <c:set var="kuvauksen_substring" value="${fn:substring(kuvaus, 0, 10)}"/> --%>
-	<%--         <td rowspan="2">${kuvauksen_substring}...</td> --%>
-				<td rowspan="2">${h.tunnit[0].kuvaus}</td>
-	        <td><fmt:formatDate pattern="dd.MM.yyyy" 
-	            value="${h.tunnit[0].pvm}"/></td>
+	        <td>${h.etunimi} ${h.sukunimi}	</td>
+	        <td>${h.tunnit[0].tunnit} h <fmt:formatDate pattern="dd.MM.yyyy" value="${h.tunnit[0].pvm}"/></td>
+			<td>${h.tunnit[0].kuvaus} </td>
+	        <td><button type="submit" name="tunti_id" class="btn btn-danger btn-sm" value="${h.tunnit[0].id }" >Poista</button></td>
 	      </tr>
-	      <tr>
-	      <td><button type="submit" name="tunti_id" class="btn btn-danger btn-sm" value="${h.tunnit[0].id }" >Poista</button></td>
-	      </tr>
+	     
 	      
 	     </c:forEach> 
 	    </tbody>
