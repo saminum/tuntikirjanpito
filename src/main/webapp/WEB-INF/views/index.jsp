@@ -75,8 +75,9 @@
 			
 			<h4 class="hykkonen">Tuntien kirjaus</h4>
 			
-			<form:form modelAttribute="henkilo" method="POST">
+			<form:form action="/tuntikirjanpito/" modelAttribute="henkilo" method="POST">
 		
+					<form:errors path="id" cssClass="Virheteksti"/>
 					<div class="input-group input-group-lg" id="syotto_kentat">
 					<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
 					<form:select path="id" class="form-control">
@@ -113,7 +114,7 @@
 	</div>
 
 	<div class="container table-responsive visible-md visible-lg visible-xl" id="sisalto_lohko">
-	  <h4>Tuntilista</h4>
+	  <h4>Tuntilista</h4> <a style="float:right" href="/tuntikirjanpito/">Listaa kaikki</a>
 	  <form action="/tuntikirjanpito/poista" method="POST">                           
 	  <table class="table table-hover">
 	    <thead>

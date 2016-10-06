@@ -15,6 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @since 13.9.2016
  */
 public class Tunnit {
+	
 	private int id;
 	
 	@NotNull(message = "Tunnit puuttuu!")

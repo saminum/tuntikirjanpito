@@ -3,13 +3,15 @@ package com.beans;
 import java.util.ArrayList;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 /**@author Heikki Petrell
  * @since 13.9.2016
  */
 public class HenkilotImpl implements Henkilot {
 	
-	@NotNull
+	@NotNull(message="Valitse käyttäjä!")
+	@Min(1)
 	private int id;
 	
 	private String tunnus, email, etunimi, sukunimi, salasana;
