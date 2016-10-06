@@ -17,6 +17,8 @@
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.fi.min.js" charset="UTF-8"></script>
+<link rel="stylesheet" type="text/css" href="src/main/resources/styles/form.css"/>
+
 <title>Tunnit</title>
 </head>
 <body>
@@ -37,11 +39,10 @@ $(function(){
 
 	<h3 class="hykkonen" align=center>Tuntien kirjaus</h3>
 	
-	<table class="tunnit" align=center>
+	<table class="tunnit" align=center position=absolute>
 			
-	<form:form modelAttribute="henkilo" method="POST">
+<form:form modelAttribute="henkilo" method="POST">	
 		<table class="tunnit" align=center>
-			
 			<tr>
 				<td>Henkilö:</td>
 				
@@ -60,7 +61,7 @@ $(function(){
 			<tr>
 				<td>Tunnit:</td>
 				<td><form:label path="tunnit[0].tunnit"/>
-					<form:input path="tunnit[0].tunnit"/>
+					<form:input path="tunnit[0].tunnit" cssErrorClass="VirheellinenKentta"/> <form:errors path="tunnit[0].tunnit" cssClass="Virheteksti"/> 
 			</td>
 			</tr>
 			<tr>
@@ -69,14 +70,14 @@ $(function(){
 			<tr>
 				<td>Kuvaus:</td>
 				<td><form:label path="tunnit[0].kuvaus"/>
-					<form:input path="tunnit[0].kuvaus" rows="5" cols="30" />	
+					<form:input path="tunnit[0].kuvaus" rows="5" cols="30" cssErrorClass="VirheellinenKentta"/>	<form:errors path="tunnit[0].kuvaus" cssClass="Virheteksti"/> 
 			</td>		
 			</tr>
 
 						<tr>
 				<td>Päivä:</td>
 				<td><form:label path="tunnit[0].stringdate"/>
-					<form:input path="tunnit[0].stringdate" cssClass="datepicker" />	
+					<form:input path="tunnit[0].stringdate" cssClass="datepicker" cssErrorClass="datepicker"/><form:errors path="tunnit[0].stringdate" cssClass="Virheteksti"/>
 			</td>		
 			</tr>
 
@@ -84,7 +85,7 @@ $(function(){
 				<td><br> <input type="submit" class="btn btn-success btn-md" value="lisää" /></td>
 			</tr>
 		</table>
-	</form:form>
+</form:form>
 
 <div class="container">
   <h4>Henkilön Tunnit yhteensä</h4>
