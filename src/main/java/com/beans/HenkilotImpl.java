@@ -12,7 +12,15 @@ public class HenkilotImpl implements Henkilot {
 	@NotNull
 	private int id;
 	
-	private String tunnus, etunimi, sukunimi, salasana;
+	private String tunnus, email, etunimi, sukunimi, salasana;
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	private double tunnitYhteensa = 0;
 	
 	@NotNull
@@ -129,8 +137,10 @@ public class HenkilotImpl implements Henkilot {
 	}
 	@Override
 	public String toString() {
-		return "Henkilot [id=" + id + ", tunnus=" + tunnus + ", etunimi=" + etunimi + ", sukunimi=" + sukunimi
-				+ ", salasana=" + salasana + ", tunnitYhteensa=" + tunnitYhteensa + ", tunnit=" + tunnit + "]";
+		return "HenkilotImpl [id=" + id + ", tunnus=" + tunnus + ", email="
+				+ email + ", etunimi=" + etunimi + ", sukunimi=" + sukunimi
+				+ ", salasana=" + salasana + ", tunnitYhteensa="
+				+ tunnitYhteensa + ", tunnit=" + tunnit + "]";
 	}
 
 	/* (non-Javadoc)

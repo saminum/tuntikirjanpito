@@ -35,5 +35,9 @@ public interface Henkilot {
 	void setTunnit(ArrayList<Tunnit> tunnit);
 
 	void addTunti(Tunnit tunnin_tiedot);
+	
+	void setEmail(String email);
+	
+	String getEmail();
 
 }
