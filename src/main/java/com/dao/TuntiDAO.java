@@ -16,6 +16,8 @@ public interface TuntiDAO {
 	void poista(int id);
 
 	List<HenkilotImpl> summaaTunnit();
+	
+	List<HenkilotImpl> haeHenkilonTunnit(int id);
 
 	void daoVirheenHallinta(DataAccessException ex);
 
