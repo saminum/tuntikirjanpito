@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.beans.Henkilot;
 import com.beans.HenkilotImpl;
-
+import com.dao.HenkilotRowMapper;
 
 @Repository
 public class TuntiDAOImplementation implements TuntiDAO {
@@ -116,6 +116,20 @@ public class TuntiDAOImplementation implements TuntiDAO {
 		}
 		return summatutTunnit;
 
+	}
+	
+	
+	public List<HenkilotImpl> haeHenkilot(){
+		String sql = "SELECT id, kayttajatunnus, email, etunimi, sukunimi, salasana FROM Kayttajat";
+		RowMapper<HenkilotImpl> mapper = new HenkilotRowMapper();
+		List<HenkilotImpl> henkilot = null;
+		try {
+			henkilot = jdbcTemplate.query(sql, mapper);
+//			logger.info("Haettiin kaikki tallennetut tunnit tietokannasta");
+		} catch (DataAccessException ex) {
+			daoVirheenHallinta(ex);
+		}	
+		return henkilot;
 	}
 	
 	/* (non-Javadoc)

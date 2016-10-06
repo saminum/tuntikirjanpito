@@ -80,7 +80,7 @@
 					<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
 					<form:select path="id" class="form-control">
 						  <form:option value="0" label="Valitse käyttäjä..." />
-						  <c:forEach items="${henkiloidenTunnit}" var="ht">
+						  <c:forEach items="${henkiloTiedot}" var="ht">
 						  <form:option value="${ht.id}">${ht.etunimi} ${ht.sukunimi}</form:option>
 						  </c:forEach>
 					</form:select>

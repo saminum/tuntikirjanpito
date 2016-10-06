@@ -59,6 +59,8 @@ public class TuntikirjausController {
 		List<HenkilotImpl> henkilot = dao.haeTunnit();
 		model.addAttribute("henkilot", henkilot);
 		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
+		List<HenkilotImpl> henkiloidenTiedot = dao.haeHenkilot();
+		model.addAttribute("henkiloTiedot", henkiloidenTiedot);
 		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
 		if(!model.containsAttribute("henkilo")){
 	    Henkilot tyhjaHenkilo = new HenkilotImpl();
