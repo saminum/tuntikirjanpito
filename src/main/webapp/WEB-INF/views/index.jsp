@@ -44,69 +44,73 @@
 	</header>
 	
 	<div class="container">
-	  <h4>Henkilön Tunnit yhteensä</h4>
-	                              
-	  <table class="table table-hover">
-	    <thead>
-	    	<tr>
-	        	<th>Etunimi</th>
-	        	<th>Sukunimi</th>
-	        	<th>Tunnit yhteensä</th>
-	    	</tr>
-	    </thead>
-	    <tbody>
-	    <form action="henkilo" method="POST">
-	    	<c:forEach items="${henkiloidenTunnit}" var="ht">
-	      		<tr>
-	     			<td><button type=submit name="tunti_id" value="${ht.id}" class="btn-link">${ht.etunimi}</button></td>
-	        		<td>${ht.sukunimi}</td>
-	        		<td>${ht.tunnitYhteensa}</td>
-	     	 	</tr>
-	    	 </c:forEach> 
-	    </form>
-	    </tbody>
-	    </table>
-	    </div>
-	
-	
-	
-	<div class="col-lg-6 col-sm-12" id="sisalto_lohko">
+		<div class="col-lg-6 table-responsive" id="sisalto_lohko">
+		  <h4>Henkilön Tunnit yhteensä</h4>
+		                              
+		  <table class="table table-hover">
+		    <thead>
+		    	<tr>
+		        	<th>Etunimi</th>
+		        	<th>Sukunimi</th>
+		        	<th>Tunnit yhteensä</th>
+		    	</tr>
+		    </thead>
+		    <tbody>
+		    <form action="henkilo" method="POST">
+		    	<c:forEach items="${henkiloidenTunnit}" var="ht">
+		      		<tr>
+		     			<td><button type=submit name="tunti_id" value="${ht.id}" class="btn-link">${ht.etunimi}</button></td>
+		        		<td>${ht.sukunimi}</td>
+		        		<td>${ht.tunnitYhteensa}</td>
+		     	 	</tr>
+		    	 </c:forEach> 
+		    </form>
+		    </tbody>
+		    </table>
+		</div>
 		
-		<h4 class="hykkonen">Tuntien kirjaus</h4>
-		<form:form modelAttribute="henkilo" method="POST">
-	
-				<div class="input-group input-group-lg" id="syotto_kentat">
-				<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
-				<form:select path="id" class="form-control">
-					  <form:option value="0" label="Valitse käyttäjä..." />
-					  <c:forEach items="${henkiloidenTunnit}" var="ht">
-					  <form:option value="${ht.id}">${ht.etunimi} ${ht.sukunimi}</form:option>
-					  </c:forEach>
-				</form:select>
-				</div>
-				
-				<div class="input-group input-group-lg" id="syotto_kentat">
-				<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></span>
-				<form:input path="tunnit[0].tunnit" class="form-control"/><form:errors path="tunnit[0].tunnit" cssClass="Virheteksti"/> 
-				</div>
-				
-				<div class="input-group input-group-lg" id="syotto_kentat">
-				<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></span>
-				<form:input path="tunnit[0].kuvaus" rows="5" cols="30" class="form-control" placeholder="Kuvaus..." /><form:errors path="tunnit[0].kuvaus" cssClass="Virheteksti"/>
-				</div>
-				
-				<div class="input-group input-group-lg" id="syotto_kentat">
-				<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
-				<form:input path="tunnit[0].stringdate" class="datepicker form-control"/><form:errors path="tunnit[0].stringdate" cssClass="Virheteksti"/>
-				</div>
-				
+		
+		
+		<div class="col-lg-6 col-sm-12" id="sisalto_lohko">
+			
+			<h4 class="hykkonen">Tuntien kirjaus</h4>
+			<form:form modelAttribute="henkilo" method="POST">
+		
+					<div class="input-group input-group-lg" id="syotto_kentat">
+					<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+					<form:select path="id" class="form-control">
+						  <form:option value="0" label="Valitse käyttäjä..." />
+						  <c:forEach items="${henkiloidenTunnit}" var="ht">
+						  <form:option value="${ht.id}">${ht.etunimi} ${ht.sukunimi}</form:option>
+						  </c:forEach>
+					</form:select>
+					</div>
 					
-				<input type="submit" class="btn btn-success btn-md" value="lisää" />
-				
-		</form:form>
+					<form:errors path="tunnit[0].tunnit" cssClass="Virheteksti"/> 
+					<div class="input-group input-group-lg" id="syotto_kentat">
+					<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></span>
+					<form:input path="tunnit[0].tunnit" class="form-control"/>
+					</div>
+					
+					<form:errors path="tunnit[0].kuvaus" cssClass="Virheteksti"/>
+					<div class="input-group input-group-lg" id="syotto_kentat">
+					<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></span>
+					<form:input path="tunnit[0].kuvaus" rows="5" cols="30" class="form-control" placeholder="Kuvaus..." />
+					</div>
+					
+					<form:errors path="tunnit[0].stringdate" cssClass="Virheteksti"/>
+					<div class="input-group input-group-lg" id="syotto_kentat">
+					<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+					<form:input path="tunnit[0].stringdate" class="datepicker form-control"/>
+					</div>
+					
+						
+					<input type="submit" class="btn btn-success btn-md" value="lisää" />
+					
+			</form:form>
+		</div>
 	</div>
-	
-	
+
 	<div class="container table-responsive visible-md visible-lg visible-xl" id="sisalto_lohko">
 	  <h4>Tuntilista</h4>
 	  <form action="/tuntikirjanpito/poista" method="POST">                           
