@@ -71,9 +71,10 @@
 		
 		
 		
-		<div class="col-lg-6 col-sm-12" id="sisalto_lohko">
+		<div class="container col-lg-6 col-sm-12 tuntikirjaus_lohko" id="sisalto_lohko">
 			
 			<h4 class="hykkonen">Tuntien kirjaus</h4>
+			
 			<form:form modelAttribute="henkilo" method="POST">
 		
 					<div class="input-group input-group-lg" id="syotto_kentat">

@@ -5,3 +5,10 @@
 #sisalto_lohko{
 	margin-bottom:2em;
 }
+
+@media (min-width: 1200px){
+	.tuntikirjaus_lohko form{
+		margin-top:3.2em;
+		
+	}
+}
