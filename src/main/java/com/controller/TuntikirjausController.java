@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.beans.Henkilot;
 import com.beans.HenkilotImpl;
@@ -52,17 +53,23 @@ public class TuntikirjausController {
 	
 	@RequestMapping(value="/", method=RequestMethod.POST)
 	public String create( @ModelAttribute(value="henkilo") HenkilotImpl henkilot){
-		logger.info("Lis‰t‰‰n k‰ytt‰j‰lle tunnit.");
-		
-		try{
-			dao.talleta(henkilot);
-			
-		}catch (DataAccessException ex) {
-			
-			logger.debug("K‰ytt‰j‰n tuntien lis‰‰minen ep‰onnistui.");
-		}
-			return "redirect:/";
-		}
+
+		dao.talleta(henkilot);
+		return "redirect:/";
+	}
+	@RequestMapping(value="henkilo", method=RequestMethod.POST)
+	public String hae(@RequestParam("tunti_id") int henk_id, Model model){
+		List<HenkilotImpl> henkilot = dao.haeHenkilonTunnit(henk_id);
+		model.addAttribute("henkilot", henkilot);
+		System.out.println(henkilot.toString());
+		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
+		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
+		Henkilot tyhjaHenkilo = new HenkilotImpl();
+		model.addAttribute("henkilo", tyhjaHenkilo);
+		return "index";
+	}
+	
+
 	
 	// Poista metodin vastaanotto	
 	
