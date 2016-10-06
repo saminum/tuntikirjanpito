@@ -22,15 +22,20 @@
 <body>
 <script>
 $(function(){
+	
 	$('.datepicker').datepicker({
 		format: "dd.mm.yyyy",
+		
 		weekStart: 1,
 		todayBtn: "linked",
 		autoclose: true,
 		language: "fi"
 	});
+	
+	$(".datepicker").datepicker("setDate", new Date());
 });
 </script>
+
 <header>
 
 </header>
@@ -76,7 +81,7 @@ $(function(){
 						<tr>
 				<td>Päivä:</td>
 				<td><form:label path="tunnit[0].stringdate"/>
-					<form:input path="tunnit[0].stringdate" cssClass="datepicker" />	
+					<form:input path="tunnit[0].stringdate" cssClass="datepicker" />
 			</td>		
 			</tr>
 
