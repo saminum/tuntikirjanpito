@@ -107,7 +107,7 @@
 					</div>
 					
 						
-					<input type="submit" class="btn btn-success btn-md" value="lisää" />
+					<input type="submit" class="btn btn-success btn-md lisaa_tunteja_button" value="Lisää" />
 					
 			</form:form>
 		</div>
