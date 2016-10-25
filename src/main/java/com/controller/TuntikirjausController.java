@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.web.servlet.FlashMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import org.springframework.web.util.HtmlUtils;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
@@ -81,6 +81,8 @@ public class TuntikirjausController {
 		    attr.addFlashAttribute("henkilo", henkilot);
 			return "redirect:/";
 		}else{
+			String escapedHtml = HtmlUtils.htmlEscape(henkilot.getTunnit().get(0).getKuvaus());
+			henkilot.getTunnit().get(0).setKuvaus(escapedHtml);
 			dao.talleta(henkilot);
 			return "redirect:/";
 		}
