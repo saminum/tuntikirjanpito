@@ -5,28 +5,47 @@ import java.util.Date;
 import java.util.List;
 
 
+
+
+
+
+
+
 import javax.inject.Inject;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
+
+
+
+
+
 
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.test.web.servlet.result.FlashAttributeResultMatchers;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import org.springframework.web.servlet.FlashMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import org.springframework.web.bind.annotation.ResponseBody;
+
+
+
+
+
+
 
 
 import com.beans.Henkilot;
@@ -54,7 +73,7 @@ public class TuntikirjausController {
 	//Tuntien listaus ja formi
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
-	public String getView(Model model){
+	public String getView(Model model, HttpServletRequest request){
 		logger.info("Listataan tunnit ja luodaan formi.");
 		List<HenkilotImpl> henkilot = dao.haeTunnit();
 		model.addAttribute("henkilot", henkilot);
@@ -62,6 +81,10 @@ public class TuntikirjausController {
 		List<HenkilotImpl> henkiloidenTiedot = dao.haeHenkilot();
 		model.addAttribute("henkiloTiedot", henkiloidenTiedot);
 		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
+		HttpSession session = request.getSession(false);
+		if(session!=null){
+		session.invalidate();
+		}
 		if(!model.containsAttribute("henkilo")){
 	    Henkilot tyhjaHenkilo = new HenkilotImpl();
 		model.addAttribute("henkilo", tyhjaHenkilo);
@@ -71,23 +94,39 @@ public class TuntikirjausController {
 	}
 	
 	// Käyttäjän tuntien lisäys
-	
 	@RequestMapping(value="/", method=RequestMethod.POST)
-
-	public String create( @ModelAttribute(value="henkilo") @Valid HenkilotImpl henkilot, BindingResult result, RedirectAttributes attr){
+	public String create( @ModelAttribute(value="henkilo") @Valid HenkilotImpl henkilot, BindingResult result, RedirectAttributes attr, HttpServletRequest request, Model model){
 		if(result.hasErrors()){
 			System.out.println("RESULT " + result);
 			attr.addFlashAttribute("org.springframework.validation.BindingResult.henkilo", result);
-		    attr.addFlashAttribute("henkilo", henkilot);
-			return "redirect:/";
+			attr.addFlashAttribute("henkilo", henkilot);
+		    HttpSession session = request.getSession(false);
+		if(session.getAttribute("henk_id")!=null && result.hasErrors()){
+		    int hId = (Integer) session.getAttribute("henk_id");
+		    model.addAttribute("org.springframework.validation.BindingResult.henkilo", result);
+		    hae(hId, model, request);
+			return "index";
+		}else{
+		    	return "redirect:/";
+		    }
 		}else{
 			dao.talleta(henkilot);
-			return "redirect:/";
+			HttpSession session = request.getSession(false);
+		if(session.getAttribute("henk_id")!=null){
+		    int hId = (Integer) session.getAttribute("henk_id");
+		    hae(hId, model, request);
+		    return "index";
+		}else{
+		    	return "redirect:/";
+		    }
 		}
 
 	}
+	
 	@RequestMapping(value="henkilo", method=RequestMethod.POST)
-	public String hae(@RequestParam("tunti_id") int henk_id, Model model){
+	public String hae(@RequestParam("tunti_id") int henk_id, Model model, HttpServletRequest request){
+		HttpSession session = request.getSession(true);
+		session.setAttribute("henk_id", henk_id);
 		List<HenkilotImpl> henkilot = dao.haeHenkilonTunnit(henk_id);
 		model.addAttribute("henkilot", henkilot);
 		System.out.println(henkilot.toString());
@@ -105,8 +144,23 @@ public class TuntikirjausController {
 	// Poista metodin vastaanotto	
 	
 	@RequestMapping(value="poista", method=RequestMethod.POST)
-	public String poista(@RequestParam("tunti_id") int henk_id)  {
+	public String poista(@RequestParam("tunti_id") int henk_id, Model model, HttpServletRequest request)  {
 		logger.info("Poistetaan henkilön tuntirivi tietokannasta.");
+		
+		HttpSession session = request.getSession(false);
+		if(session.getAttribute("henk_id")!=null){
+		    int hId = (Integer)session.getAttribute("henk_id");
+		    
+		    try{
+				dao.poista(henk_id);
+				
+			}catch (DataAccessException ex) {
+				
+				logger.debug("Käyttäjän tuntirivin poisto epäonnistui.");
+			}
+		    hae(hId, model, request);
+		    return "index";
+		}else{
 		
 		try{
 			dao.poista(henk_id);
@@ -119,4 +173,5 @@ public class TuntikirjausController {
 		return "redirect:/";
 	}
 	
+}
 }
