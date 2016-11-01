@@ -26,6 +26,25 @@ values('aaro', 'aaroppi@live.com', 'Aaro', 'Liljelund', 'bbb');
 ALTER TABLE Kayttajat
 ADD enabled tinyint NOT NULL DEFAULT 1;
 
+CREATE TABLE authority (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  role varchar(255) NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY role (role)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE Kayttooikeudet (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  Kayttajat_id int(11) NOT NULL,
+  authority_id int(11) NOT NULL,
+  PRIMARY KEY (id),
+  KEY Kayttajat_id (Kayttajat_id),
+  KEY authority_id (authority_id),
+  CONSTRAINT Kayttooikeudet_ibfk_1 FOREIGN KEY (Kayttajat_id) REFERENCES Kayttajat (id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT Kayttooikeudet_ibfk_2 FOREIGN KEY (authority_id) REFERENCES authority (id) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*
 ALTER TABLE Kayttajat
 DROP COLUMN enabled;
