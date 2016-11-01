@@ -27,7 +27,8 @@ import org.springframework.web.servlet.FlashMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.HtmlUtils;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.context.request.SessionScope;
 
 import com.beans.Henkilot;
 import com.beans.HenkilotImpl;
@@ -90,6 +91,26 @@ public class TuntikirjausController {
 	}
 	@RequestMapping(value="henkilo", method=RequestMethod.POST)
 	public String hae(@RequestParam("tunti_id") int henk_id, Model model){
+		System.out.println("tunti_id " + henk_id);
+		List<HenkilotImpl> henkilot = dao.haeHenkilonTunnit(henk_id);
+		model.addAttribute("henkilot", henkilot);
+		System.out.println(henkilot.toString());
+		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
+		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
+		List<HenkilotImpl> henkiloidenTiedot = dao.haeHenkilot();
+		model.addAttribute("henkiloTiedot", henkiloidenTiedot);
+		Henkilot tyhjaHenkilo = new HenkilotImpl();
+		model.addAttribute("henkilo", tyhjaHenkilo);
+		HenkilotImpl get_id = new HenkilotImpl();
+		get_id.setId(henk_id);
+		model.addAttribute("henkilot_id", get_id);
+		return "index";
+	}
+	@RequestMapping(value="henkilo", method=RequestMethod.GET)
+	public String haeGet(@ModelAttribute(value="henkilot_id") HenkilotImpl get_id, Model model){
+		int henk_id = get_id.getId();
+		logger.debug("henk_id " + henk_id);
+		System.out.println("henki_id " + henk_id);
 		List<HenkilotImpl> henkilot = dao.haeHenkilonTunnit(henk_id);
 		model.addAttribute("henkilot", henkilot);
 		System.out.println(henkilot.toString());
