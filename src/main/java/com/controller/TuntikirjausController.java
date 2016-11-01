@@ -8,33 +8,28 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.beans.Henkilot;
 import com.beans.Henkilot2;
-import com.dao.TuntiDAO2;
+import com.beans.HenkilotImpl;
+import com.dao.TuntiDAO;
+
 
 @Controller
-@RequestMapping (value="/")
-
-public class GreetingController {
+public class TuntikirjausController {
 	
 	
 	@Autowired
-	private TuntiDAO2 dao;
-
-//    @RequestMapping()
-//    public String greeting(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
-//    	
-//        model.addAttribute("name", name);
-//        return "greeting";
-//    }
-    
-    
-    @RequestMapping()
+	private TuntiDAO dao;
+	
+    @RequestMapping("/tuntikirjanpito")
 	public String getView(Model model){
     	System.out.println("LADATAAN ETUSIVU");
 //		logger.info("Listataan tunnit ja luodaan formi.");
 //		List<HenkilotImpl> henkilot = dao.haeTunnit();
 //		model.addAttribute("henkilot", henkilot);
-		List<Henkilot2> henkiloidenTunnit = dao.findAll();
+		List<Henkilot2> henkilotesti = dao.findAll();
+		System.out.println(henkilotesti);
+		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
 		System.out.println(henkiloidenTunnit);
 //		List<HenkilotImpl> henkiloidenTiedot = dao.haeHenkilot();
 //		model.addAttribute("henkiloTiedot", henkiloidenTiedot);
@@ -44,7 +39,7 @@ public class GreetingController {
 //		model.addAttribute("henkilo", tyhjaHenkilo);
 //	  	}
 //		System.out.println("datepicker " + henkilot.get(0).getTunnit().get(0).getStringdate());
-		return "greeting";
+		return "index";
 	}
     
     

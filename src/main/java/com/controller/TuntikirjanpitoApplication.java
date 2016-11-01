@@ -6,11 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 
-
-
 @SpringBootApplication
 @ComponentScan("com.dao")
-@ComponentScan(basePackageClasses = GreetingController.class)
+@ComponentScan(basePackageClasses = TuntikirjausController.class)
 public class TuntikirjanpitoApplication {
 	
     public static void main(String[] args) {
