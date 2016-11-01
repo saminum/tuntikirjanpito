@@ -23,3 +23,10 @@ show create table kayttajat;
 insert into Kayttajat(kayttajatunnus, email, etunimi, sukunimi, salasana)
 values('aaro', 'aaroppi@live.com', 'Aaro', 'Liljelund', 'bbb');
 
+ALTER TABLE Kayttajat
+ADD enabled tinyint NOT NULL DEFAULT 1;
+
+/*
+ALTER TABLE Kayttajat
+DROP COLUMN enabled;
+*/
