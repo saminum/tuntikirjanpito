@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
@@ -24,12 +27,14 @@ import com.dao.TuntiDAO;
 @Controller
 public class TuntikirjausController {
 	
+	final static Logger logger = LoggerFactory.getLogger(TuntikirjausController.class);
+	
 	@Autowired
 	private TuntiDAO dao;
 	
     @RequestMapping("/tuntikirjanpito")
 	public String getView(Model model){
-//		logger.info("Listataan tunnit ja luodaan formi.");
+		logger.info("Listataan tunnit ja luodaan formi.");
 		List<HenkilotImpl> henkilot = dao.haeTunnit();
 		model.addAttribute("henkilot", henkilot);
 		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
@@ -73,11 +78,11 @@ public class TuntikirjausController {
     
     @RequestMapping(value="/tuntikirjanpito/poista", method=RequestMethod.POST)
 	public String poista(@RequestParam("tunti_id") int henk_id)  {
-//		logger.info("Poistetaan henkilön tuntirivi tietokannasta.");		
+		logger.info("Poistetaan henkilön tuntirivi tietokannasta.");		
 		try{
 			dao.poista(henk_id);		
 		}catch (DataAccessException ex) {		
-//			logger.debug("Käyttäjän tuntirivin poisto epäonnistui.");
+			logger.debug("Käyttäjän tuntirivin poisto epäonnistui.");
 		}		
 		return "redirect:/tuntikirjanpito";
 	}
