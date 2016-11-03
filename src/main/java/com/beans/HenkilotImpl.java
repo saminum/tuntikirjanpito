@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
  */
 public class HenkilotImpl implements Henkilot {
 	
-	@NotNull(message="Valitse käyttäjä!")
+	@NotNull
 	@Min(1)
 	private int id;
 	

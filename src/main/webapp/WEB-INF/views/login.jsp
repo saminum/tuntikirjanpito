@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page session="false"%>
@@ -24,17 +25,19 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.fi.min.js" charset="UTF-8"></script>
 <link rel="stylesheet" type="text/css" href="../resources/styles/form.css">
-<title>Kirjautuminen</title>
+<title><spring:message code="app.title" /></title>
 </head>
 <body>
+	<div class="ylakulma">Language: <a href="?language=en"><spring:message code="app.english" /></a> | <a href="?language=fi"><spring:message code="app.finnish" /></a>
 
+	</div>
 <div class="container">
 
         <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
-            <h3>Tuntikirjausjärjestelmä</h3> 
+            <h3><spring:message code="app.name" /></h3> 
             <div class="panel panel-info" >
                     <div class="panel-heading">
-                        <div class="panel-title">Kirjautuminen</div>
+                        <div class="panel-title"><spring:message code="app.loggingin" /></div>
                     </div>     
 
                     <div style="padding-top:30px" class="panel-body" >
@@ -45,21 +48,24 @@
                                     
                             <div style="margin-bottom: 25px" class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                        <input id="login-username" type="text" class="form-control" name="j_username" value="" placeholder="käyttäjätunnus">                                        
+                                        <spring:message code="app.username" var="username"/>
+                                        <input id="login-username" type="text" class="form-control" name="j_username" value="" placeholder="${username}">                                        
                                     </div>
                                 
                             <div style="margin-bottom: 25px" class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                        <input id="login-password" type="password" class="form-control" name="j_password" placeholder="salasana">
+                                        <spring:message code="app.password" var="password"/>
+                                        <input id="login-password" type="password" class="form-control" name="j_password" placeholder="${password}">
                                     </div>
                              <c:if test="${not empty loginerror}">
-										<p class="Error" style="color:red;">Sisäänkirjautuminen epäonnistui. Käyttäjätunnus tai salasana on syötetty väärin.</p>
+										<p class="Error" style="color:red;"><spring:message code="app.loggingerror" /></p>
 							</c:if>                                 
                                 <div style="margin-top:10px" class="form-group">
                                     <!-- Button -->
 
                                     <div class="col-sm-12 controls">
-                                    <input id="btn-login" type="submit" class="btn btn-success btn-md" style="float:right; margin-top:10px; clear:both;" value="Kirjaudu" />
+                                    <spring:message code="app.login" var="login"/>
+                                    <input id="btn-login" type="submit" class="btn btn-success btn-md" style="float:right; margin-top:10px; clear:both;" value="${login}" />
                                     </div>
                                 </div>
 

@@ -20,16 +20,17 @@ public class Tunnit {
 	
 	private int id;
 	
-	@NotNull(message = "Tunnit puuttuu!")
-	@DecimalMax(message="Tuntim‰‰r‰ ei saa ylitt‰‰ 20!", value = "20") @DecimalMin(message="Tuntim‰‰r‰n pit‰‰ olla v‰lill‰ 0.5 - 20.0!", value = "0.5")
+	@NotNull
+	@DecimalMax(value = "20")
+	@DecimalMin(value = "0.5")
 	private double tunnit;
 	
-	@NotNull(message = "Kuvaus puuttuu!")
-	@Size(min = 1, max = 100, message = "Kuvauksen pit‰‰ olla 1-100 merkki‰ pitk‰!")
+	@NotNull
+	@Size(min = 1, max = 100)
 	private String kuvaus;
 	
 	@NotNull
-	@Pattern(message = "Valitse p‰iv‰!", regexp="^((?:(?:[0-2]?\\d{1})|(?:[3][01]{1}))[-:\\/.](?:[0]?[1-9]|[1][012])[-:\\/.](?:(?:[1]{1}\\d{1}\\d{1}\\d{1})|(?:[2]{1}\\d{3})))(?![\\d])$")
+	@Pattern(regexp="^((?:(?:[0-2]?\\d{1})|(?:[3][01]{1}))[-:\\/.](?:[0]?[1-9]|[1][012])[-:\\/.](?:(?:[1]{1}\\d{1}\\d{1}\\d{1})|(?:[2]{1}\\d{3})))(?![\\d])$")
 	private String stringdate;
 	
 	//@NotNull(message = "P‰iv‰m‰‰r‰ puuttuu! pvm")
