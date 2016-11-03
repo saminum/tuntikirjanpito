@@ -38,9 +38,9 @@
 			});
 		});
 	</script>
-	<div class="ylakulma">Language: <a href="?language=en"><spring:message code="app.english" /></a> | <a href="?language=fi"><spring:message code="app.finnish" /></a>
-			<p>Sisäänkirjautuneena: <sec:authentication property="principal.username"/></p>
-			<p><a href="../j_spring_security_logout" > Kirjaudu ulos</a></p>
+	<div class="ylakulma"><spring:message code="app.language" />: <a href="?language=en"><spring:message code="app.english" /></a> | <a href="?language=fi"><spring:message code="app.finnish" /></a>
+			<p><spring:message code="app.loggedin" />: <sec:authentication property="principal.username"/></p>
+			<p><a href="../j_spring_security_logout" ><spring:message code="app.logout" /></a></p>
 	</div>	
 	<header>
 		<div class="container" id="sisalto_lohko">
