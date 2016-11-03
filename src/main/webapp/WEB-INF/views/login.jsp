@@ -28,7 +28,7 @@
 <title><spring:message code="app.title" /></title>
 </head>
 <body>
-	<div class="ylakulma">Language: <a href="?language=en"><spring:message code="app.english" /></a> | <a href="?language=fi"><spring:message code="app.finnish" /></a>
+	<div class="ylakulma"><spring:message code="app.language" />: <a href="?language=en"><spring:message code="app.english" /></a> | <a href="?language=fi"><spring:message code="app.finnish" /></a>
 
 	</div>
 <div class="container">
