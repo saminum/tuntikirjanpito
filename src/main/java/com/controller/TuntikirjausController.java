@@ -102,7 +102,9 @@ public class TuntikirjausController {
 		Henkilot tyhjaHenkilo = new HenkilotImpl();
 		model.addAttribute("henkilo", tyhjaHenkilo);
 		HenkilotImpl get_id = new HenkilotImpl();
+		System.out.println("henk_id " + henk_id);
 		get_id.setId(henk_id);
+		System.out.println("get_id " + get_id.getId());
 		model.addAttribute("henkilot_id", get_id);
 		return "index";
 	}
