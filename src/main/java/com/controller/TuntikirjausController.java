@@ -6,6 +6,8 @@ import java.util.List;
 
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 
@@ -77,7 +79,6 @@ public class TuntikirjausController {
 
 	public String create( @ModelAttribute(value="henkilo") @Valid HenkilotImpl henkilot, BindingResult result, RedirectAttributes attr){
 		if(result.hasErrors()){
-			System.out.println("RESULT " + result);
 			attr.addFlashAttribute("org.springframework.validation.BindingResult.henkilo", result);
 		    attr.addFlashAttribute("henkilo", henkilot);
 			return "redirect:/secure/";
@@ -90,11 +91,11 @@ public class TuntikirjausController {
 
 	}
 	@RequestMapping(value="henkilo", method=RequestMethod.POST)
-	public String hae(@RequestParam("tunti_id") int henk_id, Model model){
-		System.out.println("tunti_id " + henk_id);
+	public String hae(@RequestParam("tunti_id") int henk_id, Model model, HttpServletRequest request){
+		HttpSession session = request.getSession(true);
+		session.setAttribute("henk_id", henk_id);
 		List<HenkilotImpl> henkilot = dao.haeHenkilonTunnit(henk_id);
 		model.addAttribute("henkilot", henkilot);
-		System.out.println(henkilot.toString());
 		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
 		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
 		List<HenkilotImpl> henkiloidenTiedot = dao.haeHenkilot();
@@ -102,20 +103,16 @@ public class TuntikirjausController {
 		Henkilot tyhjaHenkilo = new HenkilotImpl();
 		model.addAttribute("henkilo", tyhjaHenkilo);
 		HenkilotImpl get_id = new HenkilotImpl();
-		System.out.println("henk_id " + henk_id);
 		get_id.setId(henk_id);
-		System.out.println("get_id " + get_id.getId());
 		model.addAttribute("henkilot_id", get_id);
-		return "index";
+		return "secure/index";
 	}
 	@RequestMapping(value="henkilo", method=RequestMethod.GET)
-	public String haeGet(@ModelAttribute(value="henkilot_id") HenkilotImpl get_id, Model model){
-		int henk_id = get_id.getId();
-		logger.debug("henk_id " + henk_id);
-		System.out.println("henki_id " + henk_id);
+	public String haeGet(@ModelAttribute(value="henkilot_id") HenkilotImpl get_id, Model model, HttpServletRequest request){
+		HttpSession session = request.getSession(true);
+		int henk_id = (Integer) session.getAttribute("henk_id");
 		List<HenkilotImpl> henkilot = dao.haeHenkilonTunnit(henk_id);
 		model.addAttribute("henkilot", henkilot);
-		System.out.println(henkilot.toString());
 		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
 		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
 		List<HenkilotImpl> henkiloidenTiedot = dao.haeHenkilot();
