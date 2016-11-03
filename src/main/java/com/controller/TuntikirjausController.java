@@ -36,7 +36,7 @@ import com.dao.TuntiDAO;
 
 
 @Controller
-@RequestMapping (value="")
+@RequestMapping (value="/secure")
 public class TuntikirjausController {
 	
 	final static Logger logger = LoggerFactory.getLogger(TuntikirjausController.class);
@@ -68,24 +68,24 @@ public class TuntikirjausController {
 		model.addAttribute("henkilo", tyhjaHenkilo);
 	  	}
 		System.out.println("datepicker " + henkilot.get(0).getTunnit().get(0).getStringdate());
-		return "index";
+		return "secure/index";
 	}
 	
 	// Käyttäjän tuntien lisäys
 	
-	@RequestMapping(value="/", method=RequestMethod.POST)
+	@RequestMapping(value="/lisaa", method=RequestMethod.POST)
 
 	public String create( @ModelAttribute(value="henkilo") @Valid HenkilotImpl henkilot, BindingResult result, RedirectAttributes attr){
 		if(result.hasErrors()){
 			System.out.println("RESULT " + result);
 			attr.addFlashAttribute("org.springframework.validation.BindingResult.henkilo", result);
 		    attr.addFlashAttribute("henkilo", henkilot);
-			return "redirect:/";
+			return "redirect:/secure/";
 		}else{
 			String escapedHtml = HtmlUtils.htmlEscape(henkilot.getTunnit().get(0).getKuvaus());
 			henkilot.getTunnit().get(0).setKuvaus(escapedHtml);
 			dao.talleta(henkilot);
-			return "redirect:/";
+			return "redirect:/secure/";
 		}
 
 	}
@@ -120,7 +120,7 @@ public class TuntikirjausController {
 		model.addAttribute("henkiloTiedot", henkiloidenTiedot);
 		Henkilot tyhjaHenkilo = new HenkilotImpl();
 		model.addAttribute("henkilo", tyhjaHenkilo);
-		return "index";
+		return "secure/index";
 	}
 	
 
@@ -139,7 +139,7 @@ public class TuntikirjausController {
 			logger.debug("Käyttäjän tuntirivin poisto epäonnistui.");
 		}
 		
-		return "redirect:/";
+		return "redirect:/secure/";
 	}
 	
 }

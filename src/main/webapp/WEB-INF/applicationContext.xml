@@ -1,10 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security.xsd">
 	
+	<!-- SPRING MVC MÄÄRITYKSET -->
+
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Scans the classpath of this application for @Components to deploy as 
+		beans -->
+	<context:component-scan base-package="com" />
+	<!-- Configures the @Controller programming model -->
+	<mvc:annotation-driven />
+
+	<!-- Forwards requests to the "/" resource to the "welcome" view -->
+	<mvc:view-controller path="/" view-name="login" />
 	
-	<import resource="tuntikirjanpito-data.xml" />
+	<!-- Resolves view names to protected .jsp resources within the /WEB-INF/views 
+		directory -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:messages" />
+		<property name="defaultEncoding" value="ISO-8859-1"/>
+	</bean>
+	
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+		<property name="defaultLocale" value="fi" />
+	</bean>
+
+	<mvc:interceptors>
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<property name="paramName" value="language" />
+		</bean>
+		<mvc:interceptor>
+            <mvc:mapping path="/**/*"/>
+            <bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+                <property name="cacheSeconds" value="0"/>
+                <property name="useExpiresHeader" value="true"/>
+                <property name="useCacheControlHeader" value="true"/>
+                <property name="useCacheControlNoStore" value="true"/>
+            </bean>
+        </mvc:interceptor>
+	</mvc:interceptors>
+	<!-- DATA SOURCE -->
+	
+	<context:property-placeholder location="classpath*:/db_connection.properties" />
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${db.driver}" />
+		<property name="url" value="${db.url}" />
+		<property name="username" value="${db.username}" />
+		<property name="password" value="${db.password}" />
+	</bean>
+	
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+			<property name="dataSource" ref="dataSource"/>
+	</bean>
+
+	<!-- SPRING SECURITY -->
+
+	<sec:http auto-config="true" use-expressions="true">
+		
+		<sec:intercept-url pattern="/secure/admin/**" access="hasRole('ROLE_ADMIN')" />
+		<sec:intercept-url pattern="/secure/**" access="fullyAuthenticated" />
+		<sec:intercept-url pattern="/*" access="permitAll" />
+		
+
+		<sec:form-login
+			login-page="/loginpage"
+			default-target-url="/secure/"
+			authentication-failure-url="/loginfail" />
+			
+		<sec:logout logout-success-url="/logout" invalidate-session="true"/>
+		
+	</sec:http>
+	
+	<bean id="encoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder" />
+
+
+	<sec:authentication-manager>
+		<sec:authentication-provider>
+			<sec:password-encoder ref="encoder" />
+			<sec:jdbc-user-service data-source-ref="dataSource"
+				users-by-username-query="select kayttajatunnus, salasana, enabled from Kayttajat where kayttajatunnus=? and enabled = 1"
+				authorities-by-username-query="select k.kayttajatunnus, a.role from Kayttajat k JOIN Kayttooikeudet ko ON (k.id = ko.Kayttajat_id) JOIN authority a ON (a.id = ko.authority_id) WHERE k.kayttajatunnus = ?" />
+		</sec:authentication-provider>
+	</sec:authentication-manager>
+
+	<sec:global-method-security pre-post-annotations="enabled" />
 	
 
 </beans>
