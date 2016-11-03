@@ -104,7 +104,7 @@ public class TuntikirjausController {
 		HenkilotImpl get_id = new HenkilotImpl();
 		get_id.setId(henk_id);
 		model.addAttribute("henkilot_id", get_id);
-		return "index";
+		return "secure/index";
 	}
 	@RequestMapping(value="henkilo", method=RequestMethod.GET)
 	public String haeGet(@ModelAttribute(value="henkilot_id") HenkilotImpl get_id, Model model){
