@@ -63,7 +63,7 @@
 		    	</tr>
 		    </thead>
 		    <tbody>
-		    <form action="/tuntikirjanpito/henkilo" method="POST">
+		    <form action="/henkilo" method="POST">
 		    	<c:forEach items="${henkiloidenTunnit}" var="ht">
 		      		<tr>
 		     			<td><button type=submit name="tunti_id" value="${ht.id}" class="btn-link">${ht.etunimi}</button></td>
@@ -82,7 +82,7 @@
 			
 			<h4 class="hykkonen"><spring:message code="app.addhours" /></h4>
 			
-			<form:form action="/tuntikirjanpito/" modelAttribute="henkilo" method="POST">
+			<form:form action="/lisaa" modelAttribute="henkilo" method="POST">
 					<spring:message code="app.chooseuser" var="cuser"/>
 					<form:errors path="id" cssClass="Virheteksti"/>
 					<div class="input-group input-group-lg" id="syotto_kentat">
@@ -122,7 +122,7 @@
 
 	<div class="container table-responsive visible-md visible-lg visible-xl" id="sisalto_lohko">
 	  <h4><spring:message code="app.listofhours" /></h4> <a style="float:right" href="/tuntikirjanpito/"><spring:message code="app.listall" /></a>
-	  <form action="/tuntikirjanpito/poista" method="POST">                           
+	  <form action="/poista" method="POST">                           
 	  <table class="table table-hover">
 	    <thead>
 	      <tr>
@@ -155,7 +155,7 @@
 		
 	<div class="container table-responsive visible-sm visible-xs" id="sisalto_lohko">
 	  <h4>Tuntilista</h4> <a style="float:right" href="/tuntikirjanpito/"><spring:message code="app.listall" /></a>
-	  <form action="/tuntikirjanpito/poista" method="POST">                           
+	  <form action="/poista" method="POST">                           
 	  <table class="table listaus_mobile">
 	    
 	    <tbody>

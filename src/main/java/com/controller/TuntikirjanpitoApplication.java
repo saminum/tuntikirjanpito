@@ -21,8 +21,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 @SpringBootApplication
 
 @ComponentScan("com.dao")
-@ComponentScan
-//(basePackageClasses = TuntikirjausController.class)
+@ComponentScan(basePackageClasses = TuntikirjausController.class)
 @EnableAutoConfiguration
 public class TuntikirjanpitoApplication extends WebMvcConfigurerAdapter {
 	

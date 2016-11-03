@@ -2,6 +2,8 @@ package com.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -32,7 +34,7 @@ public class TuntikirjausController {
 	@Autowired
 	private TuntiDAO dao;
 	
-    @RequestMapping("/tuntikirjanpito")
+    @RequestMapping("/")
 	public String getView(Model model){
 		logger.info("Listataan tunnit ja luodaan formi.");
 		List<HenkilotImpl> henkilot = dao.haeTunnit();
@@ -48,23 +50,42 @@ public class TuntikirjausController {
 		return "index";
 	}
     
-    @RequestMapping(value="/", method=RequestMethod.POST)
+    @RequestMapping(value="lisaa", method=RequestMethod.POST)
 	public String create( @ModelAttribute(value="henkilo") @Valid HenkilotImpl henkilot, BindingResult result, RedirectAttributes attr){
 		if(result.hasErrors()){
 			System.out.println("RESULT " + result);
 			attr.addFlashAttribute("org.springframework.validation.BindingResult.henkilo", result);
 		    attr.addFlashAttribute("henkilo", henkilot);
-			return "redirect:/tuntikirjanpito";
+			return "redirect:/";
 		}else{
 			String escapedHtml = HtmlUtils.htmlEscape(henkilot.getTunnit().get(0).getKuvaus());
 			henkilot.getTunnit().get(0).setKuvaus(escapedHtml);
 			dao.talleta(henkilot);
-			return "redirect:/tuntikirjanpito";
+			return "redirect:/";
 		}
 	}
     
-    @RequestMapping(value="/tuntikirjanpito/henkilo", method=RequestMethod.POST)
-	public String hae(@RequestParam("tunti_id") int henk_id, Model model){
+    @RequestMapping(value="henkilo", method=RequestMethod.POST)
+	public String hae(@RequestParam("tunti_id") int henk_id, Model model, HttpServletRequest request){
+		HttpSession session = request.getSession(true);
+		session.setAttribute("henk_id", henk_id);
+		List<HenkilotImpl> henkilot = dao.haeHenkilonTunnit(henk_id);
+		model.addAttribute("henkilot", henkilot);
+		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
+		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
+		List<HenkilotImpl> henkiloidenTiedot = dao.haeHenkilot();
+		model.addAttribute("henkiloTiedot", henkiloidenTiedot);
+		Henkilot tyhjaHenkilo = new HenkilotImpl();
+		model.addAttribute("henkilo", tyhjaHenkilo);
+		HenkilotImpl get_id = new HenkilotImpl();
+		get_id.setId(henk_id);
+		model.addAttribute("henkilot_id", get_id);
+		return "index";
+	}
+	@RequestMapping(value="henkilo", method=RequestMethod.GET)
+	public String haeGet(@ModelAttribute(value="henkilot_id") HenkilotImpl get_id, Model model, HttpServletRequest request){
+		HttpSession session = request.getSession(true);
+		int henk_id = (Integer) session.getAttribute("henk_id");
 		List<HenkilotImpl> henkilot = dao.haeHenkilonTunnit(henk_id);
 		model.addAttribute("henkilot", henkilot);
 		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
@@ -74,9 +95,9 @@ public class TuntikirjausController {
 		Henkilot tyhjaHenkilo = new HenkilotImpl();
 		model.addAttribute("henkilo", tyhjaHenkilo);
 		return "index";
-		}
+	}
     
-    @RequestMapping(value="/tuntikirjanpito/poista", method=RequestMethod.POST)
+    @RequestMapping(value="poista", method=RequestMethod.POST)
 	public String poista(@RequestParam("tunti_id") int henk_id)  {
 		logger.info("Poistetaan henkilön tuntirivi tietokannasta.");		
 		try{
@@ -84,7 +105,7 @@ public class TuntikirjausController {
 		}catch (DataAccessException ex) {		
 			logger.debug("Käyttäjän tuntirivin poisto epäonnistui.");
 		}		
-		return "redirect:/tuntikirjanpito";
+		return "redirect:/";
 	}
     
     
