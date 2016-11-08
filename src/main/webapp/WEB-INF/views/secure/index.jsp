@@ -27,17 +27,24 @@
 
 </head>
 <body>
+
 	<script>
 		$(function(){
 			$('.datepicker').datepicker({
 				format: "dd.mm.yyyy",
 				weekStart: 1,
 				todayBtn: "linked",
-				autoclose: true,
+				autoclose: true
+				<c:if test="${pageContext.response.locale == 'fi'}">
+				,
 				language: "fi"
+				</c:if>
+				
+				
 			});
 		});
 	</script>
+
 	<div class="ylakulma"><spring:message code="app.language" />: <a href="?language=en"><spring:message code="app.english" /></a> | <a href="?language=fi"><spring:message code="app.finnish" /></a>
 			<p><spring:message code="app.loggedin" />: <sec:authentication property="principal.username"/></p>
 			<p><a href="../j_spring_security_logout" ><spring:message code="app.logout" /></a></p>
