@@ -18,15 +18,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">	
-<link rel="stylesheet" type="text/css" href="../resources/styles/common.css">
+
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.fi.min.js" charset="UTF-8"></script>
-<link rel="stylesheet" type="text/css" href="../resources/styles/form.css">
+
 <title><spring:message code="app.title" /></title>
+
+<!-- <link rel="stylesheet" type="text/css" href="/common.css"> -->
+
 </head>
+
 <body>
 	<div>Language : <a href="?language=en"><spring:message code="app.english" /></a>|<a href="?language=fi"><spring:message code="app.finnish" /></a></div>
 
@@ -43,9 +47,17 @@
                     <div style="padding-top:30px" class="panel-body" >
 
                         <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
-                            
+                        
+                        <c:if test="${param.error != null}">
+						        <div id=>
+						        	<spring:message code="app.wrong_password"/>
+						        </div>      
+         				</c:if>
+                        
+                        
                         <form id="loginform" class="form-horizontal" action="/login" method="post">
-                                    
+                            
+                               
                             <div style="margin-bottom: 25px" class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                                         <spring:message code="app.username" var="username"/>
