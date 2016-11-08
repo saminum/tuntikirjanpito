@@ -38,6 +38,12 @@
 			});
 		});
 	</script>
+	
+	<div class="ylakulma"><spring:message code="app.language" />: <a href="?language=en"><spring:message code="app.english" /></a> | <a href="?language=fi"><spring:message code="app.finnish" /></a>
+			<p><spring:message code="app.loggedin" />: <sec:authentication property="principal.username"/></p>
+			<p><a href="/logout" ><spring:message code="app.logout" /></a></p>
+	</div>
+	
 	<header>
 		<div class="container" id="sisalto_lohko">
 		<h2><spring:message code="app.name" /></h2>

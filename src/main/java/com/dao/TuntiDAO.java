@@ -22,5 +22,6 @@ public interface TuntiDAO {
 	List<HenkilotImpl> haeHenkilonTunnit(int id);
 
 	void daoVirheenHallinta(DataAccessException ex);
+	
 
 }
