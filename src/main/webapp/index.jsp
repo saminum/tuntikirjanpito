@@ -5,6 +5,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -33,13 +34,16 @@
 				format: "dd.mm.yyyy",
 				weekStart: 1,
 				todayBtn: "linked",
-				autoclose: true,
+				autoclose: true
+				<c:if test="${pageContext.response.locale == 'fi'}">
+				,
 				language: "fi"
+				</c:if>
 			});
 		});
 	</script>
 	
-	<div class="ylakulma"><spring:message code="app.language" />: <a href="?language=en"><spring:message code="app.english" /></a> | <a href="?language=fi"><spring:message code="app.finnish" /></a>
+	<div class="container ylakulma"><spring:message code="app.language" />: <a href="?language=en"><spring:message code="app.english" /></a> | <a href="?language=fi"><spring:message code="app.finnish" /></a>
 			<p><spring:message code="app.loggedin" />: <sec:authentication property="principal.username"/></p>
 			<p><a href="/logout" ><spring:message code="app.logout" /></a></p>
 	</div>
@@ -49,12 +53,6 @@
 		<h2><spring:message code="app.name" /></h2>
 		</div>
 	</header>
-	
-	
-		<div>Language : <a href="?language=en"><spring:message code="app.english" /></a>|<a href="?language=fi"><spring:message code="app.finnish" /></a></div>
-			
-	
-	
 	
 	<div class="container">
 		<div class="col-lg-6 table-responsive" id="sisalto_lohko">
@@ -172,8 +170,7 @@
 			<td>${h.tunnit[0].kuvaus} </td>
 	        <td><button type="submit" name="tunti_id" class="btn btn-danger btn-sm" value="${h.tunnit[0].id }" >Poista</button></td>
 	      </tr>
-	     
-	      
+
 	     </c:forEach> 
 	    </tbody>
 	  </table>

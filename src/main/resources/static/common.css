@@ -1,8 +1,7 @@
-.ylakulma{float:right;
-	margin-right:20%;
+.ylakulma{
+	float:right;
 	margin-top:10px;
-	text-align:right;
-	
+	text-align:right;	
 }
 
 #syotto_kentat{
@@ -31,4 +30,8 @@
 
 .Virheteksti{
 	color: red;
+}
+
+h3{
+	font-size:20em;
 }
