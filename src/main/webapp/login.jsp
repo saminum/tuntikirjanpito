@@ -55,7 +55,7 @@
          				</c:if>
                         
                         
-                        <form id="loginform" class="form-horizontal" action="/login" method="post">
+                        <form id="loginform" class="form-horizontal" action="/tuntikirjanpito/login" method="post">
                             
                                
                             <div style="margin-bottom: 25px" class="input-group">

@@ -15,13 +15,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">	
-<link rel="stylesheet" type="text/css" href="/common.css">
+<link rel="stylesheet" type="text/css" href="/tuntikirjanpito/common.css">
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.fi.min.js" charset="UTF-8"></script>
-<link rel="stylesheet" type="text/css" href="/form.css"/>
+<link rel="stylesheet" type="text/css" href="/tuntikirjanpito/form.css">
 
 
 <title><spring:message code="app.title" /></title>
@@ -43,16 +43,22 @@
 		});
 	</script>
 	
-	<div class="container ylakulma"><spring:message code="app.language" />: <a href="?language=en"><spring:message code="app.english" /></a> | <a href="?language=fi"><spring:message code="app.finnish" /></a>
-			<p><spring:message code="app.loggedin" />: <sec:authentication property="principal.username"/></p>
-			<p><a href="/logout" ><spring:message code="app.logout" /></a></p>
-	</div>
-	
-	<header>
-		<div class="container" id="sisalto_lohko">
-		<h2><spring:message code="app.name" /></h2>
+	<div class="container">
+		
+		<div class="col-lg-6 col-md-6 col-sm-6" id="sisalto_lohko">
+			<h2><spring:message code="app.name" /></h2>
 		</div>
-	</header>
+		
+		<div class="col-lg-6 col-md-6 col-sm-6 ylakulma">
+			<spring:message code="app.language" />: <a href="?language=en"><spring:message code="app.english" /></a> | <a href="?language=fi"><spring:message code="app.finnish" /></a>
+			<p><spring:message code="app.loggedin" />: <sec:authentication property="principal.username"/></p>
+			<p><a href="/tuntikirjanpito/logout" ><spring:message code="app.logout" /></a></p>
+		</div>
+	
+	
+		
+		
+	</div>
 	
 	<div class="container">
 		<div class="col-lg-6 table-responsive" id="sisalto_lohko">
@@ -67,7 +73,7 @@
 		    	</tr>
 		    </thead>
 		    <tbody>
-		    <form action="/henkilo" method="POST">
+		    <form action="/tuntikirjanpito/henkilo" method="POST">
 		    	<c:forEach items="${henkiloidenTunnit}" var="ht">
 		      		<tr>
 		     			<td><button type=submit name="tunti_id" value="${ht.id}" class="btn-link">${ht.etunimi}</button></td>
@@ -86,7 +92,7 @@
 			
 			<h4 class="hykkonen"><spring:message code="app.addhours" /></h4>
 			
-			<form:form action="/lisaa" modelAttribute="henkilo" method="POST">
+			<form:form action="/tuntikirjanpito/lisaa" modelAttribute="henkilo" method="POST">
 					<spring:message code="app.chooseuser" var="cuser"/>
 					<form:errors path="id" cssClass="Virheteksti"/>
 					<div class="input-group input-group-lg" id="syotto_kentat">
@@ -126,7 +132,7 @@
 
 	<div class="container table-responsive visible-md visible-lg visible-xl" id="sisalto_lohko">
 	  <h4><spring:message code="app.listofhours" /></h4> <a style="float:right" href="/tuntikirjanpito/"><spring:message code="app.listall" /></a>
-	  <form action="/poista" method="POST">                           
+	  <form action="/tuntikirjanpito/poista" method="POST">                           
 	  <table class="table table-hover">
 	    <thead>
 	      <tr>
@@ -159,7 +165,7 @@
 		
 	<div class="container table-responsive visible-sm visible-xs" id="sisalto_lohko">
 	  <h4>Tuntilista</h4> <a style="float:right" href="/tuntikirjanpito/"><spring:message code="app.listall" /></a>
-	  <form action="/poista" method="POST">                           
+	  <form action="/tuntikirjanpito/poista" method="POST">                           
 	  <table class="table listaus_mobile">
 	    
 	    <tbody>

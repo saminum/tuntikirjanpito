@@ -6,10 +6,10 @@
 	<groupId>com.tunnit</groupId>
 	<artifactId>tuntikirjanpito</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>tuntikirjanpito</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Tuntikirjapito ohjelma spring bootilla</description>
 
 	<parent>
         <groupId>org.springframework.boot</groupId>
@@ -18,7 +18,9 @@
     </parent>
 
     <properties>
-        <java.version>1.8</java.version>
+         <java.version>1.8</java.version>
+<!--         <start-class>com.controller.TuntikirjanpitoApplication</start-class> -->
+<!-- 		<tomcat.version>8.0.3</tomcat.version> -->
     </properties>
 
     <dependencies>
@@ -63,11 +65,7 @@
 			<version>1.2</version>
 		</dependency>
 		
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.5</version>
-		</dependency>
+		
 		
 		<dependency>
             <groupId>org.springframework.boot</groupId>
