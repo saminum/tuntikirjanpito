@@ -34,20 +34,23 @@ public class TuntikirjausController {
 	@Autowired
 	private TuntiDAO dao;
 	
-    @RequestMapping("/")
+    @RequestMapping(value="/", method=RequestMethod.GET)
 	public String getView(Model model){
 		logger.info("Listataan tunnit ja luodaan formi.");
 		List<HenkilotImpl> henkilot = dao.haeTunnit();
+		System.out.println(henkilot);
 		model.addAttribute("henkilot", henkilot);
 		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
+		System.out.println(henkiloidenTunnit);
 		List<HenkilotImpl> henkiloidenTiedot = dao.haeHenkilot();
+		System.out.println(henkiloidenTiedot);
 		model.addAttribute("henkiloTiedot", henkiloidenTiedot);
 		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
 		if(!model.containsAttribute("henkilo")){
 		    Henkilot tyhjaHenkilo = new HenkilotImpl();
 			model.addAttribute("henkilo", tyhjaHenkilo);
 	  	}
-		return "index";
+		return "projekti";
 	}
     
     @RequestMapping(value="lisaa", method=RequestMethod.POST)
@@ -80,7 +83,7 @@ public class TuntikirjausController {
 		HenkilotImpl get_id = new HenkilotImpl();
 		get_id.setId(henk_id);
 		model.addAttribute("henkilot_id", get_id);
-		return "index";
+		return "projekti";
 	}
 	@RequestMapping(value="henkilo", method=RequestMethod.GET)
 	public String haeGet(@ModelAttribute(value="henkilot_id") HenkilotImpl get_id, Model model, HttpServletRequest request){
@@ -94,7 +97,7 @@ public class TuntikirjausController {
 		model.addAttribute("henkiloTiedot", henkiloidenTiedot);
 		Henkilot tyhjaHenkilo = new HenkilotImpl();
 		model.addAttribute("henkilo", tyhjaHenkilo);
-		return "index";
+		return "projekti";
 	}
     
     @RequestMapping(value="poista", method=RequestMethod.POST)
