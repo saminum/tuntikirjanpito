@@ -45,6 +45,32 @@ CREATE TABLE Kayttooikeudet (
   CONSTRAINT Kayttooikeudet_ibfk_2 FOREIGN KEY (authority_id) REFERENCES authority (id) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE Projekti (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  nimi varchar(255) NOT NULL,
+  kuvaus varchar(255),
+  alku_pvm TIMESTAMP,
+  loppu_pvm TIMESTAMP,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+insert into Projekti (id, nimi, kuvaus, alku_pvm, loppu_pvm)
+values (null, 'Tuntikirjanpidon kehitysprojekti', 'Softala1 - kurssilla kehitetään prototyyppi järjestelmästä, jonka tarkoitus on tuntien kirjaaminen', '2016-08-20 00:00:01', '2016-12-20 00:00:01');
+
+CREATE TABLE Proj_kayt (
+  kayt_id int(11) NOT NULL,
+  proj_id int(11) NOT NULL,
+  CONSTRAINT proj_kayt_id PRIMARY KEY (kayt_id, proj_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE Tunnit
+ADD projekti int(11) NOT NULL;
+
+ALTER TABLE Tunnit
+ADD CONSTRAINT proj FOREIGN KEY (projekti) REFERENCES Projekti (id);
+
+update Tunnit set projekti=1 where id > 0;
+
 /*
 ALTER TABLE Kayttajat
 DROP COLUMN enabled;
