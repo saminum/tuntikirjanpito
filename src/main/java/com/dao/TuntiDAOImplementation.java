@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.beans.Henkilot;
 import com.beans.HenkilotImpl;
+import com.beans.ProjektiImpl;
 
 
 @Repository
@@ -22,6 +23,19 @@ public class TuntiDAOImplementation implements TuntiDAO {
 	
 	@Autowired
     private JdbcTemplate jdbcTemplate;
+	
+	@Transactional(readOnly=true)
+	public List<ProjektiImpl> haeProjektit(){
+		String sql = "select id, nimi, kuvaus, alku_pvm, loppu_pvm from Projekti;";
+		List<ProjektiImpl> projektit = null;
+		try {
+			projektit = jdbcTemplate.query(sql, new ProjektitRowMapper());
+			logger.info("Summattiin tietokannasta löytyvät tunnit yhteen");
+		} catch (DataAccessException ex) {
+			daoVirheenHallinta(ex);
+		}
+		return projektit;
+	}
 	
 	@Transactional(readOnly=true)
 	public List<HenkilotImpl> summaaTunnit(){

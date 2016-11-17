@@ -6,6 +6,7 @@ import org.springframework.dao.DataAccessException;
 
 import com.beans.Henkilot;
 import com.beans.HenkilotImpl;
+import com.beans.ProjektiImpl;
 
 
 public interface TuntiDAO {
@@ -22,6 +23,8 @@ public interface TuntiDAO {
 	List<HenkilotImpl> haeHenkilonTunnit(int id);
 
 	void daoVirheenHallinta(DataAccessException ex);
+	
+	List<ProjektiImpl> haeProjektit();
 	
 
 }

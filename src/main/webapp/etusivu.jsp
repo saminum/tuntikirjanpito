@@ -49,8 +49,17 @@
 	<h3><spring:message code="app.add_person_to_project"/></h3>
 	<form:form action="/tuntikirjanpito/lisaa_henkilo_projektiin" modelAttribute="henkilo" method="POST">
 	
-		<p>TÄHÄN TULEE VALITSE PROJEKTI DROPDOWN VALIKKO</p>
-		<p><spring:message code="app.choose_person" var="cuser"/></p>
+			<p><spring:message code="app.choose_project" var="cproj"/></p>
+			
+			<form:select path="id" class="form-control">
+				<form:option value="0" label="${cproj}" />
+				<c:forEach items="${projektinTiedot}" var="pt">
+					<form:option value="${pt.id}">${pt.nimi}</form:option>
+				</c:forEach>
+			</form:select>	
+			
+			<p><spring:message code="app.choose_person" var="cuser"/></p>
+			
 			<form:select path="id" class="form-control">
 				<form:option value="0" label="${cuser}" />
 				<c:forEach items="${henkiloTiedot}" var="ht">

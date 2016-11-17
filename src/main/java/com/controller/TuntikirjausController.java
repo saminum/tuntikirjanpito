@@ -24,6 +24,8 @@ import org.springframework.web.util.HtmlUtils;
 
 import com.beans.Henkilot;
 import com.beans.HenkilotImpl;
+import com.beans.Projekti;
+import com.beans.ProjektiImpl;
 import com.dao.TuntiDAO;
 
 
@@ -38,16 +40,18 @@ public class TuntikirjausController {
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String etusivu(Model model) {
-		logger.info("Listataan tunnit ja luodaan formi.");
-		List<HenkilotImpl> henkilot = dao.haeTunnit();
-		model.addAttribute("henkilot", henkilot);
-		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
+		logger.info("Siirrytään palvelun etusivulle. Adminille ja käyttäjälle eri näkymät");
 		List<HenkilotImpl> henkiloidenTiedot = dao.haeHenkilot();
+		List<ProjektiImpl> projektinTiedot = dao.haeProjektit();
 		model.addAttribute("henkiloTiedot", henkiloidenTiedot);
-		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
+		model.addAttribute("projektinTiedot", projektinTiedot);
 		if(!model.containsAttribute("henkilo")){
 		    Henkilot tyhjaHenkilo = new HenkilotImpl();
 			model.addAttribute("henkilo", tyhjaHenkilo);
+	  	}
+		if(!model.containsAttribute("projekti")){
+		    Projekti tyhjaProjekti = new ProjektiImpl();
+			model.addAttribute("projekti", tyhjaProjekti);
 	  	}
 		return "etusivu";
 	}
