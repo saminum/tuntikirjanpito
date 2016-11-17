@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,16 +35,30 @@ public class TuntikirjausController {
 	@Autowired
 	private TuntiDAO dao;
 	
-    @RequestMapping(value="/", method=RequestMethod.GET)
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String etusivu(Model model) {
+		logger.info("Listataan tunnit ja luodaan formi.");
+		List<HenkilotImpl> henkilot = dao.haeTunnit();
+		model.addAttribute("henkilot", henkilot);
+		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
+		List<HenkilotImpl> henkiloidenTiedot = dao.haeHenkilot();
+		model.addAttribute("henkiloTiedot", henkiloidenTiedot);
+		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
+		if(!model.containsAttribute("henkilo")){
+		    Henkilot tyhjaHenkilo = new HenkilotImpl();
+			model.addAttribute("henkilo", tyhjaHenkilo);
+	  	}
+		return "etusivu";
+	}
+	
+    @RequestMapping(value="/projekti", method=RequestMethod.GET)
 	public String getView(Model model){
 		logger.info("Listataan tunnit ja luodaan formi.");
 		List<HenkilotImpl> henkilot = dao.haeTunnit();
-		System.out.println(henkilot);
 		model.addAttribute("henkilot", henkilot);
 		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
-		System.out.println(henkiloidenTunnit);
 		List<HenkilotImpl> henkiloidenTiedot = dao.haeHenkilot();
-		System.out.println(henkiloidenTiedot);
 		model.addAttribute("henkiloTiedot", henkiloidenTiedot);
 		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
 		if(!model.containsAttribute("henkilo")){
