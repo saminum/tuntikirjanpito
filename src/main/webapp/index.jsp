@@ -74,16 +74,24 @@
 		    </thead>
 		    <tbody>
 		    <form action="/tuntikirjanpito/henkilo" method="POST">
+		    <c:set var="total" value="${0}"/>
 		    	<c:forEach items="${henkiloidenTunnit}" var="ht">
 		      		<tr>
 		     			<td><button type=submit name="tunti_id" value="${ht.id}" class="btn-link">${ht.etunimi}</button></td>
 		        		<td>${ht.sukunimi}</td>
 		        		<td>${ht.tunnitYhteensa}</td>
+		        		<c:set var="total" value="${total + ht.tunnitYhteensa}" />
 		     	 	</tr>
-		    	 </c:forEach> 
+		    	 </c:forEach>
+		    <tr>
+		    <td></td>
+		    <td class="yht1"><spring:message code="app.total" /></td>	 
+		    <td><div class="yht2"><p>${total}</p></div></td>	
+		    </tr>
 		    </form>
-		    </tbody>
+		    </tbody>		     	 	
 		    </table>
+		    
 		</div>
 		
 		
