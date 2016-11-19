@@ -102,11 +102,11 @@
 			
 			<form:form action="/tuntikirjanpito/lisaa" modelAttribute="henkilo" method="POST">
 					<spring:message code="app.chooseuser" var="cuser"/>
-					<form:errors path="id" cssClass="Virheteksti"/>
+					<form:errors path="id" cssClass="Virheteksti" />
 					<div class="input-group input-group-lg" id="syotto_kentat">
 					<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
 					<form:select path="id" class="form-control">
-						  <form:option value="0" label="${cuser}" />
+						  <form:option value="-1" label="${cuser}" />
 						  <c:forEach items="${henkiloTiedot}" var="ht">
 						  <form:option value="${ht.id}">${ht.etunimi} ${ht.sukunimi}</form:option>
 						  </c:forEach>
@@ -132,7 +132,6 @@
 					<form:input path="tunnit[0].stringdate" class="datepicker form-control"/>
 					</div>
 					
-						
 					<input type="submit" class="btn btn-success btn-md lisaa_tunteja_button" value="<spring:message code="app.add" />" />
 					
 			</form:form>

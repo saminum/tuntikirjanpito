@@ -15,6 +15,8 @@ public class TunnitRowMapper implements RowMapper<HenkilotImpl> {
 		h.setEtunimi(rs.getString("etunimi"));
 		h.setSukunimi(rs.getString("sukunimi"));
 		h.setId(rs.getInt("kayttaja_id"));
+		h.setTunnus(rs.getString("kayttajatunnus"));
+		h.setEmail(rs.getString("email"));
 		
 		Tunnit t = new Tunnit();
 		t.setTunnit(rs.getDouble("tuntien_maara"));

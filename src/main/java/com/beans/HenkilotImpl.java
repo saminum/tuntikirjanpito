@@ -6,6 +6,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Email;
+
 
 /**@author Heikki Petrell
  * @since 13.9.2016
@@ -17,12 +19,22 @@ public class HenkilotImpl implements Henkilot {
 	private int id;
 	
 	@NotNull
+	@Min(1)
 	private String tunnus;
 	
-	private String email, sukunimi, salasana;
+	@NotNull
+	@Min(4)
+	@Email
+	private String email;
 	
+	@NotNull
+	@Min(8)
+	private String salasana;
 	
-	@Valid
+	@NotNull(message="Anna sukunimi!")
+	@Min(1)
+	private String sukunimi;
+	
 	@NotNull
 	@Min(1)
 	private String etunimi;
@@ -37,6 +49,8 @@ public class HenkilotImpl implements Henkilot {
 
 	private double tunnitYhteensa = 0;
 	
+	@NotNull
+	@Valid
 	ArrayList<Tunnit> tunnit = new ArrayList<Tunnit>();
 	
 	public double getTunnitYhteensa() {

@@ -40,12 +40,11 @@ public class TuntikirjausController {
 	public String getView(Model model){
 		logger.info("Listataan tunnit ja luodaan formi.");
 		List<HenkilotImpl> henkilot = dao.haeTunnit();
-		System.out.println(henkilot);
 		model.addAttribute("henkilot", henkilot);
 		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
-		System.out.println(henkiloidenTunnit);
+		System.out.println("Tunnit " + henkiloidenTunnit);
 		List<HenkilotImpl> henkiloidenTiedot = dao.haeHenkilot();
-		System.out.println(henkiloidenTiedot);
+		System.out.println("Tiedot " + henkiloidenTiedot);
 		model.addAttribute("henkiloTiedot", henkiloidenTiedot);
 		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
 		if(!model.containsAttribute("henkilo")){
