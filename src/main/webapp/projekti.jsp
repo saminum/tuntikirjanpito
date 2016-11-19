@@ -118,6 +118,7 @@
 					<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></span>
 					<form:input path="tunnit[0].tunnit" class="form-control"/>
 					</div>
+					
 					<spring:message code="app.description" var="desc"/>
 					<form:errors path="tunnit[0].kuvaus" cssClass="Virheteksti"/>
 					<div class="input-group input-group-lg" id="syotto_kentat">

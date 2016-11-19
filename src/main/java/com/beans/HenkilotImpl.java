@@ -12,11 +12,21 @@ import javax.validation.constraints.NotNull;
  */
 public class HenkilotImpl implements Henkilot {
 	
-	@NotNull(message="Valitse k‰ytt‰j‰!")
-	@Min(1)
+	@NotNull(message="Valitse k√§ytt√§j√§!")
+	@Min(0)
 	private int id;
 	
-	private String tunnus, email, etunimi, sukunimi, salasana;
+	@NotNull
+	private String tunnus;
+	
+	private String email, sukunimi, salasana;
+	
+	
+	@Valid
+	@NotNull
+	@Min(1)
+	private String etunimi;
+	
 	public String getEmail() {
 		return email;
 	}
@@ -27,10 +37,7 @@ public class HenkilotImpl implements Henkilot {
 
 	private double tunnitYhteensa = 0;
 	
-	@NotNull
-	@Valid
 	ArrayList<Tunnit> tunnit = new ArrayList<Tunnit>();
-	
 	
 	public double getTunnitYhteensa() {
 		return tunnitYhteensa;

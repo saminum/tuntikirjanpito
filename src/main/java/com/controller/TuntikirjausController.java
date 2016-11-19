@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -110,6 +112,30 @@ public class TuntikirjausController {
 		}		
 		return "redirect:/";
 	}
+    @RequestMapping(value="register", method=RequestMethod.GET)
+	public String rekisterointi(Model model){
+    	if(!model.containsAttribute("registerhenkilo")){
+			Henkilot registerhenkilo = new HenkilotImpl();
+			registerhenkilo.setId(0);
+			model.addAttribute("registerhenkilo", registerhenkilo);
+    	}
+		return "register";
+	}
+    @RequestMapping(value="register", method=RequestMethod.POST)
+   	public String rekisterointiKantaan(@ModelAttribute(value="registerhenkilo") @Valid HenkilotImpl henkilo, BindingResult result, RedirectAttributes attr){
+    	if(result.hasErrors()){
+			System.out.println("RESULT " + result);
+			attr.addFlashAttribute("org.springframework.validation.BindingResult.henkilo", result);
+		    attr.addFlashAttribute("registerhenkilo", henkilo);
+			return "register";
+		}else{
+	    	String encrypted = new BCryptPasswordEncoder().encode(henkilo.getSalasana());
+	    	henkilo.setSalasana(encrypted);
+	    	System.out.println("henkilo formista " + henkilo);
+	   		return "redirect:/";
+		}
+   	}
+    
     
     
 }
