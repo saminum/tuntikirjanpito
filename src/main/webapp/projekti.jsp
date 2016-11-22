@@ -131,7 +131,13 @@
 					<form:input path="tunnit[0].stringdate" class="datepicker form-control"/>
 					</div>
 					
-						
+					<c:if test="${not empty tallennus}">
+					<div id='Lisays' class="alert alert-success"><strong>Tallennus onnistui</strong></div>
+  <script type="text/javascript">
+  $( '#Lisays' ).show(function(){
+      $(this).fadeOut(5000);
+});
+</script></c:if>
 					<input type="submit" class="btn btn-success btn-md lisaa_tunteja_button" value="<spring:message code="app.add" />" />
 					
 			</form:form>
@@ -173,6 +179,15 @@
 		
 	<div class="container table-responsive visible-sm visible-xs" id="sisalto_lohko">
 	  <h4>Tuntilista</h4> <a style="float:right" href="/tuntikirjanpito/"><spring:message code="app.listall" /></a>
+	 <c:if test="${not empty poisto}">
+	 <div id='Poisto' class="alert alert-success"><strong>Tietue poistettu</strong></div>
+	   <script type="text/javascript">
+  $( '#Poisto' ).show(function(){
+      $(this).fadeOut(5000);
+});
+</script>
+</c:if>
+	 
 	  <form action="/tuntikirjanpito/poista" method="POST">                           
 	  <table class="table listaus_mobile">
 	    
