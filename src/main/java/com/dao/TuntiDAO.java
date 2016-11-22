@@ -13,7 +13,7 @@ public interface TuntiDAO {
 
 	void talleta(Henkilot henkilo);
 
-	List<HenkilotImpl> haeTunnit();
+	List<HenkilotImpl> haeTunnit(int projekti_id);
 
 	void poista(int id);
 
@@ -25,6 +25,8 @@ public interface TuntiDAO {
 	void daoVirheenHallinta(DataAccessException ex);
 	
 	List<ProjektiImpl> haeProjektit();
+	
+	int lisaaHenkiloProjektiin(int henkilo_id, int projekti_id);
 	
 
 }

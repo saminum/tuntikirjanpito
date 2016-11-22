@@ -4,9 +4,9 @@ import java.util.Date;
 
 public interface Projekti {
 
-	int getId();
+	int getProjekti_Id();
 
-	void setId(int id);
+	void setProjekti_id(int projekti_id);
 
 	String getNimi();
 
@@ -25,5 +25,7 @@ public interface Projekti {
 	void setLoppu_pvm(Date loppu_pvm);
 
 	String toString();
+
+	int getProjekti_id();
 
 }

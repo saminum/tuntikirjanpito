@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.beans.Henkilot;
 import com.beans.HenkilotImpl;
+import com.beans.ProjektiHenkiloImpl;
 import com.beans.ProjektiImpl;
 
 
@@ -24,13 +25,34 @@ public class TuntiDAOImplementation implements TuntiDAO {
 	@Autowired
     private JdbcTemplate jdbcTemplate;
 	
+	
+	public int lisaaHenkiloProjektiin(int henkilo_id, int projekti_id){
+		String sql_insert = "INSERT INTO Proj_kayt VALUES (?,?)";
+		String sql_select = "Select * from Proj_kayt WHERE kayt_id = "+henkilo_id+" AND proj_id  = "+ projekti_id;
+		Object[] parametrit = new Object[] {henkilo_id, projekti_id};
+		List<ProjektiHenkiloImpl> kayttajatProjekteissa = null;
+		try {
+			kayttajatProjekteissa = jdbcTemplate.query(sql_select, new KayttajatProjekteissaRowMapper());
+			for (int i=0;i<kayttajatProjekteissa.size();i++){
+				if(kayttajatProjekteissa.get(i).gethenkilo_id() == henkilo_id){
+					return 0;
+				}
+			}
+			jdbcTemplate.update(sql_insert, parametrit);
+			logger.info("lisätään henkilö id:llä " + henkilo_id + " projektiin id:llä " + "projekti_id");
+		} catch (DataAccessException ex) {
+			daoVirheenHallinta(ex);
+		}		
+		return 1;
+	}
+	
 	@Transactional(readOnly=true)
 	public List<ProjektiImpl> haeProjektit(){
 		String sql = "select id, nimi, kuvaus, alku_pvm, loppu_pvm from Projekti;";
 		List<ProjektiImpl> projektit = null;
 		try {
 			projektit = jdbcTemplate.query(sql, new ProjektitRowMapper());
-			logger.info("Summattiin tietokannasta löytyvät tunnit yhteen");
+			logger.info("Haetaan kaikki projektit tietokannasta");
 		} catch (DataAccessException ex) {
 			daoVirheenHallinta(ex);
 		}
@@ -52,10 +74,12 @@ public class TuntiDAOImplementation implements TuntiDAO {
 	}
 	 
 	@Transactional(readOnly=true)
-	public List<HenkilotImpl> haeTunnit(){
-		String sql = "SELECT Tunnit.id as 'tunti_id', Tunnit.tuntien_maara, Tunnit.paivamaara, Tunnit.kuvaus, Kayttajat.etunimi,"
-				+ " Kayttajat.sukunimi, Kayttajat.id as kayttaja_id FROM Tunnit JOIN Kayttajat ON Tunnit.kayttaja_id = Kayttajat.id"
-				+ " ORDER BY Tunnit.paivamaara;";
+	public List<HenkilotImpl> haeTunnit(int projekti_id){
+		String sql = "SELECT p.proj_id, Tunnit.id as 'tunti_id', Tunnit.tuntien_maara, Tunnit.paivamaara, Tunnit.kuvaus, Kayttajat.etunimi, Kayttajat.sukunimi, Kayttajat.id as kayttaja_id FROM Tunnit" 
+			+	" JOIN Kayttajat ON Tunnit.kayttaja_id = Kayttajat.id" 
+			+	" JOIN Proj_kayt p ON Kayttajat.id=p.kayt_id"
+			+	" WHERE p.proj_id="+projekti_id
+			+	" ORDER BY Tunnit.paivamaara;";
 		List<HenkilotImpl> henkilot = null;
 		try {
 			henkilot = jdbcTemplate.query(sql, new TunnitRowMapper());
@@ -72,7 +96,7 @@ public class TuntiDAOImplementation implements TuntiDAO {
 		List<HenkilotImpl> henkilot = null;
 		try {
 			henkilot = jdbcTemplate.query(sql, new HenkilotRowMapper());
-			logger.info("Haettiin kaikki tallennetut tunnit tietokannasta");
+			logger.info("Haettiin kaikki henkilöt tietokannasta");
 		} catch (DataAccessException ex) {
 			daoVirheenHallinta(ex);
 		}	

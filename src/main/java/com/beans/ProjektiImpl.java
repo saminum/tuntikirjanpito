@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ProjektiImpl implements Projekti {
 	
-	private int id;
+	private int projekti_id;
 	private String nimi, kuvaus;
 	private Date alku_pvm;
 	private Date loppu_pvm;
@@ -12,19 +12,15 @@ public class ProjektiImpl implements Projekti {
 	 * @see com.beans.Projekti#getId()
 	 */
 	@Override
-	public int getId() {
-		return id;
+	public int getProjekti_id() {
+		return projekti_id;
 	}
-	/* (non-Javadoc)
-	 * @see com.beans.Projekti#setId(int)
-	 */
+	
 	@Override
-	public void setId(int id) {
-		this.id = id;
+	public void setProjekti_id(int projekti_id) {
+		this.projekti_id = projekti_id;
 	}
-	/* (non-Javadoc)
-	 * @see com.beans.Projekti#getNimi()
-	 */
+	
 	@Override
 	public String getNimi() {
 		return nimi;
@@ -78,9 +74,9 @@ public class ProjektiImpl implements Projekti {
 	public void setLoppu_pvm(Date loppu_pvm) {
 		this.loppu_pvm = loppu_pvm;
 	}
-	public ProjektiImpl(int id, String nimi, String kuvaus, Date alku_pvm, Date loppu_pvm) {
+	public ProjektiImpl(int id, String nimi, String kuvaus, Date alku_pvm, Date loppu_pvm, int projekti_id) {
 		super();
-		this.id = id;
+		this.projekti_id = projekti_id;
 		this.nimi = nimi;
 		this.kuvaus = kuvaus;
 		this.alku_pvm = alku_pvm;
@@ -95,8 +91,14 @@ public class ProjektiImpl implements Projekti {
 	 */
 	@Override
 	public String toString() {
-		return "ProjektiImpl [id=" + id + ", nimi=" + nimi + ", kuvaus=" + kuvaus + ", alku_pvm=" + alku_pvm
+		return "ProjektiImpl [id=" + projekti_id + ", nimi=" + nimi + ", kuvaus=" + kuvaus + ", alku_pvm=" + alku_pvm
 				+ ", loppu_pvm=" + loppu_pvm + "]";
+	}
+
+	@Override
+	public int getProjekti_Id() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	

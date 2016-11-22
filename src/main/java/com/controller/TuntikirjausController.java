@@ -25,6 +25,8 @@ import org.springframework.web.util.HtmlUtils;
 import com.beans.Henkilot;
 import com.beans.HenkilotImpl;
 import com.beans.Projekti;
+import com.beans.ProjektiHenkilo;
+import com.beans.ProjektiHenkiloImpl;
 import com.beans.ProjektiImpl;
 import com.dao.TuntiDAO;
 
@@ -41,25 +43,43 @@ public class TuntikirjausController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String etusivu(Model model) {
 		logger.info("Siirrytään palvelun etusivulle. Adminille ja käyttäjälle eri näkymät");
-		List<HenkilotImpl> henkiloidenTiedot = dao.haeHenkilot();
-		List<ProjektiImpl> projektinTiedot = dao.haeProjektit();
-		model.addAttribute("henkiloTiedot", henkiloidenTiedot);
-		model.addAttribute("projektinTiedot", projektinTiedot);
-		if(!model.containsAttribute("henkilo")){
-		    Henkilot tyhjaHenkilo = new HenkilotImpl();
-			model.addAttribute("henkilo", tyhjaHenkilo);
-	  	}
+		ProjektiHenkiloImpl projektiHenkilo = new ProjektiHenkiloImpl();
+		projektiHenkilo.sethenkilot(dao.haeHenkilot());
+		projektiHenkilo.setprojektit(dao.haeProjektit());
+		model.addAttribute("henkiloProjekti", projektiHenkilo);
 		if(!model.containsAttribute("projekti")){
-		    Projekti tyhjaProjekti = new ProjektiImpl();
+			Projekti tyhjaProjekti = new ProjektiImpl();
 			model.addAttribute("projekti", tyhjaProjekti);
 	  	}
 		return "etusivu";
 	}
 	
+	@RequestMapping(value="lisaa_henkilo_projektiin", method=RequestMethod.POST)
+	public String createUserForProject(@ModelAttribute(value="henkiloProjekti") ProjektiHenkiloImpl henkiloProjekti){
+		logger.info("lisätään henkilö id:llä " + henkiloProjekti.gethenkilo_id() + " projektiin id:llä " + henkiloProjekti.getprojekti_id());
+		int onnistuiko = dao.lisaaHenkiloProjektiin(henkiloProjekti.gethenkilo_id(), henkiloProjekti.getprojekti_id());
+		if (onnistuiko == 0){
+			logger.info("Henkilö on jo valitsemassasi projektissa");
+		}else{
+			logger.info("Henkilö lisätty onnistuneesti projektiin");
+		}
+		return "redirect:/";
+	}
+	
+	@RequestMapping(value="luo_projekti", method=RequestMethod.POST)
+	public String createNewProject(@ModelAttribute(value="henkiloProjekti") ProjektiHenkiloImpl henkiloProjekti, BindingResult result, RedirectAttributes attr){
+		System.out.println("############### projektin id: " + henkiloProjekti.getprojekti_id());
+		System.out.println("#############  henkilon id: "+ henkiloProjekti.gethenkilo_id());
+		//dao.lisaaHenkiloProjektiin(projekti);
+		return "redirect:/";
+	}
+	
     @RequestMapping(value="/projekti", method=RequestMethod.GET)
-	public String getView(Model model){
+	public String getView(Model model ){
 		logger.info("Listataan tunnit ja luodaan formi.");
-		List<HenkilotImpl> henkilot = dao.haeTunnit();
+//		PROJEKTI ID TUODAAN ETUSIVUN NÄKYMÄSTÄ MISSÄ VALITAAN MIKÄ PROJEKTI NÄYTETÄÄN
+//		model.GET ATTRIBUTE TAI JOTAIN..ATTRIBUTE. @ModelAttribute
+		List<HenkilotImpl> henkilot = dao.haeTunnit(1);
 		model.addAttribute("henkilot", henkilot);
 		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
 		List<HenkilotImpl> henkiloidenTiedot = dao.haeHenkilot();
