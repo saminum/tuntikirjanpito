@@ -40,12 +40,13 @@ public class TuntiDAOImplementation implements TuntiDAO {
 	@Transactional(readOnly=true)
 	public List<HenkilotImpl> haeTunnit(){
 		String sql = "SELECT Tunnit.id as 'tunti_id', Tunnit.tuntien_maara, Tunnit.paivamaara, Tunnit.kuvaus, Kayttajat.etunimi,"
-				+ " Kayttajat.sukunimi, Kayttajat.id as kayttaja_id FROM Tunnit JOIN Kayttajat ON Tunnit.kayttaja_id = Kayttajat.id"
+				+ " Kayttajat.sukunimi, Kayttajat.kayttajatunnus, Kayttajat.email, Kayttajat.id as kayttaja_id FROM Tunnit JOIN Kayttajat ON Tunnit.kayttaja_id = Kayttajat.id"
 				+ " ORDER BY Tunnit.paivamaara;";
 		List<HenkilotImpl> henkilot = null;
 		try {
 			henkilot = jdbcTemplate.query(sql, new TunnitRowMapper());
 			logger.info("Haettiin kaikki tallennetut tunnit tietokannasta");
+			System.out.println("daossa " + henkilot.get(0));
 		} catch (DataAccessException ex) {
 			daoVirheenHallinta(ex);
 		}	
@@ -74,8 +75,10 @@ public class TuntiDAOImplementation implements TuntiDAO {
 		String vv = osat[2];
 		String kantapaiva = ""+ vv + "-" + kk + "-" + pv + " 00:00:01";
 	
-		String sql = "INSERT INTO Tunnit (tuntien_maara, kuvaus, kayttaja_id, paivamaara) VALUES(?,?,?,?)";
+
+		String sql = "INSERT INTO Tunnit (tuntien_maara, kuvaus, kayttaja_id, paivamaara, projekti) VALUES(?,?,?,?, 1)";
 		Object[] parametrit = new Object[] {henkilo.getTunnit().get(0).getTunnit(), henkilo.getTunnit().get(0).getKuvaus(), henkilo.getId(), kantapaiva};
+
 		try {
 			jdbcTemplate.update(sql, parametrit);
 			logger.info("Tallennettiin henkilön tunnit tietokantaan käyttäjä ID:llä: " + henkilo.getId() + " ");

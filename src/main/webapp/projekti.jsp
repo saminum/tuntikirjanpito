@@ -50,7 +50,7 @@
 		</div>
 		
 		<div class="col-lg-6 col-md-6 col-sm-6 ylakulma">
-			<spring:message code="app.language" />: <a href="?language=en"><spring:message code="app.english" /></a> | <a href="?language=fi"><spring:message code="app.finnish" /></a>
+			<a href="?language=en"><spring:message code="app.english" /></a> | <a href="?language=fi"><spring:message code="app.finnish" /></a>
 			<p><spring:message code="app.loggedin" />: <sec:authentication property="principal.username"/></p>
 			<p><a href="/tuntikirjanpito/logout" ><spring:message code="app.logout" /></a></p>
 		</div>
@@ -59,7 +59,14 @@
 		
 		
 	</div>
-	
+		 <c:if test="${not empty poisto}">
+	 <div id='Poisto' class="alert alert-warning"><strong>Tietue poistettu</strong></div>
+	   <script type="text/javascript">
+  $( '#Poisto' ).show(function(){
+      $(this).fadeOut(5000);
+});
+</script>
+</c:if>
 	<div class="container">
 		<div class="col-lg-6 table-responsive" id="sisalto_lohko">
 		  <h4><spring:message code="app.person.hour" /></h4>
@@ -102,22 +109,30 @@
 			
 			<form:form action="/tuntikirjanpito/lisaa" modelAttribute="henkilo" method="POST">
 					<spring:message code="app.chooseuser" var="cuser"/>
-					<form:errors path="id" cssClass="Virheteksti"/>
+					<form:errors path="id" cssClass="Virheteksti" />
 					<div class="input-group input-group-lg" id="syotto_kentat">
 					<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+					
 					<form:select path="id" class="form-control">
-						  <form:option value="0" label="${cuser}" />
+						  <form:option value="-1" label="${cuser}" />
 						  <c:forEach items="${henkiloTiedot}" var="ht">
 						  <form:option value="${ht.id}">${ht.etunimi} ${ht.sukunimi}</form:option>
 						  </c:forEach>
 					</form:select>
 					</div>
 					
+					<form:hidden path="etunimi" value="placeholder"/>
+					<form:hidden path="sukunimi" value="placeholder"/>
+					<form:hidden path="email" value="placeholder@holder.fi" />
+					<form:hidden path="salasana" value="placeholder"/>
+					<form:hidden path="tunnus" value="123"/>
+					
 					<form:errors path="tunnit[0].tunnit" cssClass="Virheteksti"/> 
 					<div class="input-group input-group-lg" id="syotto_kentat">
 					<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></span>
 					<form:input path="tunnit[0].tunnit" class="form-control"/>
 					</div>
+					
 					<spring:message code="app.description" var="desc"/>
 					<form:errors path="tunnit[0].kuvaus" cssClass="Virheteksti"/>
 					<div class="input-group input-group-lg" id="syotto_kentat">
@@ -129,18 +144,17 @@
 					<div class="input-group input-group-lg" id="syotto_kentat">
 					<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
 					<form:input path="tunnit[0].stringdate" class="datepicker form-control"/>
-					</div>
-					
-					<c:if test="${not empty tallennus}">
-					<div id='Lisays' class="alert alert-success"><strong>Tallennus onnistui</strong></div>
-  <script type="text/javascript">
-  $( '#Lisays' ).show(function(){
-      $(this).fadeOut(5000);
-});
-</script></c:if>
+					</div>					
 					<input type="submit" class="btn btn-success btn-md lisaa_tunteja_button" value="<spring:message code="app.add" />" />
 					
 			</form:form>
+								<c:if test="${not empty tallennus}">
+					<div id='Lisays' class="alert alert-success"><strong>Tallennus onnistui</strong></div>
+  					<script type="text/javascript">
+  						$( '#Lisays' ).show(function(){
+      							$(this).fadeOut(5000);
+						});
+					</script></c:if>
 		</div>
 	</div>
 
@@ -178,16 +192,7 @@
 	
 		
 	<div class="container table-responsive visible-sm visible-xs" id="sisalto_lohko">
-	  <h4>Tuntilista</h4> <a style="float:right" href="/tuntikirjanpito/"><spring:message code="app.listall" /></a>
-	 <c:if test="${not empty poisto}">
-	 <div id='Poisto' class="alert alert-success"><strong>Tietue poistettu</strong></div>
-	   <script type="text/javascript">
-  $( '#Poisto' ).show(function(){
-      $(this).fadeOut(5000);
-});
-</script>
-</c:if>
-	 
+	  <h4>Tuntilista</h4> <a style="float:right" href="/tuntikirjanpito/"><spring:message code="app.listall" /></a>	 
 	  <form action="/tuntikirjanpito/poista" method="POST">                           
 	  <table class="table listaus_mobile">
 	    
