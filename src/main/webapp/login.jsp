@@ -32,7 +32,7 @@
 </head>
 
 <body>
-	<div>Language : <a href="?language=en"><spring:message code="app.english" /></a>|<a href="?language=fi"><spring:message code="app.finnish" /></a></div>
+	<div><a href="?language=en"><spring:message code="app.english" /></a>|<a href="?language=fi"><spring:message code="app.finnish" /></a></div>
 
 	</div>
 <div class="container">
