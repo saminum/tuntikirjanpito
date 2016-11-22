@@ -105,6 +105,7 @@
 					<form:errors path="id" cssClass="Virheteksti" />
 					<div class="input-group input-group-lg" id="syotto_kentat">
 					<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+					
 					<form:select path="id" class="form-control">
 						  <form:option value="-1" label="${cuser}" />
 						  <c:forEach items="${henkiloTiedot}" var="ht">

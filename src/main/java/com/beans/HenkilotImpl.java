@@ -18,25 +18,25 @@ public class HenkilotImpl implements Henkilot {
 	@Min(0)
 	private int id;
 	
-	@NotNull
-	@Min(1)
+	//@NotNull
+	//@Min(1)
 	private String tunnus;
 	
-	@NotNull
-	@Min(4)
-	@Email
+	//@NotNull
+	//@Min(4)
+	//@Email
 	private String email;
 	
-	@NotNull
-	@Min(8)
+	//@NotNull
+	//@Min(8)
 	private String salasana;
 	
-	@NotNull(message="Anna sukunimi!")
-	@Min(1)
+	//@NotNull(message="Anna sukunimi!")
+	//@Min(1)
 	private String sukunimi;
 	
-	@NotNull
-	@Min(1)
+	//@NotNull
+	//@Min(1)
 	private String etunimi;
 	
 	public String getEmail() {
