@@ -40,12 +40,13 @@ public class TuntiDAOImplementation implements TuntiDAO {
 	@Transactional(readOnly=true)
 	public List<HenkilotImpl> haeTunnit(){
 		String sql = "SELECT Tunnit.id as 'tunti_id', Tunnit.tuntien_maara, Tunnit.paivamaara, Tunnit.kuvaus, Kayttajat.etunimi,"
-				+ " Kayttajat.sukunimi, Kayttajat.id as kayttaja_id FROM Tunnit JOIN Kayttajat ON Tunnit.kayttaja_id = Kayttajat.id"
+				+ " Kayttajat.sukunimi, Kayttajat.kayttajatunnus, Kayttajat.email, Kayttajat.id as kayttaja_id FROM Tunnit JOIN Kayttajat ON Tunnit.kayttaja_id = Kayttajat.id"
 				+ " ORDER BY Tunnit.paivamaara;";
 		List<HenkilotImpl> henkilot = null;
 		try {
 			henkilot = jdbcTemplate.query(sql, new TunnitRowMapper());
 			logger.info("Haettiin kaikki tallennetut tunnit tietokannasta");
+			System.out.println("daossa " + henkilot.get(0));
 		} catch (DataAccessException ex) {
 			daoVirheenHallinta(ex);
 		}	

@@ -76,6 +76,7 @@
                                     <!-- Button -->
 
                                     <div class="col-sm-12 controls">
+                                    <a href="/tuntikirjanpito/register" style="float:right; margin-top:10px;"><spring:message code="app.registertext"/></a>
                                     <spring:message code="app.login" var="login"/>
                                     <input id="btn-login" type="submit" class="btn btn-success btn-md" style="float:right; margin-top:10px; clear:both;" value="${login}" />
                                     </div>

@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,12 +40,11 @@ public class TuntikirjausController {
 	public String getView(Model model){
 		logger.info("Listataan tunnit ja luodaan formi.");
 		List<HenkilotImpl> henkilot = dao.haeTunnit();
-		System.out.println(henkilot);
 		model.addAttribute("henkilot", henkilot);
 		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
-		System.out.println(henkiloidenTunnit);
+		System.out.println("Tunnit " + henkiloidenTunnit);
 		List<HenkilotImpl> henkiloidenTiedot = dao.haeHenkilot();
-		System.out.println(henkiloidenTiedot);
+		System.out.println("Tiedot " + henkiloidenTiedot);
 		model.addAttribute("henkiloTiedot", henkiloidenTiedot);
 		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
 		if(!model.containsAttribute("henkilo")){
@@ -110,6 +111,30 @@ public class TuntikirjausController {
 		}		
 		return "redirect:/";
 	}
+    @RequestMapping(value="register", method=RequestMethod.GET)
+	public String rekisterointi(Model model){
+    	if(!model.containsAttribute("registerhenkilo")){
+			Henkilot registerhenkilo = new HenkilotImpl();
+			registerhenkilo.setId(0);
+			model.addAttribute("registerhenkilo", registerhenkilo);
+    	}
+		return "register";
+	}
+    @RequestMapping(value="register", method=RequestMethod.POST)
+   	public String rekisterointiKantaan(@ModelAttribute(value="registerhenkilo") @Valid HenkilotImpl henkilo, BindingResult result, RedirectAttributes attr){
+    	if(result.hasErrors()){
+			System.out.println("RESULT " + result);
+			attr.addFlashAttribute("org.springframework.validation.BindingResult.henkilo", result);
+		    attr.addFlashAttribute("registerhenkilo", henkilo);
+			return "register";
+		}else{
+	    	String encrypted = new BCryptPasswordEncoder().encode(henkilo.getSalasana());
+	    	henkilo.setSalasana(encrypted);
+	    	System.out.println("henkilo formista " + henkilo);
+	   		return "redirect:/";
+		}
+   	}
+    
     
     
 }
