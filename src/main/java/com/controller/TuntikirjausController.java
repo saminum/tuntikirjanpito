@@ -41,12 +41,16 @@ public class TuntikirjausController {
 	
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String etusivu(Model model) {
+	public String etusivu(Model model, @ModelAttribute("virhe") Object virheObject ) {
 		logger.info("Siirrytään palvelun etusivulle. Adminille ja käyttäjälle eri näkymät");
 		ProjektiHenkiloImpl projektiHenkilo = new ProjektiHenkiloImpl();
 		projektiHenkilo.sethenkilot(dao.haeHenkilot());
 		projektiHenkilo.setprojektit(dao.haeProjektit());
 		model.addAttribute("henkiloProjekti", projektiHenkilo);
+		Object muuttuja = model.addAttribute("asd" , virheObject);
+		System.out.println(muuttuja.toString());
+		model.addAttribute("virhe", virheObject);
+		
 		if(!model.containsAttribute("projekti")){
 			Projekti tyhjaProjekti = new ProjektiImpl();
 			model.addAttribute("projekti", tyhjaProjekti);
@@ -54,12 +58,16 @@ public class TuntikirjausController {
 		return "etusivu";
 	}
 	
+	//http://stackoverflow.com/questions/7429649/how-to-pass-model-attributes-from-one-spring-mvc-controller-to-another-controlle
+	
 	@RequestMapping(value="lisaa_henkilo_projektiin", method=RequestMethod.POST)
-	public String createUserForProject(@ModelAttribute(value="henkiloProjekti") ProjektiHenkiloImpl henkiloProjekti){
+	public String createUserForProject(Model model, RedirectAttributes redirectAttributes, @ModelAttribute(value="henkiloProjekti") ProjektiHenkiloImpl henkiloProjekti){
 		logger.info("lisätään henkilö id:llä " + henkiloProjekti.gethenkilo_id() + " projektiin id:llä " + henkiloProjekti.getprojekti_id());
 		int onnistuiko = dao.lisaaHenkiloProjektiin(henkiloProjekti.gethenkilo_id(), henkiloProjekti.getprojekti_id());
 		if (onnistuiko == 0){
 			logger.info("Henkilö on jo valitsemassasi projektissa");
+			String virheViestiLisaaHlo = "Henkilö kuuluu jo projektiin";
+			redirectAttributes.addFlashAttribute("virhe", virheViestiLisaaHlo);
 		}else{
 			logger.info("Henkilö lisätty onnistuneesti projektiin");
 		}

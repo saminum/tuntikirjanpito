@@ -45,6 +45,8 @@
 	<sec:authorize access="hasRole('ADMIN')">
 	<div class="container">
 	<h2><spring:message code="app.admin_controlpanel"/></h2>
+	<h1>TÄHÄN: ${virhe}</h1>
+	
 	
 	<h3><spring:message code="app.add_person_to_project"/></h3>
 	<form:form action="/tuntikirjanpito/lisaa_henkilo_projektiin" modelAttribute="henkiloProjekti" method="POST">
