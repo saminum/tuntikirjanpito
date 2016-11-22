@@ -18,5 +18,5 @@ public class HenkilotRowMapper implements RowMapper<HenkilotImpl>{
 		henkilot.setId(rs.getInt("id"));
 		
 		return henkilot;
-}
+	}
 }

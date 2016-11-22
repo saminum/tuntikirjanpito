@@ -42,9 +42,7 @@ public class TuntikirjausController {
 		List<HenkilotImpl> henkilot = dao.haeTunnit();
 		model.addAttribute("henkilot", henkilot);
 		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
-		System.out.println("Tunnit " + henkiloidenTunnit);
 		List<HenkilotImpl> henkiloidenTiedot = dao.haeHenkilot();
-		System.out.println("Tiedot " + henkiloidenTiedot);
 		model.addAttribute("henkiloTiedot", henkiloidenTiedot);
 		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
 		if(!model.containsAttribute("henkilo")){
@@ -57,7 +55,6 @@ public class TuntikirjausController {
     @RequestMapping(value="lisaa", method=RequestMethod.POST)
 	public String create( @ModelAttribute(value="henkilo") @Valid HenkilotImpl henkilot, BindingResult result, RedirectAttributes attr){
 		if(result.hasErrors()){
-			System.out.println("RESULT " + result);
 			attr.addFlashAttribute("org.springframework.validation.BindingResult.henkilo", result);
 		    attr.addFlashAttribute("henkilo", henkilot);
 			return "redirect:/";
@@ -123,18 +120,14 @@ public class TuntikirjausController {
     @RequestMapping(value="register", method=RequestMethod.POST)
    	public String rekisterointiKantaan(@ModelAttribute(value="registerhenkilo") @Valid HenkilotImpl henkilo, BindingResult result, RedirectAttributes attr){
     	if(result.hasErrors()){
-			System.out.println("RESULT " + result);
 			attr.addFlashAttribute("org.springframework.validation.BindingResult.henkilo", result);
 		    attr.addFlashAttribute("registerhenkilo", henkilo);
 			return "register";
 		}else{
 	    	String encrypted = new BCryptPasswordEncoder().encode(henkilo.getSalasana());
 	    	henkilo.setSalasana(encrypted);
-	    	System.out.println("henkilo formista " + henkilo);
+	    	dao.lisaaKayttaja(henkilo);
 	   		return "redirect:/";
 		}
    	}
-    
-    
-    
 }
