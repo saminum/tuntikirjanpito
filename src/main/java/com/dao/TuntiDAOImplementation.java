@@ -74,7 +74,7 @@ public class TuntiDAOImplementation implements TuntiDAO {
 		String vv = osat[2];
 		String kantapaiva = ""+ vv + "-" + kk + "-" + pv + " 00:00:01";
 	
-		String sql = "INSERT INTO Tunnit (tuntien_maara, kuvaus, kayttaja_id, paivamaara) VALUES(?,?,?,?)";
+		String sql = "INSERT INTO Tunnit (tuntien_maara, kuvaus, kayttaja_id, paivamaara, projekti) VALUES(?,?,?,?)";
 		Object[] parametrit = new Object[] {henkilo.getTunnit().get(0).getTunnit(), henkilo.getTunnit().get(0).getKuvaus(), henkilo.getId(), kantapaiva};
 		try {
 			jdbcTemplate.update(sql, parametrit);
