@@ -75,13 +75,10 @@ public class TuntiDAOImplementation implements TuntiDAO {
 		String vv = osat[2];
 		String kantapaiva = ""+ vv + "-" + kk + "-" + pv + " 00:00:01";
 	
-<<<<<<< HEAD
-		String sql = "INSERT INTO Tunnit (tuntien_maara, kuvaus, kayttaja_id, paivamaara, projekti) VALUES(?,?,?,?,?)";
-		Object[] parametrit = new Object[] {henkilo.getTunnit().get(0).getTunnit(), henkilo.getTunnit().get(0).getKuvaus(), henkilo.getId(), kantapaiva, 1};
-=======
+
 		String sql = "INSERT INTO Tunnit (tuntien_maara, kuvaus, kayttaja_id, paivamaara, projekti) VALUES(?,?,?,?, 1)";
 		Object[] parametrit = new Object[] {henkilo.getTunnit().get(0).getTunnit(), henkilo.getTunnit().get(0).getKuvaus(), henkilo.getId(), kantapaiva};
->>>>>>> 32931bee80897a38d81bd37d277474029fa107d9
+
 		try {
 			jdbcTemplate.update(sql, parametrit);
 			logger.info("Tallennettiin henkilön tunnit tietokantaan käyttäjä ID:llä: " + henkilo.getId() + " ");
