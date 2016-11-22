@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 
 /**@author Heikki Petrell
@@ -18,25 +20,21 @@ public class HenkilotImpl implements Henkilot {
 	@Min(0)
 	private int id;
 	
-	//@NotNull
-	//@Min(1)
+	@NotBlank
 	private String tunnus;
 	
-	//@NotNull
-	//@Min(4)
-	//@Email
+	@NotBlank
+	@Email
 	private String email;
 	
-	//@NotNull
-	//@Min(8)
+	@NotBlank
+	@Size(min=8)
 	private String salasana;
 	
-	//@NotNull(message="Anna sukunimi!")
-	//@Min(1)
+	@NotBlank
 	private String sukunimi;
 	
-	//@NotNull
-	//@Min(1)
+	@NotBlank
 	private String etunimi;
 	
 	public String getEmail() {

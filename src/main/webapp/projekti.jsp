@@ -114,6 +114,12 @@
 					</form:select>
 					</div>
 					
+					<form:hidden path="etunimi" value="placeholder"/>
+					<form:hidden path="sukunimi" value="placeholder"/>
+					<form:hidden path="email" value="placeholder@holder.fi" />
+					<form:hidden path="salasana" value="placeholder"/>
+					<form:hidden path="tunnus" value="123"/>
+					
 					<form:errors path="tunnit[0].tunnit" cssClass="Virheteksti"/> 
 					<div class="input-group input-group-lg" id="syotto_kentat">
 					<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></span>
