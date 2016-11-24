@@ -4,10 +4,35 @@
 	text-align:right;	
 }
 
-#syotto_kentat{
+#syotto_kentat1{
 	margin-bottom:1em;
 }
 
+#syotto_kentat2{
+	margin-bottom:1em;
+}
+
+#syotto_kentat3{
+	margin-bottom:1em;
+}
+
+#syotto_kentat4{
+	margin-bottom:1em;
+}
+
+.input-group-lg > .form-control, .input-group-lg > .input-group-addon, .input-group-lg > .input-group-btn > .btn {
+    height: 40px;
+    
+    font-size: 15px;
+    line-height: 1.3333333;
+    border-radius: 5px;
+}
+	
+#sisalto_lohko1{
+	margin-bottom:2em;
+	float:right;
+}
+	
 #sisalto_lohko{
 	margin-bottom:2em;
 }
@@ -18,6 +43,10 @@
 
 .yht2{font-weight: bold;
 	
+}
+
+.lisaa_tunteja_button{
+		float:right;
 }
 
 .listaus_mobile tbody tr td{
@@ -37,17 +66,31 @@
 }
 
 @media (max-width: 768px){
+	
+.lisaa_tunteja_button{
+		float:right;
+	}
+	
 .ylakulma {
 	text-align:left;
 	float:left;
 	margin-bottom: 20px;
 	}
+	
 #sisalto_lohko{
 	margin-bottom:2px;
+	}
+	
+#sisalto_lohko1{
+	margin-bottom:2em;
+	float:right;
+	width:100%;
 	}
 
 }
 
 .Virheteksti{
 	color: red;
+	
+	
 }
