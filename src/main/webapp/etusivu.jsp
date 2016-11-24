@@ -45,7 +45,14 @@
 	<sec:authorize access="hasRole('ADMIN')">
 	<div class="container">
 	<h2><spring:message code="app.admin_controlpanel"/></h2>
-	<h1>TÄHÄN: ${virhe}</h1>
+	<h1>TÄHÄN: 
+	<c:if test="${not empty virhe}">
+    	${virhe}.
+	</c:if>
+	
+	
+	
+	</h1>
 	
 	
 	<h3><spring:message code="app.add_person_to_project"/></h3>

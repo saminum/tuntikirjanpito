@@ -47,8 +47,7 @@ public class TuntikirjausController {
 		projektiHenkilo.sethenkilot(dao.haeHenkilot());
 		projektiHenkilo.setprojektit(dao.haeProjektit());
 		model.addAttribute("henkiloProjekti", projektiHenkilo);
-		Object muuttuja = model.addAttribute("asd" , virheObject);
-		System.out.println(muuttuja.toString());
+		System.out.println("virheobject: " + virheObject);
 		model.addAttribute("virhe", virheObject);
 		
 		if(!model.containsAttribute("projekti")){
