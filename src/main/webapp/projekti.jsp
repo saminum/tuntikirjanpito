@@ -54,19 +54,16 @@
 			<p><spring:message code="app.loggedin" />: <sec:authentication property="principal.username"/></p>
 			<p><a href="/tuntikirjanpito/logout" ><spring:message code="app.logout" /></a></p>
 		</div>
-	
-	
-		
 		
 	</div>
 		 <c:if test="${not empty poisto}">
-	 <div id='Poisto' class="alert alert-warning"><strong>Tietue poistettu</strong></div>
-	   <script type="text/javascript">
-  $( '#Poisto' ).show(function(){
-      $(this).fadeOut(5000);
-});
-</script>
-</c:if>
+			 <div id='Poisto' class="alert alert-warning"><strong>Tietue poistettu</strong></div>
+			   <script type="text/javascript">
+		  			$( '#Poisto' ).show(function(){
+		      			$(this).fadeOut(5000);
+					});
+				</script>
+		</c:if>
 	<div class="container">
 		<div class="col-lg-6 table-responsive" id="sisalto_lohko">
 		  <h4><spring:message code="app.person.hour" /></h4>

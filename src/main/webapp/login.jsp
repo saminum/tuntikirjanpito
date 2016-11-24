@@ -36,6 +36,16 @@
 
 <div class="container">
 
+		${register}
+		<c:if test="${not empty register}">
+			 <div id='Register' class="alert alert-warning"><strong>Rekisteröityminen onnistui!</strong></div>
+			   <script type="text/javascript">
+		  			$('#Register').show(function(){
+		      			$(this).fadeOut(5000);
+					});
+				</script>
+		</c:if>
+
         <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
             <h3><spring:message code="app.name" /></h3> 
             <div class="panel panel-info" >
