@@ -21,11 +21,9 @@ public class TuntiDAOImplementation implements TuntiDAO {
 	
 	final static Logger logger = LoggerFactory.getLogger(TuntiDAOImplementation.class);
 	
-	
 	@Autowired
     private JdbcTemplate jdbcTemplate;
-	
-	
+		
 	public int lisaaHenkiloProjektiin(int henkilo_id, int projekti_id){
 		String sql_insert = "INSERT INTO Proj_kayt VALUES (?,?)";
 		String sql_select = "Select * from Proj_kayt WHERE kayt_id = "+henkilo_id+" AND proj_id  = "+ projekti_id;
@@ -44,6 +42,21 @@ public class TuntiDAOImplementation implements TuntiDAO {
 			daoVirheenHallinta(ex);
 		}		
 		return 1;
+	}
+	
+	// Lisätään transaktion
+	public int luoProjekti(ProjektiImpl projekti){
+		int onnistui = 0;
+		String sql = "INSERT INTO Projekti(nimi, kuvaus) VALUES(?,?);";
+		Object[] parametrit = new Object[] {projekti.getNimi(), projekti.getKuvaus()};
+		try {
+			jdbcTemplate.update(sql, parametrit);
+			logger.info("Lisättiin uusi projekti tietokantaan");
+			onnistui = 1;
+		} catch (DataAccessException ex) {
+			daoVirheenHallinta(ex);
+		}
+		return onnistui;
 	}
 	
 	@Transactional(readOnly=true)

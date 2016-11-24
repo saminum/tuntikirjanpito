@@ -28,5 +28,7 @@ public interface TuntiDAO {
 	
 	int lisaaHenkiloProjektiin(int henkilo_id, int projekti_id);
 	
+	int luoProjekti(ProjektiImpl projekti);
+	
 
 }

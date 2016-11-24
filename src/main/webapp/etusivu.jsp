@@ -45,36 +45,34 @@
 	<sec:authorize access="hasRole('ADMIN')">
 	<div class="container">
 	<h2><spring:message code="app.admin_controlpanel"/></h2>
-	<h1>TÄHÄN: 
-	<c:if test="${not empty virhe}">
-    	${virhe}.
-	</c:if>
-	
-	
-	
-	</h1>
-	
 	
 	<h3><spring:message code="app.add_person_to_project"/></h3>
 	<form:form action="/tuntikirjanpito/lisaa_henkilo_projektiin" modelAttribute="henkiloProjekti" method="POST">
-	
-			<p><spring:message code="app.choose_project" var="cproj"/></p>
 			
+			<spring:message code="app.choose_project" var="cproj"/>
+			
+			<div class="input-group input-group-lg" id="syotto_kentat">
+			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></span>
 			<form:select path="projekti_id" class="form-control">
 				<form:option value="0" label="${cproj}" />
 				<c:forEach items="${henkiloProjekti.projektit}" var="pt">
 					<form:option value="${pt.projekti_id}">${pt.nimi}</form:option>
 				</c:forEach>
 			</form:select>	
+			</div>
 			
-			<p><spring:message code="app.choose_person" var="cuser"/></p>
+			<spring:message code="app.choose_person" var="cuser"/>
 			
+			<div class="input-group input-group-lg" id="syotto_kentat">
+			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
 			<form:select path="henkilo_id" class="form-control">
 				<form:option value="0" label="${cuser}" />
 				<c:forEach items="${henkiloProjekti.henkilot}" var="ht">
 					<form:option value="${ht.id}">${ht.etunimi} ${ht.sukunimi}</form:option>
 				</c:forEach>
-			</form:select>			
+			</form:select>
+			<p>${virhe}</p>
+			</div>		
 		
 		<input type="submit" class="btn btn-success btn-md lisaa_tunteja_button" value="<spring:message code="app.add" />" />
 	</form:form>
@@ -82,9 +80,18 @@
 	<h3><spring:message code="app.create_new_project"/></h3>
 	<form:form action="/tuntikirjanpito/luo_projekti" modelAttribute="projekti" method="POST">
 		
-		<form:input path="nimi" class="form-control"/>
-		<form:input path="kuvaus" class="form-control"/>
-		
+	<spring:message code="app.proj_name" var="proj_name"/>
+		<div class="input-group input-group-lg" id="syotto_kentat">
+			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></span>
+			<form:input path="nimi" class="form-control" placeholder="${proj_name} " />
+		</div>
+	
+	<spring:message code="app.proj_desc" var="proj_desc"/>
+		<div class="input-group input-group-lg" id="syotto_kentat">
+			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></span>
+			<form:input path="kuvaus" class="form-control" placeholder="${proj_desc} " />
+		</div>
+
 	<input type="submit" class="btn btn-success btn-md lisaa_tunteja_button" value="<spring:message code="app.add" />" />	
 	
 	</form:form>

@@ -41,15 +41,18 @@ public class TuntikirjausController {
 	
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String etusivu(Model model, @ModelAttribute("virhe") Object virheObject ) {
+	public String etusivu(Model model, HttpServletRequest request ) {
+		HttpSession session = request.getSession(true);
+		
 		logger.info("Siirrytään palvelun etusivulle. Adminille ja käyttäjälle eri näkymät");
 		ProjektiHenkiloImpl projektiHenkilo = new ProjektiHenkiloImpl();
 		projektiHenkilo.sethenkilot(dao.haeHenkilot());
 		projektiHenkilo.setprojektit(dao.haeProjektit());
 		model.addAttribute("henkiloProjekti", projektiHenkilo);
-		System.out.println("virheobject: " + virheObject);
-		model.addAttribute("virhe", virheObject);
-		
+		String virhe = (String) session.getAttribute("virhe");
+		model.addAttribute("virhe", virhe);
+		session.removeAttribute("virhe");
+
 		if(!model.containsAttribute("projekti")){
 			Projekti tyhjaProjekti = new ProjektiImpl();
 			model.addAttribute("projekti", tyhjaProjekti);
@@ -58,26 +61,31 @@ public class TuntikirjausController {
 	}
 	
 	//http://stackoverflow.com/questions/7429649/how-to-pass-model-attributes-from-one-spring-mvc-controller-to-another-controlle
-	
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value="lisaa_henkilo_projektiin", method=RequestMethod.POST)
-	public String createUserForProject(Model model, RedirectAttributes redirectAttributes, @ModelAttribute(value="henkiloProjekti") ProjektiHenkiloImpl henkiloProjekti){
+	public String createUserForProject(Model model, HttpServletRequest request, @ModelAttribute(value="henkiloProjekti") ProjektiHenkiloImpl henkiloProjekti){
 		logger.info("lisätään henkilö id:llä " + henkiloProjekti.gethenkilo_id() + " projektiin id:llä " + henkiloProjekti.getprojekti_id());
-		int onnistuiko = dao.lisaaHenkiloProjektiin(henkiloProjekti.gethenkilo_id(), henkiloProjekti.getprojekti_id());
-		if (onnistuiko == 0){
-			logger.info("Henkilö on jo valitsemassasi projektissa");
-			String virheViestiLisaaHlo = "Henkilö kuuluu jo projektiin";
-			redirectAttributes.addFlashAttribute("virhe", virheViestiLisaaHlo);
+		int onnistui = dao.lisaaHenkiloProjektiin(henkiloProjekti.gethenkilo_id(), henkiloProjekti.getprojekti_id());
+		HttpSession session = request.getSession(true);
+		if (onnistui == 0){
+			String virheViesti = "Henkilö on jo valitsemassasi projektissa";
+			logger.info(virheViesti);	
+			session.setAttribute("virhe", virheViesti);
 		}else{
 			logger.info("Henkilö lisätty onnistuneesti projektiin");
+			session.removeAttribute("virhe");
 		}
 		return "redirect:/";
 	}
 	
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value="luo_projekti", method=RequestMethod.POST)
-	public String createNewProject(@ModelAttribute(value="henkiloProjekti") ProjektiHenkiloImpl henkiloProjekti, BindingResult result, RedirectAttributes attr){
-		System.out.println("############### projektin id: " + henkiloProjekti.getprojekti_id());
-		System.out.println("#############  henkilon id: "+ henkiloProjekti.gethenkilo_id());
-		//dao.lisaaHenkiloProjektiin(projekti);
+	public String createNewProject(@ModelAttribute(value="projekti") ProjektiImpl projekti, BindingResult result, RedirectAttributes attr){
+		String projektiNimi = projekti.getNimi();
+		String projektiKuvaus = projekti.getKuvaus();
+		logger.info("Yritetään lisätä uusi projekti nimellä: " +projektiNimi+ " kuvauksella: " + projektiKuvaus);
+		int onnistui = dao.luoProjekti(projekti);
+		
 		return "redirect:/";
 	}
 	
