@@ -60,8 +60,10 @@ public class TuntiDAOImplementation implements TuntiDAO {
 	}
 	
 	@Transactional(readOnly=true)
-	public List<HenkilotImpl> summaaTunnit(){
-		String sql = "select t.kayttaja_id, sum(t.tuntien_maara) as tunnit, k.etunimi, k.sukunimi from Tunnit t JOIN Kayttajat k ON t.kayttaja_id=k.id group by t.kayttaja_id;";
+	public List<HenkilotImpl> summaaTunnit(int projekti_id){
+		String sql = "select t.kayttaja_id, sum(t.tuntien_maara) as tunnit, k.etunimi, k.sukunimi from Tunnit t JOIN Kayttajat k ON t.kayttaja_id=k.id "
+				+ "WHERE t.projekti=" + projekti_id 
+				+ "group by t.kayttaja_id;";
 		List<HenkilotImpl> summatutTunnit = null;
 		try {
 			summatutTunnit = jdbcTemplate.query(sql, new SummatutTunnitRowMapper());
@@ -78,7 +80,7 @@ public class TuntiDAOImplementation implements TuntiDAO {
 		String sql = "SELECT p.proj_id, Tunnit.id as 'tunti_id', Tunnit.tuntien_maara, Tunnit.paivamaara, Tunnit.kuvaus, Kayttajat.etunimi, Kayttajat.sukunimi, Kayttajat.id as kayttaja_id FROM Tunnit" 
 			+	" JOIN Kayttajat ON Tunnit.kayttaja_id = Kayttajat.id" 
 			+	" JOIN Proj_kayt p ON Kayttajat.id=p.kayt_id"
-			+	" WHERE p.proj_id="+projekti_id
+			+	" WHERE t.projekti="+projekti_id
 			+	" ORDER BY Tunnit.paivamaara;";
 		List<HenkilotImpl> henkilot = null;
 		try {
@@ -93,6 +95,18 @@ public class TuntiDAOImplementation implements TuntiDAO {
 	@Transactional(readOnly=true)
 	public List<HenkilotImpl> haeHenkilot(){
 		String sql = "SELECT id, kayttajatunnus, email, etunimi, sukunimi, salasana FROM Kayttajat";
+		List<HenkilotImpl> henkilot = null;
+		try {
+			henkilot = jdbcTemplate.query(sql, new HenkilotRowMapper());
+			logger.info("Haettiin kaikki henkilöt tietokannasta");
+		} catch (DataAccessException ex) {
+			daoVirheenHallinta(ex);
+		}	
+		return henkilot;
+	}
+	@Transactional(readOnly=true)
+	public List<HenkilotImpl> haeProjektiHenkilot(int projekti_id){
+		String sql = "SELECT id, kayttajatunnus, email, etunimi, sukunimi, salasana FROM Kayttajat k JOIN Proj_kayt pk ON k.id = pk.kayt_id WHERE pk.proj_id=" + projekti_id;
 		List<HenkilotImpl> henkilot = null;
 		try {
 			henkilot = jdbcTemplate.query(sql, new HenkilotRowMapper());

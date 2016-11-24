@@ -33,7 +33,7 @@ import com.dao.TuntiDAO;
 
 @Controller
 public class TuntikirjausController {
-	
+	public int projekti_id;
 	final static Logger logger = LoggerFactory.getLogger(TuntikirjausController.class);
 	
 	@Autowired
@@ -54,7 +54,17 @@ public class TuntikirjausController {
 			Projekti tyhjaProjekti = new ProjektiImpl();
 			model.addAttribute("projekti", tyhjaProjekti);
 	  	}
+		List<ProjektiImpl> projektit = dao.haeProjektit();
+		model.addAttribute("projektit", projektit);
 		return "etusivu";
+	}
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(value = "/listaa_projektit", method = RequestMethod.POST)
+	public String haeProjektit(Model model, RedirectAttributes redirectAttributes, @ModelAttribute(value="Projekti") ProjektiImpl projekti){
+		logger.info("Siirrytään projektinäkymään, projekti_id= " + projekti.getProjekti_id());
+		projekti_id = projekti.getProjekti_id();
+		model.addAttribute("projekti", projekti);
+		return "redirect:/projekti";
 	}
 	
 	//http://stackoverflow.com/questions/7429649/how-to-pass-model-attributes-from-one-spring-mvc-controller-to-another-controlle
@@ -82,14 +92,15 @@ public class TuntikirjausController {
 	}
 	
     @RequestMapping(value="/projekti", method=RequestMethod.GET)
-	public String getView(Model model ){
+	public String getView(Model model, HttpServletRequest request){
+    	logger.info("projekti id = : " + projekti_id);
 		logger.info("Listataan tunnit ja luodaan formi.");
 //		PROJEKTI ID TUODAAN ETUSIVUN NÄKYMÄSTÄ MISSÄ VALITAAN MIKÄ PROJEKTI NÄYTETÄÄN
 //		model.GET ATTRIBUTE TAI JOTAIN..ATTRIBUTE. @ModelAttribute
-		List<HenkilotImpl> henkilot = dao.haeTunnit(1);
+		List<HenkilotImpl> henkilot = dao.haeTunnit(projekti_id);
 		model.addAttribute("henkilot", henkilot);
-		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
-		List<HenkilotImpl> henkiloidenTiedot = dao.haeHenkilot();
+		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit(projekti_id);
+		List<HenkilotImpl> henkiloidenTiedot = dao.haeProjektiHenkilot(projekti_id);
 		model.addAttribute("henkiloTiedot", henkiloidenTiedot);
 		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
 		if(!model.containsAttribute("henkilo")){
@@ -120,7 +131,7 @@ public class TuntikirjausController {
 		session.setAttribute("henk_id", henk_id);
 		List<HenkilotImpl> henkilot = dao.haeHenkilonTunnit(henk_id);
 		model.addAttribute("henkilot", henkilot);
-		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
+		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit(projekti_id);
 		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
 		List<HenkilotImpl> henkiloidenTiedot = dao.haeHenkilot();
 		model.addAttribute("henkiloTiedot", henkiloidenTiedot);
@@ -137,7 +148,7 @@ public class TuntikirjausController {
 		int henk_id = (Integer) session.getAttribute("henk_id");
 		List<HenkilotImpl> henkilot = dao.haeHenkilonTunnit(henk_id);
 		model.addAttribute("henkilot", henkilot);
-		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
+		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit(projekti_id);
 		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
 		List<HenkilotImpl> henkiloidenTiedot = dao.haeHenkilot();
 		model.addAttribute("henkiloTiedot", henkiloidenTiedot);
