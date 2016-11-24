@@ -26,7 +26,7 @@
 
 <title><spring:message code="app.title" /></title>
 
-<!-- <link rel="stylesheet" type="text/css" href="/common.css"> -->
+<link rel="stylesheet" type="text/css" href="/tuntikirjanpito/common.css">
 
 </head>
 

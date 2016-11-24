@@ -27,14 +27,13 @@
 
 <title><spring:message code="app.title" /></title>
 
-<!-- <link rel="stylesheet" type="text/css" href="/common.css"> -->
+<link rel="stylesheet" type="text/css" href="/tuntikirjanpito/common.css">
 
 </head>
 
 <body>
 	<div><a href="?language=en"><spring:message code="app.english" /></a>|<a href="?language=fi"><spring:message code="app.finnish" /></a></div>
 
-	</div>
 <div class="container">
 
         <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
@@ -49,7 +48,7 @@
                         <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
                         
                         <c:if test="${param.error != null}">
-						        <div id=>
+						        <div id="" class="Virheteksti">
 						        	<spring:message code="app.wrong_password"/>
 						        </div>      
          				</c:if>

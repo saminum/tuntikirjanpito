@@ -56,7 +56,8 @@ public class TuntikirjausController {
 	public String create( @ModelAttribute(value="henkilo") @Valid HenkilotImpl henkilot, BindingResult result, RedirectAttributes attr){
 		if(result.hasErrors()){
 			attr.addFlashAttribute("org.springframework.validation.BindingResult.henkilo", result);
-		    attr.addFlashAttribute("henkilo", henkilot);
+		    
+			attr.addFlashAttribute("henkilo", henkilot);
 			return "redirect:/";
 		}else{
 			String escapedHtml = HtmlUtils.htmlEscape(henkilot.getTunnit().get(0).getKuvaus());
