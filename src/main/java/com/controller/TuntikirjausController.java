@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,12 +40,9 @@ public class TuntikirjausController {
 	public String getView(Model model){
 		logger.info("Listataan tunnit ja luodaan formi.");
 		List<HenkilotImpl> henkilot = dao.haeTunnit();
-		System.out.println(henkilot);
 		model.addAttribute("henkilot", henkilot);
 		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit();
-		System.out.println(henkiloidenTunnit);
 		List<HenkilotImpl> henkiloidenTiedot = dao.haeHenkilot();
-		System.out.println(henkiloidenTiedot);
 		model.addAttribute("henkiloTiedot", henkiloidenTiedot);
 		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
 		if(!model.containsAttribute("henkilo")){
@@ -56,13 +55,14 @@ public class TuntikirjausController {
     @RequestMapping(value="lisaa", method=RequestMethod.POST)
 	public String create( @ModelAttribute(value="henkilo") @Valid HenkilotImpl henkilot, BindingResult result, RedirectAttributes attr){
 		if(result.hasErrors()){
-			System.out.println("RESULT " + result);
 			attr.addFlashAttribute("org.springframework.validation.BindingResult.henkilo", result);
 		    attr.addFlashAttribute("henkilo", henkilot);
+		    attr.addFlashAttribute("tallennus", "");
 			return "redirect:/";
 		}else{
 			String escapedHtml = HtmlUtils.htmlEscape(henkilot.getTunnit().get(0).getKuvaus());
 			henkilot.getTunnit().get(0).setKuvaus(escapedHtml);
+		    attr.addFlashAttribute("tallennus", "ok");
 			dao.talleta(henkilot);
 			return "redirect:/";
 		}
@@ -101,15 +101,37 @@ public class TuntikirjausController {
 	}
     
     @RequestMapping(value="poista", method=RequestMethod.POST)
-	public String poista(@RequestParam("tunti_id") int henk_id)  {
+	public String poista(@RequestParam("tunti_id") int henk_id, RedirectAttributes attr)  {
 		logger.info("Poistetaan henkilön tuntirivi tietokannasta.");		
 		try{
-			dao.poista(henk_id);		
+			dao.poista(henk_id);	
+			attr.addFlashAttribute("poisto", "ok");
 		}catch (DataAccessException ex) {		
 			logger.debug("Käyttäjän tuntirivin poisto epäonnistui.");
+			attr.addFlashAttribute("poisto", "");
 		}		
 		return "redirect:/";
 	}
-    
-    
+    @RequestMapping(value="register", method=RequestMethod.GET)
+	public String rekisterointi(Model model){
+    	if(!model.containsAttribute("registerhenkilo")){
+			Henkilot registerhenkilo = new HenkilotImpl();
+			registerhenkilo.setId(0);
+			model.addAttribute("registerhenkilo", registerhenkilo);
+    	}
+		return "register";
+	}
+    @RequestMapping(value="register", method=RequestMethod.POST)
+   	public String rekisterointiKantaan(@ModelAttribute(value="registerhenkilo") @Valid HenkilotImpl henkilo, BindingResult result, RedirectAttributes attr){
+    	if(result.hasErrors()){
+			attr.addFlashAttribute("org.springframework.validation.BindingResult.henkilo", result);
+		    attr.addFlashAttribute("registerhenkilo", henkilo);
+			return "register";
+		}else{
+	    	String encrypted = new BCryptPasswordEncoder().encode(henkilo.getSalasana());
+	    	henkilo.setSalasana(encrypted);
+	    	dao.lisaaKayttaja(henkilo);
+	   		return "redirect:/";
+		}
+   	}
 }

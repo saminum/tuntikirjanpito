@@ -11,6 +11,7 @@ import com.beans.HenkilotImpl;
 public interface TuntiDAO {
 
 	void talleta(Henkilot henkilo);
+	void lisaaKayttaja(HenkilotImpl kayttaja);
 
 	List<HenkilotImpl> haeTunnit();
 

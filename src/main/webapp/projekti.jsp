@@ -51,19 +51,29 @@
 		</div>
 		
 		<div class="col-lg-6 col-md-6 col-sm-6 ylakulma">
-			<spring:message code="app.language" />: <a href="?language=en"><spring:message code="app.english" /></a> | <a href="?language=fi"><spring:message code="app.finnish" /></a>
+			<a href="?language=en"><spring:message code="app.english" /></a> | <a href="?language=fi"><spring:message code="app.finnish" /></a>
 			<p><spring:message code="app.loggedin" />: <sec:authentication property="principal.username"/></p>
 			<p><a href="/tuntikirjanpito/logout" ><spring:message code="app.logout" /></a></p>
 		</div>
 	</div>
+
+		 <c:if test="${not empty poisto}">
+	 <div id='Poisto' class="alert alert-warning"><strong>Tietue poistettu</strong></div>
+	   <script type="text/javascript">
+  $( '#Poisto' ).show(function(){
+      $(this).fadeOut(5000);
+});
+</script>
+</c:if>
+
 	<div class="container">
 	<div class="container col-lg-6 col-sm-12 tuntikirjaus_lohko" id="sisalto_lohko1" >
 			
 			<h4 class="hykkonen"><spring:message code="app.addhours" /></h4>
 			
 			<form:form action="/tuntikirjanpito/lisaa" modelAttribute="henkilo" method="POST">
-					<spring:message code="app.chooseuser" var="cuser" />
-					<c:set var="Virheteksti1Errors"><form:errors path="id" cssClass="Virheteksti"/></c:set>
+					<spring:message code="app.chooseuser" var="cuser"/>
+					<c:set var="Virheteksti1Errors"><form:errors path="id" cssClass="Virheteksti" /></c:set>
 					<c:if test="${not empty Virheteksti1Errors}">
 					<style type="text/css">
      						#syotto_kentat1{
@@ -73,16 +83,23 @@
      						}
   					</style>
 					</c:if>
-					<form:errors path="id" cssClass="Virheteksti"/>
-					<div class="input-group input-group-lg" id="syotto_kentat1" >
+					<form:errors path="id" cssClass="Virheteksti" />
+					<div class="input-group input-group-lg" id="syotto_kentat1">
 					<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+					
 					<form:select path="id" class="form-control">
-						  <form:option value="0" label="${cuser}" />
+						  <form:option value="-1" label="${cuser}" />
 						  <c:forEach items="${henkiloTiedot}" var="ht">
 						  <form:option value="${ht.id}">${ht.etunimi} ${ht.sukunimi}</form:option>
 						  </c:forEach>
 					</form:select>
 					</div>
+					
+					<form:hidden path="etunimi" value="placeholder"/>
+					<form:hidden path="sukunimi" value="placeholder"/>
+					<form:hidden path="email" value="placeholder@holder.fi" />
+					<form:hidden path="salasana" value="placeholder"/>
+					<form:hidden path="tunnus" value="123"/>
 					
 					<c:set var="Virheteksti2Errors"><form:errors path="tunnit[0].tunnit" cssClass="Virheteksti"/></c:set>
 					<c:if test="${not empty Virheteksti2Errors}">
@@ -137,6 +154,13 @@
 					<input type="submit" class="btn btn-success btn-md lisaa_tunteja_button"  value="<spring:message code="app.add" />" >
 					
 			</form:form>
+								<c:if test="${not empty tallennus}">
+					<div id='Lisays' class="alert alert-success"><strong>Tallennus onnistui</strong></div>
+  					<script type="text/javascript">
+  						$( '#Lisays' ).show(function(){
+      							$(this).fadeOut(5000);
+						});
+					</script></c:if>
 		</div>
 	
 	
@@ -175,7 +199,7 @@
 		
 		
 		
-	
+		
 	</div>
 
 	<div class="container table-responsive visible-md visible-lg visible-xl" id="sisalto_lohko">
@@ -213,6 +237,7 @@
 		
 	<div class="container table-responsive visible-sm visible-xs" id="sisalto_lohko" >
 	  <h4 id="hykkonen2"><spring:message code="app.listofhours" /></h4> <a style="float:right" href="/tuntikirjanpito/" onclick="myFunction4()"><spring:message code="app.listall" /></a>
+
 	  <form action="/tuntikirjanpito/poista" method="POST">                           
 	  <table class="table listaus_mobile">
 	    
@@ -229,6 +254,7 @@
 	    </tbody>
 	  </table>
 	  </form>
+	  </div>
 	</div>
 <script>
 var on = 0;
