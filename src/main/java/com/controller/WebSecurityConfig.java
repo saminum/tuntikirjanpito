@@ -22,7 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	http
         	.csrf().disable()
             .authorizeRequests()
-            	.antMatchers("/resources/**", "/login", "/register").permitAll()
+            	.antMatchers("/common.css", "/form.css" , "/login", "/register", "/unohdus").permitAll()
             	.antMatchers("/tuntikirjanpito").access("hasRole('USER')")
                 .anyRequest().authenticated()
                 .and()

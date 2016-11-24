@@ -8,7 +8,6 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,6 +24,7 @@ import org.springframework.web.util.HtmlUtils;
 
 import com.beans.Henkilot;
 import com.beans.HenkilotImpl;
+import com.beans.Unohdus;
 import com.dao.TuntiDAO;
 
 
@@ -133,5 +133,28 @@ public class TuntikirjausController {
 	    	dao.lisaaKayttaja(henkilo);
 	   		return "redirect:/";
 		}
+    }
+    
+    @RequestMapping(value="unohdus", method=RequestMethod.GET)
+   	public String getForgot(Model model){
+    	if(!model.containsAttribute("resunohdus")){
+		    Unohdus unohdus = new Unohdus();
+			model.addAttribute("resunohdus", unohdus);
+	  	}
+			return "unohdus";
+    }
+    
+    @RequestMapping(value="unohdus", method=RequestMethod.POST)
+   	public String forgot(@ModelAttribute(value="resunohdus") @Valid Unohdus unohdus, BindingResult result, RedirectAttributes attr){
+    	if(result.hasErrors()){
+    		System.out.println("RESULT " + result);
+			attr.addFlashAttribute("org.springframework.validation.BindingResult.resunohdus", result);
+		    attr.addFlashAttribute("resunohdus", unohdus);
+			return "redirect:/unohdus";
+		}else{
+			
+			return "unohdus";
+		}
+    	
    	}
 }
