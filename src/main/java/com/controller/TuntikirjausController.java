@@ -56,12 +56,13 @@ public class TuntikirjausController {
 	public String create( @ModelAttribute(value="henkilo") @Valid HenkilotImpl henkilot, BindingResult result, RedirectAttributes attr){
 		if(result.hasErrors()){
 			attr.addFlashAttribute("org.springframework.validation.BindingResult.henkilo", result);
-		    
-			attr.addFlashAttribute("henkilo", henkilot);
+		    attr.addFlashAttribute("henkilo", henkilot);
+		    attr.addFlashAttribute("tallennus", "");
 			return "redirect:/";
 		}else{
 			String escapedHtml = HtmlUtils.htmlEscape(henkilot.getTunnit().get(0).getKuvaus());
 			henkilot.getTunnit().get(0).setKuvaus(escapedHtml);
+		    attr.addFlashAttribute("tallennus", "ok");
 			dao.talleta(henkilot);
 			return "redirect:/";
 		}
@@ -100,12 +101,14 @@ public class TuntikirjausController {
 	}
     
     @RequestMapping(value="poista", method=RequestMethod.POST)
-	public String poista(@RequestParam("tunti_id") int henk_id)  {
+	public String poista(@RequestParam("tunti_id") int henk_id, RedirectAttributes attr)  {
 		logger.info("Poistetaan henkilön tuntirivi tietokannasta.");		
 		try{
-			dao.poista(henk_id);		
+			dao.poista(henk_id);	
+			attr.addFlashAttribute("poisto", "ok");
 		}catch (DataAccessException ex) {		
 			logger.debug("Käyttäjän tuntirivin poisto epäonnistui.");
+			attr.addFlashAttribute("poisto", "");
 		}		
 		return "redirect:/";
 	}
