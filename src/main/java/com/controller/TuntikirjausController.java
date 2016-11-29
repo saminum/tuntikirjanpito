@@ -120,7 +120,7 @@ public class TuntikirjausController {
 		}else{
 			String escapedHtml = HtmlUtils.htmlEscape(henkilot.getTunnit().get(0).getKuvaus());
 			henkilot.getTunnit().get(0).setKuvaus(escapedHtml);
-			dao.talleta(henkilot);
+			dao.talleta(henkilot, projekti_id);
 			return "redirect:/";
 		}
 	}

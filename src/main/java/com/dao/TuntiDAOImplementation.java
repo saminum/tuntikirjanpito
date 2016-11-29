@@ -77,11 +77,10 @@ public class TuntiDAOImplementation implements TuntiDAO {
 	 
 	@Transactional(readOnly=true)
 	public List<HenkilotImpl> haeTunnit(int projekti_id){
-		String sql = "SELECT p.proj_id, Tunnit.id as 'tunti_id', Tunnit.tuntien_maara, Tunnit.paivamaara, Tunnit.kuvaus, Kayttajat.etunimi, Kayttajat.sukunimi, Kayttajat.id as kayttaja_id FROM Tunnit" 
+		String sql = "SELECT Tunnit.id as 'tunti_id', Tunnit.tuntien_maara, Tunnit.paivamaara, Tunnit.kuvaus, Kayttajat.etunimi, Kayttajat.sukunimi, Kayttajat.id as kayttaja_id FROM Tunnit" 
 			+	" JOIN Kayttajat ON Tunnit.kayttaja_id = Kayttajat.id" 
-			+	" JOIN Proj_kayt p ON Kayttajat.id=p.kayt_id"
-			+	" WHERE Tunnit.projekti="+projekti_id
-			+	" ORDER BY Tunnit.paivamaara;";
+			+	" WHERE Tunnit.projekti="+projekti_id + ";";
+
 		List<HenkilotImpl> henkilot = null;
 		try {
 			henkilot = jdbcTemplate.query(sql, new TunnitRowMapper());
@@ -117,7 +116,7 @@ public class TuntiDAOImplementation implements TuntiDAO {
 		return henkilot;
 	}
 	
-	public void talleta(Henkilot henkilo){
+	public void talleta(Henkilot henkilo,int projekti_id){
 		String paivamaara= henkilo.getTunnit().get(0).getStringdate();
 		String[] osat = new String[3];
 		osat = paivamaara.split("[.]", 3);
@@ -126,8 +125,8 @@ public class TuntiDAOImplementation implements TuntiDAO {
 		String vv = osat[2];
 		String kantapaiva = ""+ vv + "-" + kk + "-" + pv + " 00:00:01";
 	
-		String sql = "INSERT INTO Tunnit (tuntien_maara, kuvaus, kayttaja_id, paivamaara) VALUES(?,?,?,?)";
-		Object[] parametrit = new Object[] {henkilo.getTunnit().get(0).getTunnit(), henkilo.getTunnit().get(0).getKuvaus(), henkilo.getId(), kantapaiva};
+		String sql = "INSERT INTO Tunnit (tuntien_maara, kuvaus, kayttaja_id, paivamaara, projekti) VALUES(?,?,?,?,?)";
+		Object[] parametrit = new Object[] {henkilo.getTunnit().get(0).getTunnit(), henkilo.getTunnit().get(0).getKuvaus(), henkilo.getId(), kantapaiva, projekti_id};
 		try {
 			jdbcTemplate.update(sql, parametrit);
 			logger.info("Tallennettiin henkilön tunnit tietokantaan käyttäjä ID:llä: " + henkilo.getId() + " ");

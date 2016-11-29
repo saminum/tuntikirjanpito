@@ -11,7 +11,7 @@ import com.beans.ProjektiImpl;
 
 public interface TuntiDAO {
 
-	void talleta(Henkilot henkilo);
+	void talleta(Henkilot henkilo, int projekti_id);
 
 	List<HenkilotImpl> haeTunnit(int projekti_id);
 
