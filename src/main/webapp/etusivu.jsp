@@ -98,6 +98,26 @@
 	
 	</form:form>
 	
+	
+	<h3><spring:message code="app.delete_project"/></h3>
+	<form:form action="/tuntikirjanpito/poista_projekti" modelAttribute="projekti" method="POST">
+		
+	<div class="input-group input-group-lg" id="syotto_kentat">
+			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></span>
+			<form:select path="projekti_id" class="form-control">
+				<form:option value="0" label="${cproj}" />
+				<c:forEach items="${henkiloProjekti.projektit}" var="pt">
+					<form:option value="${pt.projekti_id}">${pt.nimi}</form:option>
+				</c:forEach>
+			</form:select>	
+			</div>
+
+	<input type="submit" class="btn btn-success btn-md lisaa_tunteja_button" value="<spring:message code="app.add" />" />	
+	
+	</form:form>
+	
+	
+	
 	</div>
 	</sec:authorize>
 	

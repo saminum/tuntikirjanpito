@@ -100,6 +100,16 @@ public class TuntikirjausController {
 		return "redirect:/";
 	}
 	
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(value="poista_projekti", method=RequestMethod.POST)
+	public String Delete_project(@ModelAttribute(value="projekti") ProjektiImpl projekti){
+		int projektiId = projekti.getProjekti_id();
+		logger.info("Yritetään poistaa projekti id:llä: " +projektiId);
+		//int onnistui = dao.PoistaProjekti(projekti);
+		
+		return "redirect:/";
+	}
+	
     @RequestMapping(value="/projekti", method=RequestMethod.GET)
 	public String getView(Model model ){
 		logger.info("Listataan tunnit ja luodaan formi.");

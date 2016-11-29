@@ -30,5 +30,5 @@ public interface TuntiDAO {
 	
 	int luoProjekti(ProjektiImpl projekti);
 	
-
+	int PoistaProjekti(ProjektiImpl projekti);
 }
