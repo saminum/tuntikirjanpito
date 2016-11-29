@@ -62,7 +62,7 @@ public class TuntiDAOImplementation implements TuntiDAO {
 	@Transactional(readOnly=true)
 	public List<HenkilotImpl> summaaTunnit(int projekti_id){
 		String sql = "select t.kayttaja_id, sum(t.tuntien_maara) as tunnit, k.etunimi, k.sukunimi from Tunnit t JOIN Kayttajat k ON t.kayttaja_id=k.id "
-				+ "WHERE t.projekti=" + projekti_id 
+				+ "WHERE projekti=" + projekti_id 
 				+ "group by t.kayttaja_id;";
 		List<HenkilotImpl> summatutTunnit = null;
 		try {
@@ -80,7 +80,7 @@ public class TuntiDAOImplementation implements TuntiDAO {
 		String sql = "SELECT p.proj_id, Tunnit.id as 'tunti_id', Tunnit.tuntien_maara, Tunnit.paivamaara, Tunnit.kuvaus, Kayttajat.etunimi, Kayttajat.sukunimi, Kayttajat.id as kayttaja_id FROM Tunnit" 
 			+	" JOIN Kayttajat ON Tunnit.kayttaja_id = Kayttajat.id" 
 			+	" JOIN Proj_kayt p ON Kayttajat.id=p.kayt_id"
-			+	" WHERE t.projekti="+projekti_id
+			+	" WHERE Tunnit.projekti="+projekti_id
 			+	" ORDER BY Tunnit.paivamaara;";
 		List<HenkilotImpl> henkilot = null;
 		try {
