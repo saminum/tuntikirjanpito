@@ -123,12 +123,37 @@
 	
 	<div class="container">
 		<h2><spring:message code="app.choose_project"/></h2>
-		<p>tähän tulee listaus projekteista</p>	
-		<p>tähän tulee listaus projekteista</p>	
-		<p>tähän tulee listaus projekteista</p>	
-		<p>tähän tulee listaus projekteista</p>	
-		<p>tähän tulee listaus projekteista</p>	
-		<p>tähän tulee listaus projekteista</p>	
+	<style>
+table, th, td {
+    border: 1px solid black;
+    padding: 5px;
+}
+table {
+    border-spacing: 5px;
+}
+</style>
+
+	<table>
+	
+		  <tr>
+	        <td >Projektin ID</td>
+	        <td>Nimi</td>
+	        <td>Kuvaus</td>
+	        <td>Aloitus</td>
+	       	<td>Lopetus</td>
+		 </tr>
+		 	<form:form action="/tuntikirjanpito/listaa_projektit" modelAttribute="Projekti" method="POST">
+		<c:forEach items="${projektit}" var="p">
+	      <tr>
+	        <td><button type="submit" name="projekti_id"  value="${p.projekti_id}">${p.projekti_id}</button></td>
+	        <td>${p.nimi}</td>
+	        <td>${p.kuvaus}</td>
+	        <td>${p.alku_pvm}</td>
+	       	<td>${p.loppu_pvm}</td>
+		 </tr>
+	     </c:forEach> 
+	     </table>
+	     </form:form>
 	</div>
 	
 </body>

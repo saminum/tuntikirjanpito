@@ -99,8 +99,10 @@ public class TuntiDAOImplementation implements TuntiDAO {
 	}
 	
 	@Transactional(readOnly=true)
-	public List<HenkilotImpl> summaaTunnit(){
-		String sql = "select t.kayttaja_id, sum(t.tuntien_maara) as tunnit, k.etunimi, k.sukunimi from Tunnit t JOIN Kayttajat k ON t.kayttaja_id=k.id group by t.kayttaja_id;";
+	public List<HenkilotImpl> summaaTunnit(int projekti_id){
+		String sql = "select t.kayttaja_id, sum(t.tuntien_maara) as tunnit, k.etunimi, k.sukunimi from Tunnit t JOIN Kayttajat k ON t.kayttaja_id=k.id "
+				+ "WHERE projekti=" + projekti_id
+				+ " GROUP by t.kayttaja_id;";
 		List<HenkilotImpl> summatutTunnit = null;
 		try {
 			summatutTunnit = jdbcTemplate.query(sql, new SummatutTunnitRowMapper());
@@ -114,11 +116,10 @@ public class TuntiDAOImplementation implements TuntiDAO {
 	 
 	@Transactional(readOnly=true)
 	public List<HenkilotImpl> haeTunnit(int projekti_id){
-		String sql = "SELECT p.proj_id, Tunnit.id as 'tunti_id', Tunnit.tuntien_maara, Tunnit.paivamaara, Tunnit.kuvaus, Kayttajat.etunimi, Kayttajat.sukunimi, Kayttajat.id as kayttaja_id FROM Tunnit" 
+		String sql = "SELECT Tunnit.id as 'tunti_id', Tunnit.tuntien_maara, Tunnit.paivamaara, Tunnit.kuvaus, Kayttajat.etunimi, Kayttajat.sukunimi, Kayttajat.id as kayttaja_id FROM Tunnit" 
 			+	" JOIN Kayttajat ON Tunnit.kayttaja_id = Kayttajat.id" 
-			+	" JOIN Proj_kayt p ON Kayttajat.id=p.kayt_id"
-			+	" WHERE p.proj_id="+projekti_id
-			+	" ORDER BY Tunnit.paivamaara;";
+			+	" WHERE Tunnit.projekti="+projekti_id + ";";
+
 		List<HenkilotImpl> henkilot = null;
 		try {
 			henkilot = jdbcTemplate.query(sql, new TunnitRowMapper());
@@ -141,8 +142,20 @@ public class TuntiDAOImplementation implements TuntiDAO {
 		}	
 		return henkilot;
 	}
+	@Transactional(readOnly=true)
+	public List<HenkilotImpl> haeProjektiHenkilot(int projekti_id){
+		String sql = "SELECT id, kayttajatunnus, email, etunimi, sukunimi, salasana FROM Kayttajat k JOIN Proj_kayt pk ON k.id = pk.kayt_id WHERE pk.proj_id=" + projekti_id;
+		List<HenkilotImpl> henkilot = null;
+		try {
+			henkilot = jdbcTemplate.query(sql, new HenkilotRowMapper());
+			logger.info("Haettiin kaikki henkilöt tietokannasta");
+		} catch (DataAccessException ex) {
+			daoVirheenHallinta(ex);
+		}	
+		return henkilot;
+	}
 	
-	public void talleta(Henkilot henkilo){
+	public void talleta(Henkilot henkilo,int projekti_id){
 		String paivamaara= henkilo.getTunnit().get(0).getStringdate();
 		String[] osat = new String[3];
 		osat = paivamaara.split("[.]", 3);
@@ -151,8 +164,8 @@ public class TuntiDAOImplementation implements TuntiDAO {
 		String vv = osat[2];
 		String kantapaiva = ""+ vv + "-" + kk + "-" + pv + " 00:00:01";
 	
-		String sql = "INSERT INTO Tunnit (tuntien_maara, kuvaus, kayttaja_id, paivamaara) VALUES(?,?,?,?)";
-		Object[] parametrit = new Object[] {henkilo.getTunnit().get(0).getTunnit(), henkilo.getTunnit().get(0).getKuvaus(), henkilo.getId(), kantapaiva};
+		String sql = "INSERT INTO Tunnit (tuntien_maara, kuvaus, kayttaja_id, paivamaara, projekti) VALUES(?,?,?,?,?)";
+		Object[] parametrit = new Object[] {henkilo.getTunnit().get(0).getTunnit(), henkilo.getTunnit().get(0).getKuvaus(), henkilo.getId(), kantapaiva, projekti_id};
 		try {
 			jdbcTemplate.update(sql, parametrit);
 			logger.info("Tallennettiin henkilön tunnit tietokantaan käyttäjä ID:llä: " + henkilo.getId() + " ");
@@ -162,10 +175,11 @@ public class TuntiDAOImplementation implements TuntiDAO {
 	}
 	
 	@Transactional(readOnly=true)
-	public List<HenkilotImpl> haeHenkilonTunnit(int id){
+	public List<HenkilotImpl> haeHenkilonTunnit(int id, int projekti_id){
 		String sql = "SELECT Tunnit.id as 'tunti_id', Tunnit.tuntien_maara, Tunnit.paivamaara, Tunnit.kuvaus, Kayttajat.etunimi,"
 				+ " Kayttajat.sukunimi, Kayttajat.id as kayttaja_id FROM Tunnit JOIN Kayttajat ON Tunnit.kayttaja_id = Kayttajat.id"
 				+ " WHERE kayttaja_id=" + id 
+				+ " AND projekti=" + projekti_id
 				+ " ORDER BY Tunnit.paivamaara";
 		List<HenkilotImpl> henkilot = null;
 		try {

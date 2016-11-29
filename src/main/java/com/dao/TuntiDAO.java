@@ -11,16 +11,16 @@ import com.beans.ProjektiImpl;
 
 public interface TuntiDAO {
 
-	void talleta(Henkilot henkilo);
+	void talleta(Henkilot henkilo, int projekti_id);
 
 	List<HenkilotImpl> haeTunnit(int projekti_id);
 
 	void poista(int id);
 
-	List<HenkilotImpl> summaaTunnit();
+	List<HenkilotImpl> summaaTunnit(int projekti_id);
 	List<HenkilotImpl> haeHenkilot();
-	
-	List<HenkilotImpl> haeHenkilonTunnit(int id);
+	List<HenkilotImpl> haeProjektiHenkilot(int projekti_id);
+	List<HenkilotImpl> haeHenkilonTunnit(int id, int projekti_id);
 
 	void daoVirheenHallinta(DataAccessException ex);
 	
