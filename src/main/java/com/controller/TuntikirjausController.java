@@ -116,12 +116,12 @@ public class TuntikirjausController {
 			System.out.println("RESULT " + result);
 			attr.addFlashAttribute("org.springframework.validation.BindingResult.henkilo", result);
 		    attr.addFlashAttribute("henkilo", henkilot);
-			return "redirect:/";
+			return "redirect:/projekti";
 		}else{
 			String escapedHtml = HtmlUtils.htmlEscape(henkilot.getTunnit().get(0).getKuvaus());
 			henkilot.getTunnit().get(0).setKuvaus(escapedHtml);
 			dao.talleta(henkilot, projekti_id);
-			return "redirect:/";
+			return "redirect:/projekti";
 		}
 	}
     
@@ -129,7 +129,7 @@ public class TuntikirjausController {
 	public String hae(@RequestParam("tunti_id") int henk_id, Model model, HttpServletRequest request){
 		HttpSession session = request.getSession(true);
 		session.setAttribute("henk_id", henk_id);
-		List<HenkilotImpl> henkilot = dao.haeHenkilonTunnit(henk_id);
+		List<HenkilotImpl> henkilot = dao.haeHenkilonTunnit(henk_id, projekti_id);
 		model.addAttribute("henkilot", henkilot);
 		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit(projekti_id);
 		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
@@ -146,7 +146,7 @@ public class TuntikirjausController {
 	public String haeGet(@ModelAttribute(value="henkilot_id") HenkilotImpl get_id, Model model, HttpServletRequest request){
 		HttpSession session = request.getSession(true);
 		int henk_id = (Integer) session.getAttribute("henk_id");
-		List<HenkilotImpl> henkilot = dao.haeHenkilonTunnit(henk_id);
+		List<HenkilotImpl> henkilot = dao.haeHenkilonTunnit(henk_id, projekti_id);
 		model.addAttribute("henkilot", henkilot);
 		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit(projekti_id);
 		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);

@@ -20,7 +20,7 @@ public interface TuntiDAO {
 	List<HenkilotImpl> summaaTunnit(int projekti_id);
 	List<HenkilotImpl> haeHenkilot();
 	List<HenkilotImpl> haeProjektiHenkilot(int projekti_id);
-	List<HenkilotImpl> haeHenkilonTunnit(int id);
+	List<HenkilotImpl> haeHenkilonTunnit(int id, int projekti_id);
 
 	void daoVirheenHallinta(DataAccessException ex);
 	
