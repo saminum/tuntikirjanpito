@@ -23,6 +23,7 @@ public class TuntiDAOImplementation implements TuntiDAO {
 	
 	@Autowired
     private JdbcTemplate jdbcTemplate;
+	
 		
 	public int lisaaHenkiloProjektiin(int henkilo_id, int projekti_id){
 		String sql_insert = "INSERT INTO Proj_kayt VALUES (?,?)";
@@ -47,12 +48,25 @@ public class TuntiDAOImplementation implements TuntiDAO {
 	// Lisätään transaktion
 	public int luoProjekti(ProjektiImpl projekti){
 		int onnistui = 0;
-		String sql = "INSERT INTO Projekti(nimi, kuvaus) VALUES(?,?);";
+		String insert_sql = "INSERT INTO Projekti(nimi, kuvaus) VALUES(?,?);";
 		Object[] parametrit = new Object[] {projekti.getNimi(), projekti.getKuvaus()};
 		try {
-			jdbcTemplate.update(sql, parametrit);
-			logger.info("Lisättiin uusi projekti tietokantaan");
-			onnistui = 1;
+			List<ProjektiImpl> projektit = haeProjektit();
+			
+			boolean loytyi = false;
+			for(int i=0; i<projektit.size(); i++){
+				if (projektit.get(i).getNimi().equalsIgnoreCase(projekti.getNimi())){
+					logger.info(projekti.getNimi() + " niminen projekti on jo olemassa");
+					loytyi = true;
+				}
+			}
+			if (loytyi == true){
+				return onnistui;
+			}else{
+				jdbcTemplate.update(insert_sql, parametrit);
+				logger.info("Lisättiin uusi projekti tietokantaan");
+				onnistui = 1;
+			}				
 		} catch (DataAccessException ex) {
 			daoVirheenHallinta(ex);
 		}

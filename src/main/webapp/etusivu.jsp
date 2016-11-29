@@ -71,8 +71,9 @@
 					<form:option value="${ht.id}">${ht.etunimi} ${ht.sukunimi}</form:option>
 				</c:forEach>
 			</form:select>
-			<p>${virhe}</p>
-			</div>		
+			
+			</div>
+			<p>${virhe}</p>	
 		
 		<input type="submit" class="btn btn-success btn-md lisaa_tunteja_button" value="<spring:message code="app.add" />" />
 	</form:form>
@@ -85,6 +86,7 @@
 			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></span>
 			<form:input path="nimi" class="form-control" placeholder="${proj_name} " />
 		</div>
+		<p>${proj_luonti_virhe}</p>
 	
 	<spring:message code="app.proj_desc" var="proj_desc"/>
 		<div class="input-group input-group-lg" id="syotto_kentat">

@@ -50,8 +50,11 @@ public class TuntikirjausController {
 		projektiHenkilo.setprojektit(dao.haeProjektit());
 		model.addAttribute("henkiloProjekti", projektiHenkilo);
 		String virhe = (String) session.getAttribute("virhe");
+		String proj_luonti_virhe = (String) session.getAttribute("projektin_luonti_virhe");
 		model.addAttribute("virhe", virhe);
+		model.addAttribute("proj_luonti_virhe", proj_luonti_virhe);
 		session.removeAttribute("virhe");
+		session.removeAttribute("projektin_luonti_virhe");
 
 		if(!model.containsAttribute("projekti")){
 			Projekti tyhjaProjekti = new ProjektiImpl();
@@ -80,12 +83,20 @@ public class TuntikirjausController {
 	
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value="luo_projekti", method=RequestMethod.POST)
-	public String createNewProject(@ModelAttribute(value="projekti") ProjektiImpl projekti, BindingResult result, RedirectAttributes attr){
+	public String createNewProject(@ModelAttribute(value="projekti") ProjektiImpl projekti, HttpServletRequest request ){
+		HttpSession session = request.getSession(true);
 		String projektiNimi = projekti.getNimi();
 		String projektiKuvaus = projekti.getKuvaus();
 		logger.info("Yritetään lisätä uusi projekti nimellä: " +projektiNimi+ " kuvauksella: " + projektiKuvaus);
 		int onnistui = dao.luoProjekti(projekti);
-		
+		if (onnistui == 0){
+			String virheViesti = "Saman niminen projekti on jo olemassa. Valitse uusi nimi.";
+			session.setAttribute("projektin_luonti_virhe", virheViesti);
+			logger.info("Saman niminen projekti on jo olemassa. Valitse uusi nimi.");
+		}else{
+			logger.info("Uusi projekti lisätty onnistuneesti");
+			session.removeAttribute("projektin_luonti_virhe");
+		}
 		return "redirect:/";
 	}
 	
