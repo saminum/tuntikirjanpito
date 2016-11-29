@@ -73,16 +73,19 @@ public class TuntiDAOImplementation implements TuntiDAO {
 		return onnistui;
 	}
 	
-	public int PoistaProjekti(ProjektiImpl projekti){
-		String delete_sql = "delete from....";
+	public void PoistaProjekti(ProjektiImpl projekti){
+		String delete_sql_tunnit = "DELETE FROM Tunnit WHERE projekti=?;";
+		String delete_sql_projkayt ="DELETE FROM Proj_kayt WHERE proj_id =?;";
+		String delete_sql_projekti ="DELETE FROM Projekti WHERE id=?;";
+		Object[] parametrit = new Object[] {projekti.getProjekti_id()};
 		try {
-			jdbcTemplate.query(delete_sql, new ProjektitRowMapper());
-			logger.info("Haetaan kaikki projektit tietokannasta");
+			jdbcTemplate.update(delete_sql_tunnit, parametrit);
+			jdbcTemplate.update(delete_sql_projkayt, parametrit);
+			jdbcTemplate.update(delete_sql_projekti, parametrit);
+			logger.info("Poistettiin projekti kaikkine tunteineen");
 		} catch (DataAccessException ex) {
 			daoVirheenHallinta(ex);
 		}
-		
-		return 1;
 	}
 	
 	@Transactional(readOnly=true)

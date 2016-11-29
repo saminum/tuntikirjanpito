@@ -115,8 +115,7 @@ public class TuntikirjausController {
 	public String Delete_project(@ModelAttribute(value="projekti") ProjektiImpl projekti){
 		int projektiId = projekti.getProjekti_id();
 		logger.info("Yritetään poistaa projekti id:llä: " +projektiId);
-		//int onnistui = dao.PoistaProjekti(projekti);
-		
+		dao.PoistaProjekti(projekti);
 		return "redirect:/";
 	}
 	

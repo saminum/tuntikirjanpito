@@ -46,6 +46,8 @@
 	<div class="container">
 	<h2><spring:message code="app.admin_controlpanel"/></h2>
 	
+	<div class="row">
+	<div class="col-md-6">
 	<h3><spring:message code="app.add_person_to_project"/></h3>
 	<form:form action="/tuntikirjanpito/lisaa_henkilo_projektiin" modelAttribute="henkiloProjekti" method="POST">
 			
@@ -78,6 +80,10 @@
 		<input type="submit" class="btn btn-success btn-md lisaa_tunteja_button" value="<spring:message code="app.add" />" />
 	</form:form>
 	
+	</div>
+	
+	
+	<div class="col-md-6">
 	<h3><spring:message code="app.create_new_project"/></h3>
 	<form:form action="/tuntikirjanpito/luo_projekti" modelAttribute="projekti" method="POST">
 		
@@ -97,8 +103,10 @@
 	<input type="submit" class="btn btn-success btn-md lisaa_tunteja_button" value="<spring:message code="app.add" />" />	
 	
 	</form:form>
-	
-	
+	</div>
+	</div>
+	<div class="row">
+	<div class="col-md-12">
 	<h3><spring:message code="app.delete_project"/></h3>
 	<form:form action="/tuntikirjanpito/poista_projekti" modelAttribute="projekti" method="POST">
 		
@@ -112,12 +120,12 @@
 			</form:select>	
 			</div>
 
-	<input type="submit" class="btn btn-success btn-md lisaa_tunteja_button" value="<spring:message code="app.add" />" />	
+	<input type="submit" class="btn btn-danger btn-md lisaa_tunteja_button" value="<spring:message code="app.delete" />" />	
 	
 	</form:form>
 	
-	
-	
+	</div>
+	</div>
 	</div>
 	</sec:authorize>
 	
