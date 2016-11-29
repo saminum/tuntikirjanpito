@@ -1,7 +1,23 @@
+.container{
+	position:relative;
+	padding:2px;
+}
+
 .ylakulma{
 	float:right;
 	margin-top:10px;
-	text-align:right;	
+	text-align:right;
+}
+
+img{
+	height:100%;
+	width:100%;
+	position:fixed;
+	opacity:0.1;
+}
+
+.tunnityht{
+	text-align:center;
 }
 
 #syotto_kentat1{
@@ -21,8 +37,7 @@
 }
 
 .input-group-lg > .form-control, .input-group-lg > .input-group-addon, .input-group-lg > .input-group-btn > .btn {
-    height: 40px;
-    
+    height: 40px;   
     font-size: 15px;
     line-height: 1.3333333;
     border-radius: 5px;
@@ -38,10 +53,12 @@
 }
 
 .yht1{font-weight: bold;
+
 	
 }
 
 .yht2{font-weight: bold;
+	text-align:center;
 	
 }
 
@@ -72,9 +89,7 @@
 	}
 	
 .ylakulma {
-	text-align:left;
-	float:left;
-	margin-bottom: 20px;
+	position:relative;
 	}
 	
 #sisalto_lohko{
@@ -92,10 +107,15 @@
 .Virheteksti{
 	color: red;
 	
-	
 }
 
 .kielet{
 	float:right;
 	font-size:0.9em;
+}
+
+.propsit{
+	text-align:center;
+	font-size:0.9em;
+	position:relative;
 }
