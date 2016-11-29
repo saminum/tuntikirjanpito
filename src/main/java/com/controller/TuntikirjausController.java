@@ -165,7 +165,7 @@ public class TuntikirjausController {
 		}catch (DataAccessException ex) {		
 			logger.debug("Käyttäjän tuntirivin poisto epäonnistui.");
 		}		
-		return "redirect:/";
+		return "redirect:/projekti";
 	}
     
     
