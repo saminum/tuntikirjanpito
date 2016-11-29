@@ -24,5 +24,8 @@ public interface TuntiDAO {
 
 	void daoVirheenHallinta(DataAccessException ex);
 	
+	HenkilotImpl haeKayttaja(String tunnus);
+	
+	void muutaSalasana(String tunnus, String uusisala);
 
 }

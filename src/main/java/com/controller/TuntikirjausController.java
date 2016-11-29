@@ -136,24 +136,36 @@ public class TuntikirjausController {
     }
     
     @RequestMapping(value="unohdus", method=RequestMethod.GET)
-   	public String getForgot(Model model){
-    	if(!model.containsAttribute("resunohdus")){
-		    Unohdus unohdus = new Unohdus();
-			model.addAttribute("resunohdus", unohdus);
-	  	}
+   	public String getForgot(@ModelAttribute(value="unohdus") Unohdus unohdus, BindingResult result, RedirectAttributes attr){
 			return "unohdus";
     }
     
     @RequestMapping(value="unohdus", method=RequestMethod.POST)
-   	public String forgot(@ModelAttribute(value="resunohdus") @Valid Unohdus unohdus, BindingResult result, RedirectAttributes attr){
+   	public String forgot(@ModelAttribute(value="unohdus") @Valid Unohdus unohdus, BindingResult result, RedirectAttributes attr){
     	if(result.hasErrors()){
-    		System.out.println("RESULT " + result);
-			attr.addFlashAttribute("org.springframework.validation.BindingResult.resunohdus", result);
-		    attr.addFlashAttribute("resunohdus", unohdus);
-			return "redirect:/unohdus";
+			attr.addFlashAttribute("org.springframework.validation.BindingResult.unohdus", result);
+		    attr.addFlashAttribute("unohdus", unohdus);
+			return "unohdus";
 		}else{
 			
-			return "unohdus";
+			HenkilotImpl dbhenkilo = dao.haeKayttaja(unohdus.getTunnus());
+			
+			if(dbhenkilo == null){
+				attr.addFlashAttribute("update", "eok");
+				return "unohdus";
+			}
+			
+			if(dbhenkilo.getEmail().equals(unohdus.getEmail())){
+				String uusisala = new BCryptPasswordEncoder().encode(unohdus.getSalasana());
+		    	dao.muutaSalasana(unohdus.getTunnus(), uusisala);
+		    	attr.addFlashAttribute("update", "ok");
+				return "login";
+				
+			}else{
+				attr.addFlashAttribute("update", "eok");
+				return "unohdus";
+				
+			}
 		}
     	
    	}

@@ -34,7 +34,16 @@
 <body>
 	<div><a href="?language=en"><spring:message code="app.english" /></a>|<a href="?language=fi"><spring:message code="app.finnish" /></a></div>
 
-	</div>
+			 <c:if test="${update=='ok'}">
+	 <div id='update' class="alert alert-warning"><strong><spring:message code="app.updateok" /></strong></div>
+	   <script type="text/javascript">
+  $( '#update' ).show(function(){
+      $(this).fadeOut(5000);
+});
+</script>
+</c:if>
+
+	
 <div class="container">
 
         <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
