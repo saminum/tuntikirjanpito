@@ -62,8 +62,8 @@ public class TuntiDAOImplementation implements TuntiDAO {
 	@Transactional(readOnly=true)
 	public List<HenkilotImpl> summaaTunnit(int projekti_id){
 		String sql = "select t.kayttaja_id, sum(t.tuntien_maara) as tunnit, k.etunimi, k.sukunimi from Tunnit t JOIN Kayttajat k ON t.kayttaja_id=k.id "
-				+ "WHERE projekti=" + projekti_id 
-				+ "group by t.kayttaja_id;";
+				+ "WHERE projekti=" + projekti_id
+				+ " GROUP by t.kayttaja_id;";
 		List<HenkilotImpl> summatutTunnit = null;
 		try {
 			summatutTunnit = jdbcTemplate.query(sql, new SummatutTunnitRowMapper());
