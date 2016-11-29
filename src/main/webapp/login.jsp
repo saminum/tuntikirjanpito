@@ -32,7 +32,7 @@
 </head>
 
 <body>
-	<div><a href="?language=en"><spring:message code="app.english" /></a>|<a href="?language=fi"><spring:message code="app.finnish" /></a></div>
+	
 
 <div class="container">
 
@@ -50,7 +50,9 @@
             <h3><spring:message code="app.name" /></h3> 
             <div class="panel panel-info" >
                     <div class="panel-heading">
+                    	<div class="kielet"><a href="?language=en"><spring:message code="app.english" /></a>|<a href="?language=fi"><spring:message code="app.finnish" /></a></div>
                         <div class="panel-title"><spring:message code="app.loggingin" /></div>
+                        
                     </div>     
 
                     <div style="padding-top:30px" class="panel-body" >
