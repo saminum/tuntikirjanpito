@@ -42,6 +42,10 @@
 			});
 		});
 	</script>
+	<script type="text/javascript">
+	$('body').prepend('<a href="#" class="back-to-top">Back to Top</a>');
+</script>
+	<a href="#" class="back-to-top">Back to Top</a>
 	<div class="container">
 		<div class="col-lg-6 col-md-6 col-sm-6" id="sisalto_lohko">
 			<h2><spring:message code="app.name" /></h2>
@@ -273,6 +277,25 @@ function myFunction2() {
 		}
 }
 
+</script>
+<script>
+var amountScrolled = 300;
+
+$(window).scroll(function() {
+	if ( $(window).scrollTop() > amountScrolled ) {
+		$('a.back-to-top').fadeIn('slow');
+	} else {
+		$('a.back-to-top').fadeOut('slow');
+	}
+});
+</script>
+<script>
+$('a.back-to-top').click(function() {
+	$('html, body').animate({
+		scrollTop: 0
+	}, 700);
+	return false;
+});
 </script>
 <div class="propsit"><a href="http://PPDigital.openphoto.net/gallery/">Darren Hester</a> for <a href="http://openphoto.net/gallery/image/view/6263">openphoto.net</a></div>
 </body>
