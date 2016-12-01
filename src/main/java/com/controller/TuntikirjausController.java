@@ -11,7 +11,12 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+
 import org.springframework.security.access.prepost.PreAuthorize;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -123,14 +128,17 @@ public class TuntikirjausController {
 	public String getView(Model model, HttpServletRequest request){
     	logger.info("projekti id = : " + projekti_id);
 		logger.info("Listataan tunnit ja luodaan formi.");
+
 //		PROJEKTI ID TUODAAN ETUSIVUN NÄKYMÄSTÄ MISSÄ VALITAAN MIKÄ PROJEKTI NÄYTETÄÄN
 //		model.GET ATTRIBUTE TAI JOTAIN..ATTRIBUTE. @ModelAttribute
 		List<HenkilotImpl> henkilot = dao.haeTunnit(projekti_id);
 		model.addAttribute("henkilot", henkilot);
 		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit(projekti_id);
 		List<HenkilotImpl> henkiloidenTiedot = dao.haeProjektiHenkilot(projekti_id);
+
 		model.addAttribute("henkiloTiedot", henkiloidenTiedot);
 		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
+		
 		if(!model.containsAttribute("henkilo")){
 		    Henkilot tyhjaHenkilo = new HenkilotImpl();
 			model.addAttribute("henkilo", tyhjaHenkilo);
@@ -151,7 +159,7 @@ public class TuntikirjausController {
 			dao.talleta(henkilot, projekti_id);
 			return "redirect:/projekti";
 		}
-	}
+    }
     
     @RequestMapping(value="henkilo", method=RequestMethod.POST)
 	public String hae(@RequestParam("tunti_id") int henk_id, Model model, HttpServletRequest request){
@@ -186,15 +194,37 @@ public class TuntikirjausController {
 	}
     
     @RequestMapping(value="poista", method=RequestMethod.POST)
-	public String poista(@RequestParam("tunti_id") int henk_id)  {
+	public String poista(@RequestParam("tunti_id") int henk_id, RedirectAttributes attr)  {
 		logger.info("Poistetaan henkilön tuntirivi tietokannasta.");		
 		try{
-			dao.poista(henk_id);		
+			dao.poista(henk_id);	
+			attr.addFlashAttribute("poisto", "ok");
 		}catch (DataAccessException ex) {		
 			logger.debug("Käyttäjän tuntirivin poisto epäonnistui.");
+			attr.addFlashAttribute("poisto", "");
 		}		
 		return "redirect:/projekti";
 	}
-    
-    
+    @RequestMapping(value="register", method=RequestMethod.GET)
+	public String rekisterointi(Model model){
+    	if(!model.containsAttribute("registerhenkilo")){
+			Henkilot registerhenkilo = new HenkilotImpl();
+			registerhenkilo.setId(0);
+			model.addAttribute("registerhenkilo", registerhenkilo);
+    	}
+		return "register";
+	}
+    @RequestMapping(value="register", method=RequestMethod.POST)
+   	public String rekisterointiKantaan(@ModelAttribute(value="registerhenkilo") @Valid HenkilotImpl henkilo, BindingResult result, RedirectAttributes attr){
+    	if(result.hasErrors()){
+			attr.addFlashAttribute("org.springframework.validation.BindingResult.henkilo", result);
+		    attr.addFlashAttribute("registerhenkilo", henkilo);
+			return "register";
+		}else{
+	    	String encrypted = new BCryptPasswordEncoder().encode(henkilo.getSalasana());
+	    	henkilo.setSalasana(encrypted);
+	    	dao.lisaaKayttaja(henkilo);
+	   		return "redirect:/";
+		}
+   	}
 }

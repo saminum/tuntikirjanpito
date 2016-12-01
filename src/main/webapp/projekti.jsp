@@ -27,7 +27,8 @@
 <title><spring:message code="app.title" /></title>
 
 </head>
-<body>
+<body onload="myFunction2()">
+
 	<script>
 		$(function(){
 			$('.datepicker').datepicker({
@@ -50,19 +51,120 @@
 		</div>
 		
 		<div class="col-lg-6 col-md-6 col-sm-6 ylakulma">
-			<spring:message code="app.language" />: <a href="?language=en"><spring:message code="app.english" /></a> | <a href="?language=fi"><spring:message code="app.finnish" /></a>
+			<a href="?language=en"><spring:message code="app.english" /></a> | <a href="?language=fi"><spring:message code="app.finnish" /></a>
 			<p><spring:message code="app.loggedin" />: <sec:authentication property="principal.username"/></p>
 
 			<p>	<a href="/tuntikirjanpito/" ><spring:message code="app.return" /></a> / <a href="/tuntikirjanpito/logout" ><spring:message code="app.logout" /></a></p>
 		</div>
-	
-	
-		
-		
 	</div>
-	
+		 <c:if test="${not empty poisto}">
+			 <div id='Poisto' class="alert alert-warning"><strong>Tietue poistettu</strong></div>
+			   <script type="text/javascript">
+		  			$( '#Poisto' ).show(function(){
+		      			$(this).fadeOut(5000);
+					});
+				</script>
+		</c:if>
 	<div class="container">
+	<div class="container col-lg-6 col-sm-12 tuntikirjaus_lohko" id="sisalto_lohko1" >
+			
+			<h4 class="hykkonen"><spring:message code="app.addhours" /></h4>
+			
+			<form:form action="/tuntikirjanpito/lisaa" modelAttribute="henkilo" method="POST">
+					<spring:message code="app.chooseuser" var="cuser"/>
+					<c:set var="Virheteksti1Errors"><form:errors path="id" cssClass="Virheteksti" /></c:set>
+					<c:if test="${not empty Virheteksti1Errors}">
+					<style type="text/css">
+     						#syotto_kentat1{
+     						border: 1px solid red;
+     						border-radius: 7px;
+     						margin-bottom:1em;
+     						}
+  					</style>
+					</c:if>
+					<form:errors path="id" cssClass="Virheteksti" />
+					<div class="input-group input-group-lg" id="syotto_kentat1">
+					<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+					
+					<form:select path="id" class="form-control">
+						  <form:option value="-1" label="${cuser}" />
+						  <c:forEach items="${henkiloTiedot}" var="ht">
+						  <form:option value="${ht.id}">${ht.etunimi} ${ht.sukunimi}</form:option>
+						  </c:forEach>
+					</form:select>
+					</div>
+					
+					<form:hidden path="etunimi" value="placeholder"/>
+					<form:hidden path="sukunimi" value="placeholder"/>
+					<form:hidden path="email" value="placeholder@holder.fi" />
+					<form:hidden path="salasana" value="placeholder"/>
+					<form:hidden path="tunnus" value="123"/>
+					
+					<c:set var="Virheteksti2Errors"><form:errors path="tunnit[0].tunnit" cssClass="Virheteksti"/></c:set>
+					<c:if test="${not empty Virheteksti2Errors}">
+					<style type="text/css">
+     						#syotto_kentat2{
+     						border: 1px solid red;
+     						border-radius: 7px;
+     						margin-bottom:1em;
+     						}
+  					</style>
+					</c:if>
+					<form:errors path="tunnit[0].tunnit" cssClass="Virheteksti"/>
+					<div class="input-group input-group-lg" id="syotto_kentat2">
+					<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></span>
+					<form:input path="tunnit[0].tunnit" class="form-control" />
+					</div>
+					<spring:message code="app.description" var="desc"/>
+					<c:set var="Virheteksti3Errors"><form:errors path="tunnit[0].kuvaus" cssClass="Virheteksti"/></c:set>
+					<c:if test="${not empty Virheteksti3Errors}">
+					<style type="text/css">
+     						#syotto_kentat3{
+     						border: 1px solid red;
+     						border-radius: 7px;
+     						margin-bottom:1em;
+     						}
+  					</style>
+					</c:if>
+					
+					<form:errors path="tunnit[0].kuvaus" cssClass="Virheteksti"/>
+					<div class="input-group input-group-lg" id="syotto_kentat4">
+					<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></span>
+					<form:input path="tunnit[0].kuvaus" rows="5" cols="30" class="form-control" placeholder="${desc} " />
+					</div>
+					
+					<c:set var="Virheteksti4Errors"><form:errors path="tunnit[0].stringdate" cssClass="Virheteksti"/></c:set>
+					<c:if test="${not empty Virheteksti4Errors}">
+					<style type="text/css">
+     						#syotto_kentat4{
+     						border: 1px solid red;
+     						border-radius: 7px;
+     						margin-bottom:1em;
+     						}
+  					</style>
+					</c:if>
+					<form:errors path="tunnit[0].stringdate" cssClass="Virheteksti"/>
+					<div class="input-group input-group-lg" id="syotto_kentat4">
+					<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+					<form:input path="tunnit[0].stringdate" class="datepicker form-control"/>
+					</div>
+					
+						
+					<input type="submit" class="btn btn-success btn-md lisaa_tunteja_button"  value="<spring:message code="app.add" />" >
+					
+			</form:form>
+								<c:if test="${not empty tallennus}">
+					<div id='Lisays' class="alert alert-success"><strong>Tallennus onnistui</strong></div>
+  					<script type="text/javascript">
+  						$( '#Lisays' ).show(function(){
+      							$(this).fadeOut(5000);
+						});
+					</script></c:if>
+		</div>
+	
+	
 		<div class="col-lg-6 table-responsive" id="sisalto_lohko">
+		<form action="/tuntikirjanpito/henkilo" method="POST">
 		  <h4><spring:message code="app.person.hour" /></h4>
 		                              
 		  <table class="table table-hover">
@@ -74,7 +176,7 @@
 		    	</tr>
 		    </thead>
 		    <tbody>
-		    <form action="/tuntikirjanpito/henkilo" method="POST">
+		    
 		    <c:set var="total" value="${0}"/>
 		    	<c:forEach items="${henkiloidenTunnit}" var="ht">
 		      		<tr>
@@ -89,58 +191,20 @@
 		    <td class="yht1"><spring:message code="app.total" /></td>	 
 		    <td><div class="yht2"><p>${total}</p></div></td>	
 		    </tr>
-		    </form>
 		    </tbody>		     	 	
 		    </table>
-		    
+		    </form>
 		</div>
 		
 		
 		
-		<div class="container col-lg-6 col-sm-12 tuntikirjaus_lohko" id="sisalto_lohko">
-			
-			<h4 class="hykkonen"><spring:message code="app.addhours" /></h4>
-			
-			<form:form action="/tuntikirjanpito/lisaa" modelAttribute="henkilo" method="POST">
-					<spring:message code="app.chooseuser" var="cuser"/>
-					<form:errors path="id" cssClass="Virheteksti"/>
-					<div class="input-group input-group-lg" id="syotto_kentat">
-					<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
-					<form:select path="id" class="form-control">
-						  <form:option value="0" label="${cuser}" />
-						  <c:forEach items="${henkiloTiedot}" var="ht">
-						  <form:option value="${ht.id}">${ht.etunimi} ${ht.sukunimi}</form:option>
-						  </c:forEach>
-					</form:select>
-					</div>
-					
-					<form:errors path="tunnit[0].tunnit" cssClass="Virheteksti"/> 
-					<div class="input-group input-group-lg" id="syotto_kentat">
-					<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></span>
-					<form:input path="tunnit[0].tunnit" class="form-control"/>
-					</div>
-					<spring:message code="app.description" var="desc"/>
-					<form:errors path="tunnit[0].kuvaus" cssClass="Virheteksti"/>
-					<div class="input-group input-group-lg" id="syotto_kentat">
-					<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></span>
-					<form:input path="tunnit[0].kuvaus" rows="5" cols="30" class="form-control" placeholder="${desc} " />
-					</div>
-					
-					<form:errors path="tunnit[0].stringdate" cssClass="Virheteksti"/>
-					<div class="input-group input-group-lg" id="syotto_kentat">
-					<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
-					<form:input path="tunnit[0].stringdate" class="datepicker form-control"/>
-					</div>
-					
-						
-					<input type="submit" class="btn btn-success btn-md lisaa_tunteja_button" value="<spring:message code="app.add" />" />
-					
-			</form:form>
-		</div>
+		
 	</div>
 
 	<div class="container table-responsive visible-md visible-lg visible-xl" id="sisalto_lohko">
+
 	  <h4><spring:message code="app.listofhours" /></h4> <a style="float:right" href="/tuntikirjanpito/projekti/"><spring:message code="app.listall" /></a>
+
 	  <form action="/tuntikirjanpito/poista" method="POST">                           
 	  <table class="table table-hover">
 	    <thead>
@@ -172,8 +236,9 @@
 	</div>
 	
 		
-	<div class="container table-responsive visible-sm visible-xs" id="sisalto_lohko">
-	  <h4>Tuntilista</h4> <a style="float:right" href="/tuntikirjanpito/"><spring:message code="app.listall" /></a>
+	<div class="container table-responsive visible-sm visible-xs" id="sisalto_lohko" >
+	  <h4 id="hykkonen2"><spring:message code="app.listofhours" /></h4> <a style="float:right" href="/tuntikirjanpito/" onclick="myFunction4()"><spring:message code="app.listall" /></a>
+
 	  <form action="/tuntikirjanpito/poista" method="POST">                           
 	  <table class="table listaus_mobile">
 	    
@@ -190,8 +255,38 @@
 	    </tbody>
 	  </table>
 	  </form>
+	  </div>
 	</div>
+<script>
+var on = 0;
+var on2 = 0;
+function myFunction() {
+	on = 1;
+	localStorage.setItem("on", on);
 	
+}
+
+function myFunction4() {
+	on2 = 1;
+	localStorage.setItem("on2", on2);
 	
+}
+	
+function myFunction2() {
+	var onOff = localStorage.getItem("on");
+	var onOff2 = localStorage.getItem("on2");
+	if (onOff == 1){
+    window.location.href = "#hykkonen";
+    localStorage.clear();
+    return false;
+	}
+	if (onOff2 == 1){
+	    window.location.href = "#hykkonen2";
+	    localStorage.clear();
+	    return false;
+		}
+}
+
+</script>
 </body>
 </html>

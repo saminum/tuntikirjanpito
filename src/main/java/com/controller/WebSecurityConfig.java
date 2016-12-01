@@ -24,6 +24,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             	.antMatchers("/resources/**", "/login").permitAll()
             	.antMatchers("/tuntikirjanpito").access("hasRole('ADMIN')")
+
+            	.antMatchers("/common.css", "/form.css","/login", "/register").permitAll()
+            	//en tiedä tarviiko alla olevaa (sami mergen yhteydessä)
+            	//.antMatchers("/tuntikirjanpito").access("hasRole('USER')")
+
                 .anyRequest().authenticated()
                 .and()
             .formLogin()

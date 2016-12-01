@@ -27,21 +27,32 @@
 
 <title><spring:message code="app.title" /></title>
 
-<!-- <link rel="stylesheet" type="text/css" href="/common.css"> -->
+<link rel="stylesheet" type="text/css" href="/tuntikirjanpito/common.css">
 
 </head>
 
 <body>
-	<div>Language : <a href="?language=en"><spring:message code="app.english" /></a>|<a href="?language=fi"><spring:message code="app.finnish" /></a></div>
+	
 
-	</div>
 <div class="container">
+
+		${register}
+		<c:if test="${not empty register}">
+			 <div id='Register' class="alert alert-warning"><strong>Rekisteröityminen onnistui!</strong></div>
+			   <script type="text/javascript">
+		  			$('#Register').show(function(){
+		      			$(this).fadeOut(5000);
+					});
+				</script>
+		</c:if>
 
         <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
             <h3><spring:message code="app.name" /></h3> 
             <div class="panel panel-info" >
                     <div class="panel-heading">
+                    	<div class="kielet"><a href="?language=en"><spring:message code="app.english" /></a>|<a href="?language=fi"><spring:message code="app.finnish" /></a></div>
                         <div class="panel-title"><spring:message code="app.loggingin" /></div>
+                        
                     </div>     
 
                     <div style="padding-top:30px" class="panel-body" >
@@ -49,7 +60,7 @@
                         <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
                         
                         <c:if test="${param.error != null}">
-						        <div id=>
+						        <div id="" class="Virheteksti">
 						        	<spring:message code="app.wrong_password"/>
 						        </div>      
          				</c:if>
@@ -76,6 +87,7 @@
                                     <!-- Button -->
 
                                     <div class="col-sm-12 controls">
+                                    <a href="/tuntikirjanpito/register" style="float:right; margin-top:10px;"><spring:message code="app.registertext"/></a>
                                     <spring:message code="app.login" var="login"/>
                                     <input id="btn-login" type="submit" class="btn btn-success btn-md" style="float:right; margin-top:10px; clear:both;" value="${login}" />
                                     </div>
