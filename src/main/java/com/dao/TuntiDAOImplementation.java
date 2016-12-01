@@ -225,7 +225,7 @@ public class TuntiDAOImplementation implements TuntiDAO {
 				+ " Kayttajat.sukunimi, Kayttajat.id as kayttaja_id FROM Tunnit JOIN Kayttajat ON Tunnit.kayttaja_id = Kayttajat.id"
 				+ " WHERE kayttaja_id=" + id 
 				+ " AND projekti=" + projekti_id
-				+ " ORDER BY Tunnit.paivamaara";
+				+ " ORDER BY Tunnit.paivamaara DESC";
 		List<HenkilotImpl> henkilot = null;
 		try {
 			henkilot = jdbcTemplate.query(sql, new TunnitRowMapper());

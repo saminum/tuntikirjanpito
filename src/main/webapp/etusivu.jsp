@@ -150,11 +150,11 @@ table {
 	<table>
 	
 		  <tr>
-	        <td >Projektin ID</td>
-	        <td>Nimi</td>
-	        <td>Kuvaus</td>
-	        <td>Aloitus</td>
-	       	<td>Lopetus</td>
+	        <td><spring:message code="app.proj_pid" /></td>
+	        <td><spring:message code="app.proj_pname"/></td>
+	        <td><spring:message code="app.proj_des" /></td>
+	        <td><spring:message code="app.proj_start"/></td>
+	       	<td><spring:message code="app.proj_finish"/></td>
 		 </tr>
 		 	<form:form action="/tuntikirjanpito/listaa_projektit" modelAttribute="Projekti" method="POST">
 		<c:forEach items="${projektit}" var="p">
