@@ -26,14 +26,9 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.fi.min.js" charset="UTF-8"></script>
 
 <title><spring:message code="app.title" /></title>
-
 <link rel="stylesheet" type="text/css" href="/tuntikirjanpito/common.css">
-
 </head>
-
 <body>
-	
-
 <div class="container">
 
 		${register}
@@ -92,8 +87,6 @@
                                     <input id="btn-login" type="submit" class="btn btn-success btn-md" style="float:right; margin-top:10px; clear:both;" value="${login}" />
                                     </div>
                                 </div>
-
-
          </form>                       
     </div>
     </div>
