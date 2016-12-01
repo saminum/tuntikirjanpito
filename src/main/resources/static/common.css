@@ -1,3 +1,9 @@
+body{
+	background: #abbaab; /* fallback for old browsers */
+	background: -webkit-linear-gradient(to left, #abbaab , #ffffff); /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to left, #abbaab , #ffffff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
+}  
+
 .container{
 	position:relative;
 	padding:2px;
@@ -9,11 +15,17 @@
 	text-align:right;
 }
 
+.kaksi{
+	position:relative;	
+	padding-left:20px;
+	padding-right:20px;
+}
+
 img{
 	height:100%;
 	width:100%;
 	position:fixed;
-	opacity:0.1;
+	opacity:0.05;
 }
 
 .tunnityht{
@@ -52,9 +64,41 @@ img{
 	margin-bottom:2em;
 }
 
-.yht1{font-weight: bold;
+#sisalto_lohko_etuS{
+	margin-bottom:100px;
+	margin-right:50px;
+}
 
+.osa1{
+	float:right;
+	width:400px;
+	margin-bottom:50px;
+}
+
+.ylaotsikko{
+	margin-top:10%;
+}
+
+.osa2{
+	float:right;
+	width:400px;
+	margin-bottom:50px;
+}
+
+.yht1{font-weight: bold;
 	
+}
+
+.katoaa{
+	font-weight: bold;
+}
+
+.katoaaPvm{
+	font-weight: bold;
+}
+
+.hKolmonen{
+	margin-top:0;
 }
 
 .yht2{font-weight: bold;
@@ -64,6 +108,17 @@ img{
 
 .lisaa_tunteja_button{
 		float:right;
+}
+
+.poista-button{
+	float:right;
+	margin-top:9px;
+}
+
+.btn-link, .btn-link:active, .btn-link:focus, .btn-link:hover {
+    border-color: transparent;
+   font-weight: bold;
+   text-align:left;
 }
 
 .listaus_mobile tbody tr td{
@@ -79,6 +134,47 @@ img{
 	.lisaa_tunteja_button{
 		float:right;
 	}
+	
+}
+
+@media (max-width: 1200px){
+	.osa1{
+	float:left;
+	width:100%;
+	margin-bottom:50px;
+	}
+#sisalto_lohko_etuS{
+	margin-bottom:30px;
+	margin-right:50px;
+}
+
+@media (max-width: 570px){
+	.katoaa{
+	display:none;
+}
+
+	.katoaa2{
+	display:none;
+}
+	
+}
+
+@media (max-width: 450px){
+	.katoaaPvm2{
+	display:none;
+}
+
+	.katoaaPvm{
+	display:none;
+}
+
+}
+
+.osa2{
+	float:left;
+	width:100%;
+	margin-bottom:50px;
+}	
 	
 }
 
@@ -101,6 +197,18 @@ img{
 	float:right;
 	width:100%;
 	}
+	
+.osa1{
+	float:left;
+	width:100%;
+	margin-bottom:50px;
+}
+
+.osa2{
+	float:left;
+	width:100%;
+	margin-bottom:50px;
+}	
 
 }
 
@@ -118,6 +226,7 @@ img{
 	text-align:center;
 	font-size:0.9em;
 	position:relative;
+	bottom:0;	
 }
 
 a.back-to-top {

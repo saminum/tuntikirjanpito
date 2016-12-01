@@ -33,7 +33,6 @@
 		<div class="col-lg-6 col-md-6 col-sm-6" id="sisalto_lohko">
 			<h2><spring:message code="app.name" /></h2>
 		</div>
-		
 		<div class="col-lg-6 col-md-6 col-sm-6 ylakulma">
 			<spring:message code="app.language" />: <a href="?language=en"><spring:message code="app.english" /></a> | <a href="?language=fi"><spring:message code="app.finnish" /></a>
 			<p><spring:message code="app.loggedin" />: <sec:authentication property="principal.username"/></p>
@@ -41,14 +40,60 @@
 		</div>	
 	</div>
 	
+	<div class="container kaksi">
+	<h3 class="ylaotsikko"><spring:message code="app.admin_controlpanel"/></h3>
+		<div class="col-lg-7 table-responsive" id="sisalto_lohko_etuS">
+		<form:form id="columnarForm" modelAttribute="Projekti" method="POST">                            
+		  <table class="table table-hover">
+		    <thead>
+		    	<tr>
+			        <td class="yht1"><spring:message code="app.proj_pname"/></td>
+			        <td class="katoaa"><spring:message code="app.proj_des" /></td>
+			        <td class="katoaaPvm"><spring:message code="app.proj_start"/></td>
+			       	<td class="katoaaPvm"><spring:message code="app.proj_finish"/></td>
+			       	<td></td>
+		    	</tr>
+		    </thead>
+		    <tbody>	    
+		    <c:forEach items="${projektit}" var="p">
+	      <tr>
+	        <td><button type="submit" name="projekti_id" onclick="submitForm('/tuntikirjanpito/listaa_projektit')" value="${p.projekti_id}" class="btn-link">${p.nimi}</button></td>
+	        <td class="katoaa2">${p.kuvaus}</td>
+	        <td class="katoaaPvm2">${p.alku_pvm}</td>
+	       	<td class="katoaaPvm2">${p.loppu_pvm}</td>
+	       	<td><button type="submit" name="projekti_id" onclick="submitForm('/tuntikirjanpito/poista_projekti')" class="btn btn-danger btn-xs" value="${p.projekti_id}" ><spring:message code="app.delete" /></button></td>
+		 </tr>
+	     </c:forEach> 
+		    </tbody>		     	 	
+		    </table>
+		    </form:form>
+		</div>
+<sec:authorize access="hasRole('ADMIN')">
+<div class="osa1">
+	<div class="col-md-12">
+	<h4 class="hKolmonen"><spring:message code="app.create_new_project"/></h4>
+	<form:form action="/tuntikirjanpito/luo_projekti" modelAttribute="projekti" method="POST">
+		
+	<spring:message code="app.proj_pname" var="proj_name"/>
+		<div class="input-group input-group-lg" id="syotto_kentat">
+			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></span>
+			<form:input path="nimi" class="form-control" placeholder="${proj_name} " />
+		</div>
+		<p class="Virheteksti">${proj_luonti_virhe}</p>
 	
-	<sec:authorize access="hasRole('ADMIN')">
-	<div class="container">
-	<h2><spring:message code="app.admin_controlpanel"/></h2>
-	
-	<div class="row">
-	<div class="col-md-6">
-	<h3><spring:message code="app.add_person_to_project"/></h3>
+	<spring:message code="app.proj_desc" var="proj_desc"/>
+		<div class="input-group input-group-lg" id="syotto_kentat">
+			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></span>
+			<form:input path="kuvaus" class="form-control" placeholder="${proj_desc} " />
+		</div>
+	<p></p>	
+	<input type="submit" class="btn btn-success btn-md lisaa_tunteja_button" value="<spring:message code="app.add" />" />	
+	</form:form>
+	</div>
+</div>
+<div class="osa2">
+	<div class="col-md-12">
+	<h4 class="hKolmonen"><spring:message code="app.add_person_to_project"/></h4>
 	<form:form action="/tuntikirjanpito/lisaa_henkilo_projektiin" modelAttribute="henkiloProjekti" method="POST">
 			
 			<spring:message code="app.choose_project" var="cproj"/>
@@ -62,9 +107,8 @@
 				</c:forEach>
 			</form:select>	
 			</div>
-			
-			<spring:message code="app.choose_person" var="cuser"/>
-			
+			<p></p>	
+			<spring:message code="app.choose_person" var="cuser"/>		
 			<div class="input-group input-group-lg" id="syotto_kentat">
 			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
 			<form:select path="henkilo_id" class="form-control">
@@ -75,94 +119,21 @@
 			</form:select>
 			
 			</div>
-			<p>${virhe}</p>	
+			<p class="Virheteksti">${virhe}</p>	
 		
 		<input type="submit" class="btn btn-success btn-md lisaa_tunteja_button" value="<spring:message code="app.add" />" />
 	</form:form>
-	
+	<br>
 	</div>
-	
-	
-	<div class="col-md-6">
-	<h3><spring:message code="app.create_new_project"/></h3>
-	<form:form action="/tuntikirjanpito/luo_projekti" modelAttribute="projekti" method="POST">
-		
-	<spring:message code="app.proj_name" var="proj_name"/>
-		<div class="input-group input-group-lg" id="syotto_kentat">
-			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></span>
-			<form:input path="nimi" class="form-control" placeholder="${proj_name} " />
-		</div>
-		<p>${proj_luonti_virhe}</p>
-	
-	<spring:message code="app.proj_desc" var="proj_desc"/>
-		<div class="input-group input-group-lg" id="syotto_kentat">
-			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></span>
-			<form:input path="kuvaus" class="form-control" placeholder="${proj_desc} " />
-		</div>
-
-	<input type="submit" class="btn btn-success btn-md lisaa_tunteja_button" value="<spring:message code="app.add" />" />	
-	
-	</form:form>
-	</div>
-	</div>
-	<div class="row">
-	<div class="col-md-12">
-	<h3><spring:message code="app.delete_project"/></h3>
-	<form:form action="/tuntikirjanpito/poista_projekti" modelAttribute="projekti" method="POST">
-		
-	<div class="input-group input-group-lg" id="syotto_kentat">
-			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></span>
-			<form:select path="projekti_id" class="form-control">
-				<form:option value="0" label="${cproj}" />
-				<c:forEach items="${henkiloProjekti.projektit}" var="pt">
-					<form:option value="${pt.projekti_id}">${pt.nimi}</form:option>
-				</c:forEach>
-			</form:select>	
-			</div>
-
-	<input type="submit" class="btn btn-danger btn-md lisaa_tunteja_button" value="<spring:message code="app.delete" />" />	
-	
-	</form:form>
-	
-	</div>
-	</div>
-	</div>
+</div>	
 	</sec:authorize>
-	
-	<div class="container">
-		<h2><spring:message code="app.choose_project"/></h2>
-	<style>
-table, th, td {
-    border: 1px solid black;
-    padding: 5px;
-}
-table {
-    border-spacing: 5px;
-}
-</style>
-
-	<table>
-	
-		  <tr>
-	        <td><spring:message code="app.proj_pid" /></td>
-	        <td><spring:message code="app.proj_pname"/></td>
-	        <td><spring:message code="app.proj_des" /></td>
-	        <td><spring:message code="app.proj_start"/></td>
-	       	<td><spring:message code="app.proj_finish"/></td>
-		 </tr>
-		 	<form:form action="/tuntikirjanpito/listaa_projektit" modelAttribute="Projekti" method="POST">
-		<c:forEach items="${projektit}" var="p">
-	      <tr>
-	        <td><button type="submit" name="projekti_id"  value="${p.projekti_id}">${p.projekti_id}</button></td>
-	        <td>${p.nimi}</td>
-	        <td>${p.kuvaus}</td>
-	        <td>${p.alku_pvm}</td>
-	       	<td>${p.loppu_pvm}</td>
-		 </tr>
-	     </c:forEach> 
-	     </table>
-	     </form:form>
 	</div>
-	
+<script>
+    function submitForm(action)
+    {
+        document.getElementById('columnarForm').action = action;
+        document.getElementById('columnarForm').submit();
+    }
+</script>	
 </body>
 </html>

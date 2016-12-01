@@ -249,7 +249,8 @@
 	  </table>
 	  </form>
 	  </div>
-	  </div>	
+	  </div>
+	  
 <script>
 var on = 0;
 var on2 = 0;
