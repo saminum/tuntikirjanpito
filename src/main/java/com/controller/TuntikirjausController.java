@@ -149,7 +149,6 @@ public class TuntikirjausController {
     @RequestMapping(value="lisaa", method=RequestMethod.POST)
 	public String create( @ModelAttribute(value="henkilo") @Valid HenkilotImpl henkilot, BindingResult result, RedirectAttributes attr){
 		if(result.hasErrors()){
-			System.out.println("RESULT " + result);
 			attr.addFlashAttribute("org.springframework.validation.BindingResult.henkilo", result);
 		    attr.addFlashAttribute("henkilo", henkilot);
 			return "redirect:/projekti";
