@@ -61,7 +61,7 @@
 	        <td class="katoaa2">${p.kuvaus}</td>
 	        <td class="katoaaPvm2">${p.alku_pvm}</td>
 	       	<td class="katoaaPvm2">${p.loppu_pvm}</td>
-	       	<td><button type="submit" name="projekti_id" onclick="submitForm('/tuntikirjanpito/poista_projekti')" class="btn btn-danger btn-xs" value="${p.projekti_id}" ><spring:message code="app.delete" /></button></td>
+	       	<sec:authorize access="hasRole('ADMIN')"><td><button type="submit" name="projekti_id" onclick="submitForm('/tuntikirjanpito/poista_projekti')" class="btn btn-danger btn-xs" value="${p.projekti_id}" ><spring:message code="app.delete" /></button></td></sec:authorize>
 		 </tr>
 	     </c:forEach> 
 		    </tbody>		     	 	
