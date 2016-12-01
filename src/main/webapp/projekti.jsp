@@ -230,7 +230,7 @@
 </div>	
 
 	<div class="container table-responsive visible-sm visible-xs" id="sisalto_lohko" >
-	  <h4 id="hykkonen2"><spring:message code="app.listofhours" /></h4> <a style="float:right" href="/tuntikirjanpito/" onclick="myFunction4()"><spring:message code="app.listall" /></a>
+	  <h4 id="hykkonen2"><spring:message code="app.listofhours" /></h4> <a style="float:right" href="/tuntikirjanpito/projekti" onclick="myFunction4()"><spring:message code="app.listall" /></a>
 
 	  <form action="/tuntikirjanpito/poista" method="POST">                           
 	  <table class="table listaus_mobile">
