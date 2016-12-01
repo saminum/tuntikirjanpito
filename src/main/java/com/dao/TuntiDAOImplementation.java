@@ -121,7 +121,8 @@ public class TuntiDAOImplementation implements TuntiDAO {
 	public List<HenkilotImpl> haeTunnit(int projekti_id){
 		String sql = "SELECT Tunnit.id as 'tunti_id', Tunnit.tuntien_maara, Tunnit.paivamaara, Tunnit.kuvaus, Kayttajat.etunimi, Kayttajat.sukunimi, Kayttajat.id as kayttaja_id FROM Tunnit" 
 			+	" JOIN Kayttajat ON Tunnit.kayttaja_id = Kayttajat.id" 
-			+	" WHERE Tunnit.projekti="+projekti_id + ";";
+			+	" WHERE Tunnit.projekti=" + projekti_id 
+			+ " ORDER BY Tunnit.paivamaara DESC;";
 
 		List<HenkilotImpl> henkilot = null;
 		try {
