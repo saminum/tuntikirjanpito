@@ -53,10 +53,11 @@
 			
 			<spring:message code="app.choose_project" var="cproj"/>
 			
-			<div class="input-group input-group-lg" id="syotto_kentat">
+			<form:errors path="projekti_id" cssClass="Virheteksti"/>
+			<div class="input-group input-group-lg" id="syotto_kentat1">
 			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></span>
 			<form:select path="projekti_id" class="form-control">
-				<form:option value="0" label="${cproj}" />
+				<form:option value="-1" label="${cproj}" />
 				<c:forEach items="${henkiloProjekti.projektit}" var="pt">
 					<form:option value="${pt.projekti_id}">${pt.nimi}</form:option>
 				</c:forEach>
@@ -65,10 +66,11 @@
 			
 			<spring:message code="app.choose_person" var="cuser"/>
 			
-			<div class="input-group input-group-lg" id="syotto_kentat">
+			<form:errors path="henkilo_id" cssClass="Virheteksti"/>
+			<div class="input-group input-group-lg" id="syotto_kentat1">
 			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
 			<form:select path="henkilo_id" class="form-control">
-				<form:option value="0" label="${cuser}" />
+				<form:option value="-1" label="${cuser}"  />
 				<c:forEach items="${henkiloProjekti.henkilot}" var="ht">
 					<form:option value="${ht.id}">${ht.etunimi} ${ht.sukunimi}</form:option>
 				</c:forEach>
@@ -88,14 +90,16 @@
 	<form:form action="/tuntikirjanpito/luo_projekti" modelAttribute="projekti" method="POST">
 		
 	<spring:message code="app.proj_name" var="proj_name"/>
-		<div class="input-group input-group-lg" id="syotto_kentat">
+	<form:errors path="nimi" cssClass="Virheteksti"/>
+		<div class="input-group input-group-lg" id="syotto_kentat1">
 			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></span>
-			<form:input path="nimi" class="form-control" placeholder="${proj_name} " />
+			<form:input path="nimi" class="form-control" placeholder="${proj_name} "  />
 		</div>
 		<p>${proj_luonti_virhe}</p>
 	
 	<spring:message code="app.proj_desc" var="proj_desc"/>
-		<div class="input-group input-group-lg" id="syotto_kentat">
+	<form:errors path="kuvaus" cssClass="Virheteksti"/>
+		<div class="input-group input-group-lg" id="syotto_kentat1">
 			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></span>
 			<form:input path="kuvaus" class="form-control" placeholder="${proj_desc} " />
 		</div>
@@ -105,12 +109,14 @@
 	</form:form>
 	</div>
 	</div>
+	
+	
 	<div class="row">
 	<div class="col-md-12">
 	<h3><spring:message code="app.delete_project"/></h3>
 	<form:form action="/tuntikirjanpito/poista_projekti" modelAttribute="projekti" method="POST">
 		
-	<div class="input-group input-group-lg" id="syotto_kentat">
+	<div class="input-group input-group-lg" id="syotto_kentat1">
 			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></span>
 			<form:select path="projekti_id" class="form-control">
 				<form:option value="0" label="${cproj}" />
@@ -144,11 +150,11 @@ table {
 	<table>
 	
 		  <tr>
-	        <td >Projektin ID</td>
-	        <td>Nimi</td>
-	        <td>Kuvaus</td>
-	        <td>Aloitus</td>
-	       	<td>Lopetus</td>
+	        <td><spring:message code="app.proj_pid" /></td>
+	        <td><spring:message code="app.proj_pname"/></td>
+	        <td><spring:message code="app.proj_des" /></td>
+	        <td><spring:message code="app.proj_start"/></td>
+	       	<td><spring:message code="app.proj_finish"/></td>
 		 </tr>
 		 	<form:form action="/tuntikirjanpito/listaa_projektit" modelAttribute="Projekti" method="POST">
 		<c:forEach items="${projektit}" var="p">
