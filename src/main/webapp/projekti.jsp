@@ -267,6 +267,7 @@ function myFunction2() {
 	var onOff2 = localStorage.getItem("on2");
 	if (onOff == 1){
     window.location.href = "#hykkonen";
+    window.location.href = "#hykkonen2";
     localStorage.clear();
     return false;
 	}
