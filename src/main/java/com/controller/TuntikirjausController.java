@@ -47,8 +47,7 @@ public class TuntikirjausController {
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String etusivu(Model model, HttpServletRequest request ) {
-		HttpSession session = request.getSession(true);
-		
+		HttpSession session = request.getSession(true);		
 		logger.info("Siirrytään palvelun etusivulle. Adminille ja käyttäjälle eri näkymät");
 		ProjektiHenkiloImpl projektiHenkilo = new ProjektiHenkiloImpl();
 		projektiHenkilo.sethenkilot(dao.haeHenkilot());
@@ -65,6 +64,11 @@ public class TuntikirjausController {
 			Projekti tyhjaProjekti = new ProjektiImpl();
 			model.addAttribute("projekti", tyhjaProjekti);
 	  	}
+		if(!model.containsAttribute("henkiloProjektiFormi")){
+			ProjektiHenkilo tyhjaProjektiHenkilo = new ProjektiHenkiloImpl();
+			model.addAttribute("henkiloProjektiFormi", tyhjaProjektiHenkilo);
+			
+	  	}
 		List<ProjektiImpl> projektit = dao.haeProjektit();
 		model.addAttribute("projektit", projektit);
 		return "etusivu";
@@ -78,11 +82,17 @@ public class TuntikirjausController {
 		return "redirect:/projekti";
 	}
 	
-	//http://stackoverflow.com/questions/7429649/how-to-pass-model-attributes-from-one-spring-mvc-controller-to-another-controlle
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value="lisaa_henkilo_projektiin", method=RequestMethod.POST)
-	public String createUserForProject(Model model, HttpServletRequest request, @ModelAttribute(value="henkiloProjekti") ProjektiHenkiloImpl henkiloProjekti){
+	public String createUserForProject(Model model, HttpServletRequest request, @ModelAttribute(value="henkiloProjektiFormi") @Valid ProjektiHenkiloImpl henkiloProjekti, BindingResult result, RedirectAttributes attr){
 		logger.info("lisätään henkilö id:llä " + henkiloProjekti.gethenkilo_id() + " projektiin id:llä " + henkiloProjekti.getprojekti_id());
+		if(result.hasErrors()){
+			logger.info("Syöttökentissä virheitä, palataan sivulle");
+			attr.addFlashAttribute("org.springframework.validation.BindingResult.henkiloProjektiFormi", result);
+			System.out.println("result " + result);
+		    attr.addFlashAttribute("henkiloProjektiFormi", henkiloProjekti);
+			return "redirect:/";
+		}
 		int onnistui = dao.lisaaHenkiloProjektiin(henkiloProjekti.gethenkilo_id(), henkiloProjekti.getprojekti_id());
 		HttpSession session = request.getSession(true);
 		if (onnistui == 0){
@@ -98,7 +108,12 @@ public class TuntikirjausController {
 	
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value="luo_projekti", method=RequestMethod.POST)
-	public String createNewProject(@ModelAttribute(value="projekti") ProjektiImpl projekti, HttpServletRequest request ){
+	public String createNewProject(Model model, @ModelAttribute(value="projekti") @Valid ProjektiImpl projekti, BindingResult result, RedirectAttributes attr, HttpServletRequest request ){
+		if(result.hasErrors()){
+			attr.addFlashAttribute("org.springframework.validation.BindingResult.projekti", result);
+		    attr.addFlashAttribute("projekti", projekti);
+			return "redirect:/";
+		}
 		HttpSession session = request.getSession(true);
 		String projektiNimi = projekti.getNimi();
 		String projektiKuvaus = projekti.getKuvaus();
@@ -149,7 +164,6 @@ public class TuntikirjausController {
     @RequestMapping(value="lisaa", method=RequestMethod.POST)
 	public String create( @ModelAttribute(value="henkilo") @Valid HenkilotImpl henkilot, BindingResult result, RedirectAttributes attr){
 		if(result.hasErrors()){
-			System.out.println("RESULT " + result);
 			attr.addFlashAttribute("org.springframework.validation.BindingResult.henkilo", result);
 		    attr.addFlashAttribute("henkilo", henkilot);
 			return "redirect:/projekti";

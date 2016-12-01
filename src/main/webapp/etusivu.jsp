@@ -75,6 +75,7 @@
 	<form:form action="/tuntikirjanpito/luo_projekti" modelAttribute="projekti" method="POST">
 		
 	<spring:message code="app.proj_pname" var="proj_name"/>
+	<form:errors path="nimi" cssClass="Virheteksti"/>
 		<div class="input-group input-group-lg" id="syotto_kentat">
 			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></span>
 			<form:input path="nimi" class="form-control" placeholder="${proj_name} " />
@@ -82,6 +83,7 @@
 		<p class="Virheteksti">${proj_luonti_virhe}</p>
 	
 	<spring:message code="app.proj_desc" var="proj_desc"/>
+	<form:errors path="kuvaus" cssClass="Virheteksti"/>
 		<div class="input-group input-group-lg" id="syotto_kentat">
 			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></span>
 			<form:input path="kuvaus" class="form-control" placeholder="${proj_desc} " />
@@ -94,25 +96,26 @@
 <div class="osa2">
 	<div class="col-md-12">
 	<h4 class="hKolmonen"><spring:message code="app.add_person_to_project"/></h4>
-	<form:form action="/tuntikirjanpito/lisaa_henkilo_projektiin" modelAttribute="henkiloProjekti" method="POST">
+	<form:form action="/tuntikirjanpito/lisaa_henkilo_projektiin" modelAttribute="henkiloProjektiFormi" method="POST">
 			
 			<spring:message code="app.choose_project" var="cproj"/>
-			
+			<form:errors path="projekti_id" cssClass="Virheteksti"/>
 			<div class="input-group input-group-lg" id="syotto_kentat">
 			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></span>
 			<form:select path="projekti_id" class="form-control">
-				<form:option value="0" label="${cproj}" />
+				<form:option value="-1" label="${cproj}" />
 				<c:forEach items="${henkiloProjekti.projektit}" var="pt">
 					<form:option value="${pt.projekti_id}">${pt.nimi}</form:option>
 				</c:forEach>
 			</form:select>	
 			</div>
 			<p></p>	
-			<spring:message code="app.choose_person" var="cuser"/>		
+			<spring:message code="app.choose_person" var="cuser"/>
+			<form:errors path="henkilo_id" cssClass="Virheteksti"/>
 			<div class="input-group input-group-lg" id="syotto_kentat">
 			<span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
 			<form:select path="henkilo_id" class="form-control">
-				<form:option value="0" label="${cuser}" />
+				<form:option value="-1" label="${cuser}" />
 				<c:forEach items="${henkiloProjekti.henkilot}" var="ht">
 					<form:option value="${ht.id}">${ht.etunimi} ${ht.sukunimi}</form:option>
 				</c:forEach>

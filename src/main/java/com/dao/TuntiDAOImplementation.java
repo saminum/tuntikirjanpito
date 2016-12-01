@@ -130,7 +130,6 @@ public class TuntiDAOImplementation implements TuntiDAO {
 			String sql = "SELECT * FROM Kayttajat WHERE kayttajatunnus = '" + kayttaja.getTunnus()  + "';"; // tarkistetaan löytyykö käyttäjätunnus kannasta jo
 			List<HenkilotImpl> taulusta = null;
 			taulusta = jdbcTemplate.query(sql, new HenkilotRowMapper());
-			System.out.println("NULLI TAULUSTA? " + taulusta);
 			int kannastaId = 0;
 			if(taulusta.isEmpty() == true){  //jo ei löydy viedään käyttäjän tiedot "Kayttajat" tauluun
 				String insert = "INSERT INTO Kayttajat (kayttajatunnus, email, etunimi, sukunimi, salasana) VALUES (?,?,?,?,?)";
@@ -168,7 +167,6 @@ public class TuntiDAOImplementation implements TuntiDAO {
 		try {
 			henkilot = jdbcTemplate.query(sql, new TunnitRowMapper());
 			logger.info("Haettiin kaikki tallennetut tunnit tietokannasta");
-			System.out.println("daossa " + henkilot.get(0));
 		} catch (DataAccessException ex) {
 			daoVirheenHallinta(ex);
 		}	
@@ -252,7 +250,6 @@ public class TuntiDAOImplementation implements TuntiDAO {
 
 	
 	public void daoVirheenHallinta(DataAccessException ex){
-		System.out.println("Tietokantayhteydess� ongelmia " + ex);
 		logger.debug("Tietokantayhteydessä ongelmia " + ex);
 	}
 	

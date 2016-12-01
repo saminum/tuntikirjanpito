@@ -2,10 +2,17 @@ package com.beans;
 
 import java.util.Date;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 public class ProjektiImpl implements Projekti {
 	
 	private int projekti_id;
-	private String nimi, kuvaus;
+	
+	@NotBlank
+	private String nimi;
+	
+	@NotBlank
+	private String kuvaus;
 	private Date alku_pvm;
 	private Date loppu_pvm;
 	/* (non-Javadoc)
