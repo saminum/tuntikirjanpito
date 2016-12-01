@@ -172,8 +172,8 @@
 		    <c:set var="total" value="${0}"/>
 		    	<c:forEach items="${henkiloidenTunnit}" var="ht">
 		      		<tr>
-		     			<td><button type=submit name="tunti_id" value="${ht.id}" class="btn-link">${ht.etunimi}</button></td>
-		     			<td><button type=submit name="tunti_id" value="${ht.id}" class="btn-link">${ht.sukunimi}</button></td>
+		     			<td><button type=submit name="tunti_id" value="${ht.id}" onclick="myFunction()" class="btn-link">${ht.etunimi}</button></td>
+		     			<td><button type=submit name="tunti_id" value="${ht.id}" onclick="myFunction()" class="btn-link">${ht.sukunimi}</button></td>
 		   
 		        		<td class="tunnityht">${ht.tunnitYhteensa}</td>
 		        		<c:set var="total" value="${total + ht.tunnitYhteensa}" />
