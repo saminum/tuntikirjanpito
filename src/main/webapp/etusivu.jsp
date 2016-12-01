@@ -49,7 +49,7 @@
 	<div class="row">
 	<div class="col-md-6">
 	<h3><spring:message code="app.add_person_to_project"/></h3>
-	<form:form action="/tuntikirjanpito/lisaa_henkilo_projektiin" modelAttribute="henkiloProjekti" method="POST">
+	<form:form action="/tuntikirjanpito/lisaa_henkilo_projektiin" modelAttribute="henkiloProjektiFormi" method="POST">
 			
 			<spring:message code="app.choose_project" var="cproj"/>
 			

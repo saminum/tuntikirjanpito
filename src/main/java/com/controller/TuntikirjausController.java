@@ -64,9 +64,10 @@ public class TuntikirjausController {
 			Projekti tyhjaProjekti = new ProjektiImpl();
 			model.addAttribute("projekti", tyhjaProjekti);
 	  	}
-		if(!model.containsAttribute("henkiloProjekti")){
+		if(!model.containsAttribute("henkiloProjektiFormi")){
 			ProjektiHenkilo tyhjaProjektiHenkilo = new ProjektiHenkiloImpl();
-			model.addAttribute("henkiloProjekti", tyhjaProjektiHenkilo);
+			model.addAttribute("henkiloProjektiFormi", tyhjaProjektiHenkilo);
+			
 	  	}
 		List<ProjektiImpl> projektit = dao.haeProjektit();
 		model.addAttribute("projektit", projektit);
@@ -83,12 +84,13 @@ public class TuntikirjausController {
 	
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value="lisaa_henkilo_projektiin", method=RequestMethod.POST)
-	public String createUserForProject(Model model, HttpServletRequest request, @ModelAttribute(value="henkiloProjekti") @Valid ProjektiHenkiloImpl henkiloProjekti, BindingResult result, RedirectAttributes attr){
+	public String createUserForProject(Model model, HttpServletRequest request, @ModelAttribute(value="henkiloProjektiFormi") @Valid ProjektiHenkiloImpl henkiloProjekti, BindingResult result, RedirectAttributes attr){
 		logger.info("lisätään henkilö id:llä " + henkiloProjekti.gethenkilo_id() + " projektiin id:llä " + henkiloProjekti.getprojekti_id());
 		if(result.hasErrors()){
 			logger.info("Syöttökentissä virheitä, palataan sivulle");
-			attr.addFlashAttribute("org.springframework.validation.BindingResult.henkiloProjekti", result);
-		    attr.addFlashAttribute("henkiloProjekti", henkiloProjekti);
+			attr.addFlashAttribute("org.springframework.validation.BindingResult.henkiloProjektiFormi", result);
+			System.out.println("result " + result);
+		    attr.addFlashAttribute("henkiloProjektiFormi", henkiloProjekti);
 			return "redirect:/";
 		}
 		int onnistui = dao.lisaaHenkiloProjektiin(henkiloProjekti.gethenkilo_id(), henkiloProjekti.getprojekti_id());
