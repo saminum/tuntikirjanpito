@@ -34,7 +34,7 @@
 <body>
 	<div><a href="?language=en"><spring:message code="app.english" /></a>|<a href="?language=fi"><spring:message code="app.finnish" /></a></div>
 
-			 <c:if test="${update=='ok'}">
+			 <c:if test="${not empty update}">
 	 <div id='update' class="alert alert-warning"><strong><spring:message code="app.updateok" /></strong></div>
 	   <script type="text/javascript">
   $( '#update' ).show(function(){

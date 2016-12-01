@@ -136,12 +136,15 @@ public class TuntikirjausController {
     }
     
     @RequestMapping(value="unohdus", method=RequestMethod.GET)
-   	public String getForgot(@ModelAttribute(value="unohdus") Unohdus unohdus, BindingResult result, RedirectAttributes attr){
-			return "unohdus";
+   	public String getForgot(@ModelAttribute(value="unohdus") Unohdus unohdus, Model model, BindingResult result, RedirectAttributes attr){
+    
+    	model.addAttribute("update", "df");
+    	System.out.println("Getillä sisään unohdukseen");
+    	return "unohdus";
     }
     
     @RequestMapping(value="unohdus", method=RequestMethod.POST)
-   	public String forgot(@ModelAttribute(value="unohdus") @Valid Unohdus unohdus, BindingResult result, RedirectAttributes attr){
+   	public String forgot(@ModelAttribute(value="unohdus") @Valid Unohdus unohdus, Model model, BindingResult result, RedirectAttributes attr){
     	if(result.hasErrors()){
 			attr.addFlashAttribute("org.springframework.validation.BindingResult.unohdus", result);
 		    attr.addFlashAttribute("unohdus", unohdus);
@@ -150,21 +153,16 @@ public class TuntikirjausController {
 			
 			HenkilotImpl dbhenkilo = dao.haeKayttaja(unohdus.getTunnus());
 			
-			if(dbhenkilo == null){
-				attr.addFlashAttribute("update", "eok");
-				return "unohdus";
-			}
-			
-			if(dbhenkilo.getEmail().equals(unohdus.getEmail())){
+			if(dbhenkilo != null && dbhenkilo.getEmail().equals(unohdus.getEmail())){
 				String uusisala = new BCryptPasswordEncoder().encode(unohdus.getSalasana());
 		    	dao.muutaSalasana(unohdus.getTunnus(), uusisala);
-		    	attr.addFlashAttribute("update", "ok");
+		    	model.addAttribute("update", "rtrt");
 				return "login";
 				
 			}else{
-				attr.addFlashAttribute("update", "eok");
+				System.out.println("nulli saapui controlleriin");
+				attr.addFlashAttribute("update", "");
 				return "unohdus";
-				
 			}
 		}
     	

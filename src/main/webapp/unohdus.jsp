@@ -29,13 +29,13 @@
 	<div><a href="?language=en"><spring:message code="app.english" /></a>|<a href="?language=fi"><spring:message code="app.finnish" /></a></div>
 
 	
-			 <c:if test="${update='eok'}">
+			 <c:if test="${empty update}">
 	 <div id='update' class="alert alert-warning"><strong><spring:message code="app.updatenotok" /></strong></div>
 	   <script type="text/javascript">
   $( '#update' ).show(function(){
       $(this).fadeOut(5000);
 });
-</script>
+</script> 
 </c:if>
 	<div class="container">
 
