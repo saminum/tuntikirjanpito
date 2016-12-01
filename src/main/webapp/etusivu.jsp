@@ -34,7 +34,7 @@
 			<h2><spring:message code="app.name" /></h2>
 		</div>
 		<div class="col-lg-6 col-md-6 col-sm-6 ylakulma">
-			<spring:message code="app.language" />: <a href="?language=en"><spring:message code="app.english" /></a> | <a href="?language=fi"><spring:message code="app.finnish" /></a>
+			<a href="?language=en"><spring:message code="app.english" /></a> | <a href="?language=fi"><spring:message code="app.finnish" /></a>
 			<p><spring:message code="app.loggedin" />: <sec:authentication property="principal.username"/></p>
 			<p><a href="/tuntikirjanpito/logout" ><spring:message code="app.logout" /></a></p>
 		</div>	
