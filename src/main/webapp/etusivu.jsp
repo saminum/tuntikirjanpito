@@ -41,7 +41,7 @@
 	</div>
 	
 	<div class="container kaksi">
-	<h3 class="ylaotsikko"><spring:message code="app.admin_controlpanel"/></h3>
+	<sec:authorize access="hasRole('ADMIN')"><h3 class="ylaotsikko"><spring:message code="app.admin_controlpanel"/></h3></sec:authorize>
 		<div class="col-lg-7 table-responsive" id="sisalto_lohko_etuS">
 		<form:form id="columnarForm" modelAttribute="Projekti" method="POST">                            
 		  <table class="table table-hover">
