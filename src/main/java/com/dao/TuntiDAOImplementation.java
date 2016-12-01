@@ -1,24 +1,26 @@
 package com.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.beans.Henkilot;
 import com.beans.HenkilotImpl;
-
 import com.beans.ProjektiHenkiloImpl;
 import com.beans.ProjektiImpl;
-
 import com.mysql.jdbc.Statement;
 
 
@@ -247,7 +249,40 @@ public class TuntiDAOImplementation implements TuntiDAO {
 		}
 	}
 
+	public HenkilotImpl haeKayttaja(String kayttajatunnus){
+		
+		HenkilotImpl dbhenkilo = null;
+		String sql = "SELECT * FROM Kayttajat WHERE kayttajatunnus = ?";
+		try {
+			dbhenkilo = jdbcTemplate.queryForObject(sql,
+					new Object[] { kayttajatunnus },
+					new RowMapper<HenkilotImpl>() {
+						public HenkilotImpl mapRow(ResultSet rs, int rowNum)
+								throws SQLException {
 
+							HenkilotImpl dbhenkilo = new HenkilotImpl();
+							dbhenkilo.setTunnus(rs.getString("kayttajatunnus"));
+							dbhenkilo.setEmail(rs.getString("email"));
+							return dbhenkilo;
+						}
+					});
+			return dbhenkilo;
+
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+
+	}
+
+	public void muutaSalasana(String tunnus, String uusisala) {
+		System.out.println(tunnus);
+		System.out.println(uusisala);
+		String updateStatement = "update Kayttajat set salasana = ? where kayttajatunnus = ?";
+
+		int rows = jdbcTemplate.update(updateStatement, new Object[] {
+				uusisala, tunnus });
+		System.out.println("Rows updated: " + rows);
+}
 	
 	public void daoVirheenHallinta(DataAccessException ex){
 		logger.debug("Tietokantayhteydessä ongelmia " + ex);

@@ -35,4 +35,8 @@ public interface TuntiDAO {
 	int luoProjekti(ProjektiImpl projekti);
 	
 	void PoistaProjekti(ProjektiImpl projekti);
+
+	HenkilotImpl haeKayttaja(String tunnus);
+
+	void muutaSalasana(String tunnus, String uusisala);
 }

@@ -8,22 +8,20 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-
 import org.springframework.security.access.prepost.PreAuthorize;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.HtmlUtils;
 
@@ -33,6 +31,8 @@ import com.beans.Projekti;
 import com.beans.ProjektiHenkilo;
 import com.beans.ProjektiHenkiloImpl;
 import com.beans.ProjektiImpl;
+import com.beans.Unohdus;
+import com.beans.UnohdusImpl;
 import com.dao.TuntiDAO;
 
 
@@ -241,4 +241,40 @@ public class TuntikirjausController {
 	   		return "redirect:/";
 		}
    	}
+    @RequestMapping(value="unohdus", method=RequestMethod.GET)
+   	public String getForgot(Model model){
+    	model.addAttribute("update", "ok");
+    if(!model.containsAttribute("unohdus")){
+    	
+    	Unohdus tyhja = new UnohdusImpl();
+    	model.addAttribute("unohdus", tyhja);
+	}
+	return "unohdus";
+    
+    }
+    
+    @RequestMapping(value="unohdus", method=RequestMethod.POST)
+   	public String forgot(@ModelAttribute(value="unohdus") @Valid UnohdusImpl unohdus, ModelMap model, BindingResult result, RedirectAttributes attr){
+    	if(result.hasErrors()){
+			attr.addFlashAttribute("org.springframework.validation.BindingResult.unohdus", result);
+		    attr.addFlashAttribute("unohdus", unohdus);
+			return "unohdus";
+		}else{
+			
+			HenkilotImpl dbhenkilo = dao.haeKayttaja(unohdus.getTunnus());
+			
+			if(dbhenkilo != null && dbhenkilo.getEmail().equals(unohdus.getEmail())){
+				String uusisala = new BCryptPasswordEncoder().encode(unohdus.getSalasana());
+		    	dao.muutaSalasana(unohdus.getTunnus(), uusisala);
+		    	model.addAttribute("update", "");
+				return "login";
+				
+			}else{
+				System.out.println("nulli saapui controlleriin");
+				model.addAttribute("update", "");
+				return "unohdus";
+			}
+		}
+    	
+}
 }
