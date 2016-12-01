@@ -168,7 +168,6 @@ public class TuntiDAOImplementation implements TuntiDAO {
 		try {
 			henkilot = jdbcTemplate.query(sql, new TunnitRowMapper());
 			logger.info("Haettiin kaikki tallennetut tunnit tietokannasta");
-			System.out.println("daossa " + henkilot.get(0));
 		} catch (DataAccessException ex) {
 			daoVirheenHallinta(ex);
 		}	

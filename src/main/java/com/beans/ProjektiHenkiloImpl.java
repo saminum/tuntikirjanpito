@@ -2,10 +2,19 @@ package com.beans;
 
 import java.util.List;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 public class ProjektiHenkiloImpl implements ProjektiHenkilo{
 	
+	@NotNull(message="Valitse projekti!")
+	@Min(0)
 	private int projekti_id;
+	
+	@NotNull(message="Valitse käyttäjä!")
+	@Min(0)
 	private int henkilo_id;
+	
 	private List<HenkilotImpl>henkilot;
 	private List<ProjektiImpl>projektit;
 	
