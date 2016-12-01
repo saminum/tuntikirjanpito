@@ -23,12 +23,11 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.fi.min.js" charset="UTF-8"></script>
 <link rel="stylesheet" type="text/css" href="/tuntikirjanpito/form.css">
 
-
 <title><spring:message code="app.title" /></title>
 
 </head>
 <body onload="myFunction2()">
-
+<img src="img/kello.jpg" alt="Kello"/> 
 	<script>
 		$(function(){
 			$('.datepicker').datepicker({
@@ -43,20 +42,22 @@
 			});
 		});
 	</script>
-	
+	<script type="text/javascript">
+	$('body').prepend('<a href="#" class="back-to-top">Back to Top</a>');
+</script>
+	<a href="#" class="back-to-top">Back to Top</a>
 	<div class="container">
-		
 		<div class="col-lg-6 col-md-6 col-sm-6" id="sisalto_lohko">
 			<h2><spring:message code="app.name" /></h2>
 		</div>
-		
+		<div class="container">
 		<div class="col-lg-6 col-md-6 col-sm-6 ylakulma">
 			<a href="?language=en"><spring:message code="app.english" /></a> | <a href="?language=fi"><spring:message code="app.finnish" /></a>
 			<p><spring:message code="app.loggedin" />: <sec:authentication property="principal.username"/></p>
 
 			<p>	<a href="/tuntikirjanpito/" ><spring:message code="app.return" /></a> / <a href="/tuntikirjanpito/logout" ><spring:message code="app.logout" /></a></p>
 		</div>
-	</div>
+		</div>
 		 <c:if test="${not empty poisto}">
 			 <div id='Poisto' class="alert alert-warning"><strong>Tietue poistettu</strong></div>
 			   <script type="text/javascript">
@@ -67,9 +68,7 @@
 		</c:if>
 	<div class="container">
 	<div class="container col-lg-6 col-sm-12 tuntikirjaus_lohko" id="sisalto_lohko1" >
-			
 			<h4 class="hykkonen"><spring:message code="app.addhours" /></h4>
-			
 			<form:form action="/tuntikirjanpito/lisaa" modelAttribute="henkilo" method="POST">
 					<spring:message code="app.chooseuser" var="cuser"/>
 					<c:set var="Virheteksti1Errors"><form:errors path="id" cssClass="Virheteksti" /></c:set>
@@ -161,8 +160,6 @@
 						});
 					</script></c:if>
 		</div>
-	
-	
 		<div class="col-lg-6 table-responsive" id="sisalto_lohko">
 		<form action="/tuntikirjanpito/henkilo" method="POST">
 		  <h4><spring:message code="app.person.hour" /></h4>
@@ -172,7 +169,7 @@
 		    	<tr>
 		        	<th><spring:message code="app.fname" /></th>
 		        	<th><spring:message code="app.lname" /></th>
-		        	<th><spring:message code="app.personhourstogether" /></th>
+		        	<th class="tunnityht"><spring:message code="app.personhourstogether" /></th>
 		    	</tr>
 		    </thead>
 		    <tbody>
@@ -180,9 +177,10 @@
 		    <c:set var="total" value="${0}"/>
 		    	<c:forEach items="${henkiloidenTunnit}" var="ht">
 		      		<tr>
-		     			<td><button type=submit name="tunti_id" value="${ht.id}" class="btn-link">${ht.etunimi}</button></td>
-		        		<td>${ht.sukunimi}</td>
-		        		<td>${ht.tunnitYhteensa}</td>
+		     			<td><button type=submit name="tunti_id" value="${ht.id}" onclick="myFunction()" class="btn-link">${ht.etunimi}</button></td>
+		     			<td><button type=submit name="tunti_id" value="${ht.id}" onclick="myFunction()" class="btn-link">${ht.sukunimi}</button></td>
+		   
+		        		<td class="tunnityht">${ht.tunnitYhteensa}</td>
 		        		<c:set var="total" value="${total + ht.tunnitYhteensa}" />
 		     	 	</tr>
 		    	 </c:forEach>
@@ -195,11 +193,6 @@
 		    </table>
 		    </form>
 		</div>
-		
-		
-		
-		
-	</div>
 
 	<div class="container table-responsive visible-md visible-lg visible-xl" id="sisalto_lohko">
 
@@ -227,15 +220,15 @@
 	        <td>${h.tunnit[0].kuvaus}</td>
 	        <td><fmt:formatDate pattern="dd.MM.yyyy" 
 	            value="${h.tunnit[0].pvm}"/></td>
-	        <td><button type="submit" name="tunti_id" class="btn btn-danger btn-sm" value="${h.tunnit[0].id }" ><spring:message code="app.delete" /></button></td>
+	        <td><button type="submit" name="tunti_id" class="btn btn-danger btn-xs" value="${h.tunnit[0].id }" ><spring:message code="app.delete" /></button></td>
 	      </tr>
 	     </c:forEach> 
 	    </tbody>
 	  </table>
 	  </form>
 	</div>
-	
-		
+</div>	
+
 	<div class="container table-responsive visible-sm visible-xs" id="sisalto_lohko" >
 	  <h4 id="hykkonen2"><spring:message code="app.listofhours" /></h4> <a style="float:right" href="/tuntikirjanpito/" onclick="myFunction4()"><spring:message code="app.listall" /></a>
 
@@ -248,7 +241,7 @@
 	        <td>${h.etunimi} ${h.sukunimi}	</td>
 	        <td>${h.tunnit[0].tunnit} h <fmt:formatDate pattern="dd.MM." value="${h.tunnit[0].pvm}"/></td>
 			<td>${h.tunnit[0].kuvaus} </td>
-	        <td><button type="submit" name="tunti_id" class="btn btn-danger btn-sm" value="${h.tunnit[0].id }" >Poista</button></td>
+	        <td><button type="submit" name="tunti_id" class="btn btn-danger btn-xs" value="${h.tunnit[0].id }" ><spring:message code="app.delete" /></button></td>
 	      </tr>
 
 	     </c:forEach> 
@@ -256,7 +249,7 @@
 	  </table>
 	  </form>
 	  </div>
-	</div>
+	  </div>	
 <script>
 var on = 0;
 var on2 = 0;
@@ -277,6 +270,7 @@ function myFunction2() {
 	var onOff2 = localStorage.getItem("on2");
 	if (onOff == 1){
     window.location.href = "#hykkonen";
+    window.location.href = "#hykkonen2";
     localStorage.clear();
     return false;
 	}
@@ -288,5 +282,25 @@ function myFunction2() {
 }
 
 </script>
+<script>
+var amountScrolled = 300;
+
+$(window).scroll(function() {
+	if ( $(window).scrollTop() > amountScrolled ) {
+		$('a.back-to-top').fadeIn('slow');
+	} else {
+		$('a.back-to-top').fadeOut('slow');
+	}
+});
+</script>
+<script>
+$('a.back-to-top').click(function() {
+	$('html, body').animate({
+		scrollTop: 0
+	}, 700);
+	return false;
+});
+</script>
+<div class="propsit"><a href="http://PPDigital.openphoto.net/gallery/">Darren Hester</a> for <a href="http://openphoto.net/gallery/image/view/6263">openphoto.net</a></div>
 </body>
 </html>

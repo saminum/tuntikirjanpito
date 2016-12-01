@@ -31,13 +31,14 @@
 </head>
 
 <body>
-	<div>Language : <a href="?language=en"><spring:message code="app.english" /></a>|<a href="?language=fi"><spring:message code="app.finnish" /></a></div>
+	
 
 	<div class="container">
         <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
             <h3><spring:message code="app.name" /></h3> 
             <div class="panel panel-info" >
                     <div class="panel-heading">
+                    <div class="kielet"><a href="?language=en"><spring:message code="app.english" /></a>|<a href="?language=fi"><spring:message code="app.finnish" /></a></div>
                         <div class="panel-title"><spring:message code="app.loggingin" /></div>
                     </div>     
 
