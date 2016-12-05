@@ -109,6 +109,19 @@ public class TuntiDAOImplementation implements TuntiDAO {
 	}
 	
 	@Transactional(readOnly=true)
+	public List<ProjektiImpl> haeKayttajakohtaisetProjektit(int kayttajaId){
+		String sql = "Select * from Proj_kayt pk JOIN Projekti p ON pk.proj_id=p.id WHERE pk.kayt_id="+kayttajaId;
+		List<ProjektiImpl> projektit = null;
+		try {
+			projektit = jdbcTemplate.query(sql, new ProjektitRowMapper());
+			logger.info("Haetaan kaikki projektit tietokannasta");
+		} catch (DataAccessException ex) {
+			daoVirheenHallinta(ex);
+		}
+		return projektit;
+	}
+	
+	@Transactional(readOnly=true)
 	public List<HenkilotImpl> summaaTunnit(int projekti_id){
 		String sql = "select t.kayttaja_id, sum(t.tuntien_maara) as tunnit, k.etunimi, k.sukunimi from Tunnit t JOIN Kayttajat k ON t.kayttaja_id=k.id "
 				+ "WHERE projekti=" + projekti_id
@@ -185,6 +198,19 @@ public class TuntiDAOImplementation implements TuntiDAO {
 		}	
 		return henkilot;
 	}
+	
+	public List<HenkilotImpl> haeHenkilonTiedotKayttajanimellaTietokannasta(String kayttajaTunnus){
+		String sql = "SELECT id, kayttajatunnus, email, etunimi, sukunimi, salasana FROM Kayttajat WHERE kayttajatunnus='"+kayttajaTunnus+"'";
+		List<HenkilotImpl> henkilot = null;
+		try {
+			henkilot = jdbcTemplate.query(sql, new HenkilotRowMapper());
+			logger.info("Haettiin kaikki henkilöt tietokannasta");
+		} catch (DataAccessException ex) {
+			daoVirheenHallinta(ex);
+		}			
+		return henkilot;
+	}
+	
 	@Transactional(readOnly=true)
 	public List<HenkilotImpl> haeProjektiHenkilot(int projekti_id){
 		String sql = "SELECT id, kayttajatunnus, email, etunimi, sukunimi, salasana FROM Kayttajat k JOIN Proj_kayt pk ON k.id = pk.kayt_id WHERE pk.proj_id=" + projekti_id;

@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
 import org.springframework.security.access.prepost.PreAuthorize;
-
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -44,14 +46,32 @@ public class TuntikirjausController {
 	@Autowired
 	private TuntiDAO dao;
 	
-	@PreAuthorize("hasAuthority('ADMIN')")
+	public void haeHenkilonTiedotKayttajanimella(HttpSession session){
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		logger.info("current principal name: "+ currentPrincipalName);
+		List<HenkilotImpl> listaHenkilonTiedoista = dao.haeHenkilonTiedotKayttajanimellaTietokannasta(currentPrincipalName);
+		HenkilotImpl henkilonTiedot = listaHenkilonTiedoista.get(0);
+		logger.info("current principal details "+ henkilonTiedot);
+		session.setAttribute("userDetails", henkilonTiedot);
+	}
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String etusivu(Model model, HttpServletRequest request ) {
-		HttpSession session = request.getSession(true);		
+		HttpSession session = request.getSession(true);
+		
+		if(session.getAttribute("userDetails") == null){
+			haeHenkilonTiedotKayttajanimella(session);	
+		}
+		
 		logger.info("Siirrytään palvelun etusivulle. Adminille ja käyttäjälle eri näkymät");
 		ProjektiHenkiloImpl projektiHenkilo = new ProjektiHenkiloImpl();
 		projektiHenkilo.sethenkilot(dao.haeHenkilot());
+		
+		HenkilotImpl kayttaja = (HenkilotImpl) session.getAttribute("userDetails");
+
 		projektiHenkilo.setprojektit(dao.haeProjektit());
+		
 		model.addAttribute("henkiloProjekti", projektiHenkilo);
 		String virhe = (String) session.getAttribute("virhe");
 		String proj_luonti_virhe = (String) session.getAttribute("projektin_luonti_virhe");
@@ -59,7 +79,7 @@ public class TuntikirjausController {
 		model.addAttribute("proj_luonti_virhe", proj_luonti_virhe);
 		session.removeAttribute("virhe");
 		session.removeAttribute("projektin_luonti_virhe");
-
+		
 		if(!model.containsAttribute("projekti")){
 			Projekti tyhjaProjekti = new ProjektiImpl();
 			model.addAttribute("projekti", tyhjaProjekti);
@@ -69,7 +89,13 @@ public class TuntikirjausController {
 			model.addAttribute("henkiloProjektiFormi", tyhjaProjektiHenkilo);
 			
 	  	}
-		List<ProjektiImpl> projektit = dao.haeProjektit();
+		
+		List<ProjektiImpl> projektit;
+		if(kayttaja.getTunnus().equalsIgnoreCase("admin")){
+			projektit = dao.haeProjektit();
+		}else{
+			projektit= dao.haeKayttajakohtaisetProjektit(kayttaja.getId());
+		}
 		model.addAttribute("projektit", projektit);
 		return "etusivu";
 	}
