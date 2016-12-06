@@ -1,24 +1,19 @@
 package com.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.HtmlUtils;
-
 import com.beans.Henkilot;
 import com.beans.HenkilotImpl;
 import com.beans.Projekti;
@@ -63,16 +57,15 @@ public class TuntikirjausController {
 		if(session.getAttribute("userDetails") == null){
 			haeHenkilonTiedotKayttajanimella(session);	
 		}
+		HenkilotImpl kayttaja = (HenkilotImpl) session.getAttribute("userDetails");
 		
 		logger.info("Siirrytään palvelun etusivulle. Adminille ja käyttäjälle eri näkymät");
+		
 		ProjektiHenkiloImpl projektiHenkilo = new ProjektiHenkiloImpl();
 		projektiHenkilo.sethenkilot(dao.haeHenkilot());
-		
-		HenkilotImpl kayttaja = (HenkilotImpl) session.getAttribute("userDetails");
-
 		projektiHenkilo.setprojektit(dao.haeProjektit());
-		
 		model.addAttribute("henkiloProjekti", projektiHenkilo);
+		
 		String virhe = (String) session.getAttribute("virhe");
 		String proj_luonti_virhe = (String) session.getAttribute("projektin_luonti_virhe");
 		model.addAttribute("virhe", virhe);
@@ -91,7 +84,7 @@ public class TuntikirjausController {
 	  	}
 		
 		List<ProjektiImpl> projektit;
-		if(kayttaja.getTunnus().equalsIgnoreCase("admin")){
+		if(request.isUserInRole("ROLE_ADMIN")){
 			projektit = dao.haeProjektit();
 		}else{
 			projektit= dao.haeKayttajakohtaisetProjektit(kayttaja.getId());
@@ -99,6 +92,7 @@ public class TuntikirjausController {
 		model.addAttribute("projektit", projektit);
 		return "etusivu";
 	}
+	
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value = "/listaa_projektit", method = RequestMethod.POST)
 	public String haeProjektit(Model model, RedirectAttributes redirectAttributes, @ModelAttribute(value="Projekti") ProjektiImpl projekti){
@@ -169,15 +163,27 @@ public class TuntikirjausController {
 	public String getView(Model model, HttpServletRequest request){
     	logger.info("projekti id = : " + projekti_id);
 		logger.info("Listataan tunnit ja luodaan formi.");
-
-//		PROJEKTI ID TUODAAN ETUSIVUN NÄKYMÄSTÄ MISSÄ VALITAAN MIKÄ PROJEKTI NÄYTETÄÄN
-//		model.GET ATTRIBUTE TAI JOTAIN..ATTRIBUTE. @ModelAttribute
+		
+		HttpSession session = request.getSession(true);
+		
+		if(session.getAttribute("userDetails") == null){
+			haeHenkilonTiedotKayttajanimella(session);	
+		}
+		
 		List<HenkilotImpl> henkilot = dao.haeTunnit(projekti_id);
 		model.addAttribute("henkilot", henkilot);
 		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit(projekti_id);
-		List<HenkilotImpl> henkiloidenTiedot = dao.haeProjektiHenkilot(projekti_id);
+		ArrayList<HenkilotImpl> henkiloidenTiedot = new ArrayList<HenkilotImpl>();
 
-		model.addAttribute("henkiloTiedot", henkiloidenTiedot);
+		if(request.isUserInRole("ROLE_ADMIN")){
+			henkiloidenTiedot = (ArrayList<HenkilotImpl>) dao.haeProjektiHenkilot(projekti_id);
+			model.addAttribute("henkiloTiedot", henkiloidenTiedot);
+		}else{
+			HenkilotImpl kayttaja = (HenkilotImpl) session.getAttribute("userDetails");
+			henkiloidenTiedot.add(kayttaja);
+			model.addAttribute("henkiloTiedot", henkiloidenTiedot);
+		}
+		
 		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
 		
 		if(!model.containsAttribute("henkilo")){
