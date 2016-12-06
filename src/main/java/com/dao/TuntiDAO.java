@@ -30,9 +30,13 @@ public interface TuntiDAO {
 	
 	List<ProjektiImpl> haeProjektit();
 	
+	List<ProjektiImpl> haeKayttajakohtaisetProjektit(int kayttajaId);
+	
 	int lisaaHenkiloProjektiin(int henkilo_id, int projekti_id);
 	
 	int luoProjekti(ProjektiImpl projekti);
 	
 	void PoistaProjekti(ProjektiImpl projekti);
+	
+	List<HenkilotImpl> haeHenkilonTiedotKayttajanimellaTietokannasta(String kayttajaTunnus);
 }
