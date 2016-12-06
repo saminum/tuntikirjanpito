@@ -61,7 +61,7 @@
 	        <td class="katoaa2">${p.kuvaus}</td>
 	        <td class="katoaaPvm2">${p.alku_pvm}</td>
 	       	<td class="katoaaPvm2">${p.loppu_pvm}</td>
-	       	<sec:authorize access="hasRole('ADMIN')"><td><button type="submit" name="projekti_id" onclick="submitForm('/tuntikirjanpito/poista_projekti')" class="btn btn-danger btn-xs" value="${p.projekti_id}" ><spring:message code="app.delete" /></button></td></sec:authorize>
+	       	<sec:authorize access="hasRole('ADMIN')"><td><button type="submit" name="projekti_id" onclick="submitFormDelete('/tuntikirjanpito/poista_projekti')" class="btn btn-danger btn-xs" value="${p.projekti_id}" ><spring:message code="app.delete" /></button></td></sec:authorize>
 		 </tr>
 	     </c:forEach> 
 		    </tbody>		     	 	
@@ -131,11 +131,19 @@
 </div>	
 	</sec:authorize>
 	</div>
+	<spring:message code="app.delete_project" var="teksti"/>
 <script>
     function submitForm(action)
     {
         document.getElementById('columnarForm').action = action;
         document.getElementById('columnarForm').submit();
+    }
+    function submitFormDelete(action)
+    {
+    	if(confirm('${teksti}') == true){
+	        document.getElementById('columnarForm').action = action;
+	        document.getElementById('columnarForm').submit();
+    	}
     }
 </script>	
 </body>

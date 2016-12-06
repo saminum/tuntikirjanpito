@@ -50,7 +50,7 @@ public class TuntikirjausController {
 		session.setAttribute("userDetails", henkilonTiedot);
 	}
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = {RequestMethod.GET, RequestMethod.POST})
 	public String etusivu(Model model, HttpServletRequest request ) {
 		HttpSession session = request.getSession(true);
 		
