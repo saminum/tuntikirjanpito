@@ -210,13 +210,28 @@ public class TuntikirjausController {
     @RequestMapping(value="henkilo", method=RequestMethod.POST)
 	public String hae(@RequestParam("tunti_id") int henk_id, Model model, HttpServletRequest request){
 		HttpSession session = request.getSession(true);
+				
+		if(session.getAttribute("userDetails") == null){
+			haeHenkilonTiedotKayttajanimella(session);	
+		}
+		
 		session.setAttribute("henk_id", henk_id);
 		List<HenkilotImpl> henkilot = dao.haeHenkilonTunnit(henk_id, projekti_id);
 		model.addAttribute("henkilot", henkilot);
 		List<HenkilotImpl> henkiloidenTunnit = dao.summaaTunnit(projekti_id);
 		model.addAttribute("henkiloidenTunnit", henkiloidenTunnit);
-		List<HenkilotImpl> henkiloidenTiedot = dao.haeHenkilot();
-		model.addAttribute("henkiloTiedot", henkiloidenTiedot);
+		
+		ArrayList<HenkilotImpl> henkiloidenTiedot = new ArrayList<HenkilotImpl>();
+
+		if(request.isUserInRole("ROLE_ADMIN")){
+			henkiloidenTiedot = (ArrayList<HenkilotImpl>) dao.haeProjektiHenkilot(projekti_id);
+			model.addAttribute("henkiloTiedot", henkiloidenTiedot);
+		}else{
+			HenkilotImpl kayttaja = (HenkilotImpl) session.getAttribute("userDetails");
+			henkiloidenTiedot.add(kayttaja);
+			model.addAttribute("henkiloTiedot", henkiloidenTiedot);
+		}
+		
 		Henkilot tyhjaHenkilo = new HenkilotImpl();
 		model.addAttribute("henkilo", tyhjaHenkilo);
 		HenkilotImpl get_id = new HenkilotImpl();
