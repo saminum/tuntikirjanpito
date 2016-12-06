@@ -220,7 +220,14 @@
 	        <td>${h.tunnit[0].kuvaus}</td>
 	        <td><fmt:formatDate pattern="dd.MM.yyyy" 
 	            value="${h.tunnit[0].pvm}"/></td>
-	        <td><button type="submit" name="tunti_id" class="btn btn-danger btn-xs" value="${h.tunnit[0].id }" ><spring:message code="app.delete" /></button></td>
+	        <sec:authorize access="hasRole('ADMIN')">
+	        	<td><button type="submit" name="tunti_id" class="btn btn-danger btn-xs" value="${h.tunnit[0].id }" ><spring:message code="app.delete" /></button></td>
+			</sec:authorize>
+			<sec:authorize access="hasRole('USER')">
+				<c:if test="${h.id == henkiloTiedot[0].id}">
+					<td><button type="submit" name="tunti_id" class="btn btn-danger btn-xs" value="${h.tunnit[0].id }" ><spring:message code="app.delete" /></button></td>
+				</c:if>
+			</sec:authorize>
 	      </tr>
 	     </c:forEach> 
 	    </tbody>
@@ -241,7 +248,14 @@
 	        <td>${h.etunimi} ${h.sukunimi}	</td>
 	        <td>${h.tunnit[0].tunnit} h <fmt:formatDate pattern="dd.MM." value="${h.tunnit[0].pvm}"/></td>
 			<td>${h.tunnit[0].kuvaus} </td>
-	        <td><button type="submit" name="tunti_id" class="btn btn-danger btn-xs" value="${h.tunnit[0].id }" ><spring:message code="app.delete" /></button></td>
+			<sec:authorize access="hasRole('ADMIN')">
+	        	<td><button type="submit" name="tunti_id" class="btn btn-danger btn-xs" value="${h.tunnit[0].id }" ><spring:message code="app.delete" /></button></td>
+			</sec:authorize>
+			<sec:authorize access="hasRole('USER')">
+				<c:if test="${h.id == henkiloTiedot[0].id}">
+					<td><button type="submit" name="tunti_id" class="btn btn-danger btn-xs" value="${h.tunnit[0].id }" ><spring:message code="app.delete" /></button></td>
+				</c:if>
+			</sec:authorize>    
 	      </tr>
 
 	     </c:forEach> 
